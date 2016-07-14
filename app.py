@@ -1,4 +1,5 @@
 from flask import Flask
+from flaskext.markdown import Markdown
 
 from portfolio.views import portfolio
 from config import Config
@@ -8,6 +9,9 @@ import os
 
 def create_app(config=None):
     app = Flask(__name__)
+
+    # Enable Markdown for better/simpler blog posts
+    Markdown(app)
 
     if config:
         # There is a specified configuration

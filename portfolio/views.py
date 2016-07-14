@@ -4,6 +4,7 @@ import os
 
 from .forms import ContactForm
 from mail import send_email
+from util import construct_blog_posts
 
 portfolio = Blueprint('portfolio', __name__)
 
@@ -18,7 +19,16 @@ def home():
     return render_template('home.html')
 
 
+@portfolio.route('/blog/', defaults={'page': 1})
+@portfolio.route('/blog.html', defaults={'page': 1})
+@portfolio.route('/blog/page/<int:page>/')
+def blog(page):
+    path = 'static/assets/posts/'
+    return render_template('blog.html', blog_posts=construct_blog_posts(path))
+
+
 @portfolio.route('/contact/', methods=['GET', 'POST'])
+@portfolio.route('/contact.html', methods=['GET', 'POST'])
 def contact():
     form = ContactForm()
 
