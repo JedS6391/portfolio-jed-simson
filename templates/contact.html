@@ -11,65 +11,71 @@
 {% endblock %}
 
 {% block content %}
-    <div id="lead">
-        <h3 class="display-4 text-xs-center">Contact</h3>
+    <div class="row">
+        <div id="lead" class="col-md-4 col-md-offset-4">
+            <h3 class="display-4 text-xs-center">Contact</h3>
 
-        <div id="subtext">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <p class="lead text-success text-xs-center">
-                        {% for message in messages %}
-                            {{ message|safe }}
-                        {% endfor %}
-                    </p>
-                {% else %}
-                    <p class="lead text-muted text-xs-center">
-                        Please submit any queries using the form below or contact
-                        me using any of the following:
-                    </p>
-                {% endif %}
-            {% endwith %}
-
-            <address class="text-xs-center">
-                <strong>Jed Simson</strong><br>
-                <i class="fa fa-envelope-o"></i> <a href="mailto:jed.simson@gmail.com">jed.simson@gmail.com</a><br>
-                <i class="fa fa-mobile"></i> <a href="tel://0278459720">027 845 9720</a>
-          </address>
+            <div id="subtext">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <p class="lead text-success text-xs-center">
+                            {% for message in messages %}
+                                {{ message|safe }}
+                            {% endfor %}
+                        </p>
+                    {% else %}
+                        <p class="lead text-muted text-xs-center">
+                            Please submit any queries using the form below or contact
+                            me using any of the following:
+                        </p>
+                    {% endif %}
+                {% endwith %}
+            </div>
         </div>
     </div>
 
-    <div id="form">
-        <form method="POST" action="/contact/">
-            <fieldset class="form-group {% if 'name' in errors %}has-danger{% endif %}">
-                {{ form.name(class_="form-control", placeholder="Name") }}
-            </fieldset>
+    <div class="row">
+        <div id="form" class="col-md-4 col-md-offset-2">
+            <form method="POST" action="/contact/">
+                <fieldset class="form-group {% if 'name' in errors %}has-danger{% endif %}">
+                    {{ form.name(class_="form-control", placeholder="Name") }}
+                </fieldset>
 
-            <fieldset class="form-group {% if 'email' in errors %}has-danger{% endif %}">
-                {{ form.email(class_="form-control", placeholder="Email Address") }}
-                <small class="text-muted">Your email address won't be saved.</small>
-            </fieldset>
+                <fieldset class="form-group {% if 'email' in errors %}has-danger{% endif %}">
+                    {{ form.email(class_="form-control", placeholder="Email Address") }}
+                    <small class="text-muted">Your email address won't be saved.</small>
+                </fieldset>
 
-            <fieldset class="form-group {% if 'message' in errors %}has-danger{% endif %}">
-                {{ form.message(class_="form-control", placeholder="Message") }}
-            </fieldset>
+                <fieldset class="form-group {% if 'message' in errors %}has-danger{% endif %}">
+                    {{ form.message(class_="form-control", placeholder="Message") }}
+                </fieldset>
 
-            <fieldset class="form-group text-xs-center">
-                <div style="display: inline-block;">
-                    {% if 'recaptcha' in errors %}
-                        <p class="text-danger">Please prove you are not a robot!</p>
-                    {% endif %}
-                    {{ form.recaptcha }}
+                <fieldset class="form-group text-xs-center">
+                    <div style="display: inline-block;">
+                        {% if 'recaptcha' in errors %}
+                            <p class="text-danger">Please prove you are not a robot!</p>
+                        {% endif %}
+                        {{ form.recaptcha }}
+                    </div>
+                </fieldset>
+
+                <div class="text-xs-center">
+                    <button type="submit" class="btn btn-primary-outline ">Submit</button>
                 </div>
-            </fieldset>
 
-            <br>
+                {{ form.csrf_token }}
+            </form>
+        </div>
 
-            <div class="text-xs-center">
-                <button type="submit" class="btn btn-primary-outline ">Submit</button>
+        <div id="details" class="col-md-4">
+            <div class="card card-block">
+                <address class="text-xs-center">
+                    <strong>Jed Simson</strong><br>
+                    <i class="fa fa-envelope-o"></i> <a href="mailto:jed.simson@gmail.com">jed.simson@gmail.com</a><br>
+                    <i class="fa fa-mobile"></i> <a href="tel://0278459720">027 845 9720</a>
+                </address>
             </div>
-
-            {{ form.csrf_token }}
-        </form>
+        </div>
     </div>
 
 {% endblock %}
