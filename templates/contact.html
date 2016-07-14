@@ -15,10 +15,20 @@
         <h3 class="display-4 text-xs-center">Contact</h3>
 
         <div id="subtext">
-            <p class="lead text-muted text-xs-center">
-                Please submit any queries using the form below or contact
-                me using any of the following:
-            </p>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <p class="lead text-success text-xs-center">
+                        {% for message in messages %}
+                            {{ message|safe }}
+                        {% endfor %}
+                    </p>
+                {% else %}
+                    <p class="lead text-muted text-xs-center">
+                        Please submit any queries using the form below or contact
+                        me using any of the following:
+                    </p>
+                {% endif %}
+            {% endwith %}
 
             <address class="text-xs-center">
                 <strong>Jed Simson</strong><br>
@@ -29,18 +39,27 @@
     </div>
 
     <div id="form">
-        <form method="POST" action="">
-            <fieldset class="form-group">
+        <form method="POST" action="/contact/">
+            <fieldset class="form-group {% if 'name' in errors %}has-danger{% endif %}">
                 {{ form.name(class_="form-control", placeholder="Name") }}
             </fieldset>
 
-            <fieldset class="form-group">
+            <fieldset class="form-group {% if 'email' in errors %}has-danger{% endif %}">
                 {{ form.email(class_="form-control", placeholder="Email Address") }}
                 <small class="text-muted">Your email address won't be saved.</small>
             </fieldset>
 
-            <fieldset class="form-group">
-            {{ form.message(class_="form-control", placeholder="Message") }}
+            <fieldset class="form-group {% if 'message' in errors %}has-danger{% endif %}">
+                {{ form.message(class_="form-control", placeholder="Message") }}
+            </fieldset>
+
+            <fieldset class="form-group text-xs-center">
+                <div style="display: inline-block;">
+                    {% if 'recaptcha' in errors %}
+                        <p class="text-danger">Please prove you are not a robot!</p>
+                    {% endif %}
+                    {{ form.recaptcha }}
+                </div>
             </fieldset>
 
             <br>
