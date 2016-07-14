@@ -1,34 +1,48 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for
 
 import os
 
 from .forms import ContactForm
+from .helpers import Pagination
 from mail import send_email
 from util import construct_blog_posts
 
 portfolio = Blueprint('portfolio', __name__)
 
 CONTACT_EMAIL = os.environ['CONTACT_EMAIL']
+PER_PAGE = int(os.environ.get('PER_PAGE', 10))
 
 
 @portfolio.route('/')
 @portfolio.route('/home/')
 @portfolio.route('/index/')
-@portfolio.route('/index.html')
 def home():
     return render_template('home.html')
 
 
-@portfolio.route('/blog/', defaults={'page': 1})
-@portfolio.route('/blog.html', defaults={'page': 1})
+@portfolio.route('/blog/')
 @portfolio.route('/blog/page/<int:page>/')
-def blog(page):
+def blog(page=1):
     path = 'static/assets/posts/'
-    return render_template('blog.html', blog_posts=construct_blog_posts(path))
+
+    # How far in are we?
+    skip = (page - 1) * PER_PAGE
+
+    # How many pages do we need?
+    limit = PER_PAGE
+    blog_posts, count = construct_blog_posts(path, skip, limit)
+    pagination = Pagination(page, PER_PAGE, count)
+
+    if not blog_posts and page != 1:
+        return redirect(url_for('portfolio.blog'))
+
+    return render_template('blog.html',
+                           skip=skip,
+                           blog_posts=blog_posts,
+                           pagination=pagination)
 
 
 @portfolio.route('/contact/', methods=['GET', 'POST'])
-@portfolio.route('/contact.html', methods=['GET', 'POST'])
 def contact():
     form = ContactForm()
 

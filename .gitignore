@@ -29,3 +29,5 @@ venv
 *.pyc
 build
 .env
+
+static/assets/posts
