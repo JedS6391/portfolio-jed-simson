@@ -47,6 +47,10 @@ def construct_blog_posts(path, skip, limit):
         post_id += 1
 
     blog_posts = sorted(blog_posts, key=lambda p: p['date'], reverse=True)
-    posts = blog_posts[skip:skip+limit]
+
+    if limit:
+        posts = blog_posts[skip:skip+limit]
+    else:
+        posts = blog_posts
 
     return posts, len(blog_posts)

@@ -3,6 +3,8 @@ from app import create_app
 
 from util import construct_blog_posts
 
+BLOG_PATH = 'static/assets/posts/'
+
 app = create_app()
 
 manager = Manager(app)
@@ -13,9 +15,15 @@ manager.add_command('blog', blog)
 
 @blog.command
 def list():
-    for post in construct_blog_posts('static/assets/posts/'):
-        print('<ID: {}, Title: {}, Date: {}>'
-              .format(post['id'], post['title'], post['date']))
+    posts, count = construct_blog_posts(BLOG_PATH, 0, None)
+
+    print('{} post(s) found in {} (sorted newest to oldest).\n'
+          .format(count, BLOG_PATH))
+
+    for count, post in enumerate(posts, 1):
+        print('{}:\t<ID: {}, Title: {}, Date: {}>'
+              .format(count, post['id'], post['title'],
+                      post['date'].strftime('%a, %d %b %Y')))
 
 if __name__ == '__main__':
     manager.run()
