@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% set active_page = "contact" %}
+
+{% block title %}
+    <title>Jed Simson &sdot; Contact</title>
+{% endblock %}
+
+{% block nav %}
+    {% from "nav.html" import nav %}
+    {{ nav(active_page) }}
+{% endblock %}
+
+{% block content %}
+    <div id="lead">
+        <h3 class="display-4 text-xs-center">Contact</h3>
+
+        <div id="subtext">
+            <p class="lead text-muted text-xs-center">
+                Please submit any queries using the form below or contact
+                me using any of the following:
+            </p>
+
+            <address class="text-xs-center">
+                <strong>Jed Simson</strong><br>
+                <i class="fa fa-envelope-o"></i> <a href="mailto:jed.simson@gmail.com">jed.simson@gmail.com</a><br>
+                <i class="fa fa-mobile"></i> <a href="tel://0278459720">027 845 9720</a>
+          </address>
+        </div>
+    </div>
+
+    <div id="form">
+        <form method="POST" action="">
+            <fieldset class="form-group">
+                {{ form.name(class_="form-control", placeholder="Name") }}
+            </fieldset>
+
+            <fieldset class="form-group">
+                {{ form.email(class_="form-control", placeholder="Email Address") }}
+                <small class="text-muted">Your email address won't be saved.</small>
+            </fieldset>
+
+            <fieldset class="form-group">
+            {{ form.message(class_="form-control", placeholder="Message") }}
+            </fieldset>
+
+            <br>
+
+            <div class="text-xs-center">
+                <button type="submit" class="btn btn-primary-outline ">Submit</button>
+            </div>
+
+            {{ form.csrf_token }}
+        </form>
+    </div>
+
+{% endblock %}
+

@@ -1,0 +1,18 @@
+{% set navigation_bar = [
+    ('/', 'home', 'HOME'),
+    ('/#', 'blog', 'BLOG'),
+    (url_for('static', filename='cv/CV - 2016.pdf'), 'cv', 'CURRICULUM VITAE'),
+    ('/contact/', 'contact', 'CONTACT')
+] -%}
+
+{% macro nav(page) %}
+<nav class="navbar navbar-full navbar-light bg-faded m-b-3">
+  <ul class="nav navbar-nav">
+    {% for href, id, caption in navigation_bar %}
+        <li class="nav-item {% if id == page %}active{% endif %}">
+            <a class="nav-link" href="{{ href|e }}">{{ caption|e }}</a>
+        </li>
+    {% endfor %}
+  </div>
+</nav>
+{% endmacro %}

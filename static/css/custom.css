@@ -1,0 +1,32 @@
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
+}
+
+#link {
+    padding-left: 20px;
+    text-decoration: none;
+}
+
+#links {
+    padding-top: 2rem;
+}
+
+#form {
+    padding-top: 2rem;
+}
+
+#avatar {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+#subtext {
+    padding-top: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.footer {
+    margin-top: 20px;
+}
