@@ -30,4 +30,4 @@ venv
 build
 .env
 
-static/assets/posts
+#static/assets/posts
