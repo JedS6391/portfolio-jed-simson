@@ -12,7 +12,7 @@ def construct_blog_posts(path, skip, limit):
               cache metadata for posts
     '''
     if not os.path.exists(path):
-        return []
+        return [], 0
 
     def remove_extension(title, extension):
         return title.replace(extension, '')

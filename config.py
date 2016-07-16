@@ -13,6 +13,7 @@ class Config(object):
     RECAPTCHA_PUBLIC_KEY = os.environ['RECAPTCHA_PUBLIC_KEY']
     RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']
 
+
 class ProductionConfig(Config):
     pass
 
