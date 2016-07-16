@@ -46,8 +46,9 @@
                     <section id="blog" class="card">
                         <div class="card-header card-inverse" style="background-color: #333;">
                             <h1 class="card-title">{{ post.title }}</h1>
-                            <h6 class="card-subtitle text-muted pull-xs-right">{{ loop.index + skip }} of {{ pagination.total_count }}</h6>
-                            <h6 class="card-subtitle text-muted">Posted on {{ post.date.strftime('%a, %d %b %Y') }}</h6>
+                            <small class="card-subtitle text-muted pull-xs-right" style="padding-top: 5px;">{{ loop.index + skip }} of {{ pagination.total_count }}</small>
+                            <span class="label label-primary pull-xs-left">{{ post.date.strftime('%a, %d %b %Y') }}</span>
+                            <br>
                         </div>
 
                         <div class="card-block">

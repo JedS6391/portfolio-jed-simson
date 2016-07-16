@@ -13,6 +13,11 @@ CONTACT_EMAIL = os.environ['CONTACT_EMAIL']
 PER_PAGE = int(os.environ.get('PER_PAGE', 10))
 
 
+@portfolio.app_errorhandler(404)
+def page_not_found(error):
+    return render_template('errors/404.html'), 404
+
+
 @portfolio.route('/')
 @portfolio.route('/home/')
 @portfolio.route('/index/')
@@ -64,4 +69,6 @@ def contact():
 
         return redirect(url_for('portfolio.contact'))
 
-    return render_template('contact.html', form=form, errors=form.errors.keys())
+    return render_template('contact.html',
+                           form=form,
+                           errors=form.errors.keys())

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% set active_page = "error" %}
+
+{% block title %}
+    <title>404: Page Not Found</title>
+{% endblock %}
+
+{% block nav %}
+    {% from "nav.html" import nav %}
+    {{ nav(active_page) }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div id="content" role="main" class="col-md-4 col-md-offset-4">
+            <div id="lead">
+                <h3 class="display-4 text-xs-center">Oh no!</h3>
+
+                <div id="subtext">
+                    <p class="lead text-muted text-xs-center">
+                        It looks as though you've taken a wrong turn somewhere and the page you're
+                        looking for does not exist!
+                        <br><br>
+                        If you believe this a mistake, feel free to send
+                        me a message using the contact page.
+                    </p>
+
+                    <div class="text-xs-center">
+                    <div class="btn-group" role="group" style="padding-bottom: 1rem;">
+                        <a class="btn btn-primary-outline" href="/" role="button">Take me somewhere safe!</a>
+                        <a class="btn btn-secondary-outline" href="/contact/" role="button">Contact</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}
+
