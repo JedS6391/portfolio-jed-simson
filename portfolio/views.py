@@ -25,6 +25,11 @@ def home():
     return render_template('home.html')
 
 
+@portfolio.route('/about/')
+def about():
+    return render_template('about.html')
+
+
 @portfolio.route('/blog/')
 @portfolio.route('/blog/page/<int:page>/')
 def blog(page=1):
