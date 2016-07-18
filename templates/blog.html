@@ -5,6 +5,10 @@
     <title>Jed Simson &sdot; Blog</title>
 {% endblock %}
 
+{% block description %}
+    <meta name="description" content="Blog of Jed Simson">
+{% endblock %}
+
 {% block nav %}
     {% from "nav.html" import nav %}
     {{ nav(active_page) }}
