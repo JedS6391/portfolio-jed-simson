@@ -65,3 +65,45 @@ html, body {
     height: 60px;
     line-height: 60px;
 }
+
+/* Override Bootstrap styling to make the website a bit more personal.
+ * For instance, I prefer square edges on cards, buttons, etc. as opposed
+ * to rounded edges.
+ */
+
+.card {
+    border-radius: 0;
+}
+
+.card-header {
+    border-radius: 0;
+}
+
+.card-header:first-child {
+    border-radius: 0;
+}
+
+.pagination {
+    border-radius: 0;
+}
+
+.page-item:first-child .page-link  {
+    border-radius: 0;
+}
+
+.page-item:last-child .page-link  {
+    border-radius: 0;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+/* Remove curved borders on ReCaptcha to match other form elements */
+.rc-anchor {
+    border-radius: 0 !important;
+}
