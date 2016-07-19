@@ -20,9 +20,7 @@
     <div class="row">
         <section class="col-md-8 col-md-offset-2">
             <div class="card">
-                <div class="card-header card-inverse">
-                    <strong>Me</strong>
-                </div>
+                <h3 class="card-header">Me</h3>
 
                 <div class="card-block">
                     <p class="card-text">
@@ -43,10 +41,7 @@
             </div>
 
             <div class="card">
-                <div class="card-header">
-                    <strong>Interests</strong>
-                </div>
-
+                <h3 class="card-header">Interests</h3>
 
                 <div class="card-block">
                     <h5 class="card-title">Computing</h5>
@@ -90,6 +85,50 @@
                         <a href="https://soundcloud.com/jed-simson" target="_blank">SoundCloud</a> account.
                         I'm always interested in collaborations too!
                     </p>
+                </div>
+            </div>
+
+            <!-- It would be better to generate these dynamically, but the GitLab API
+                 was being fussy when I attempted to implement that - so for now it is
+                 static! -->
+            <br>
+            <h3>Projects</h3>
+            <br>
+            <div class="card-deck-wrapper">
+                <div class="card-deck">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>bencode-swift</strong>
+                        </div>
+                        <div class="card-block text-xs-center">
+                            <h6 class="card-subtitle text-muted">Simple Bencode parsing/serialising in Swift.</h6>
+                            <br>
+                            <a href="https://gitlab.com/JedS6391/bencode-swift" class="btn btn-primary">View on GitLab</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>reddit-slider</strong>
+                        </div>
+                        <div class="card-block text-xs-center">
+                            <h6 class="card-subtitle text-muted">A more versatile and reliable interface for searching reddit.com.</h6>
+                            <br>
+                            <a href="https://gitlab.com/JedS6391/reddit-slider" class="btn btn-primary">View on GitLab</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>ShowChecker</strong>
+                        </div>
+                        <div class="card-block text-xs-center">
+                            <h6 class="card-subtitle text-muted">A simple project to keep up-to-date with the shows you love.</h6>
+                            <br>
+                            <a href="https://gitlab.com/JedS6391/ShowChecker" class="btn btn-primary">View on GitLab</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
