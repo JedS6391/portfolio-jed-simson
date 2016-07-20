@@ -8,6 +8,10 @@
 
 {% macro nav(page) %}
 <nav class="navbar navbar-full navbar-light bg-faded m-b-3">
+    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#nav-collapse">
+    &#9776;
+    </button>
+  <div class="collapse navbar-toggleable-xs" id="nav-collapse">
     <ul class="nav navbar-nav">
     {% for href, id, caption in navigation_bar %}
         <li class="nav-item {% if id == page %}active{% endif %}">
@@ -15,5 +19,6 @@
         </li>
     {% endfor %}
     </ul>
+  </div>
 </nav>
 {% endmacro %}
