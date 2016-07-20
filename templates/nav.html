@@ -8,12 +8,12 @@
 
 {% macro nav(page) %}
 <nav class="navbar navbar-full navbar-light bg-faded m-b-3">
-  <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav">
     {% for href, id, caption in navigation_bar %}
         <li class="nav-item {% if id == page %}active{% endif %}">
             <a class="nav-link" href="{{ href|e }}">{{ caption|e }}</a>
         </li>
     {% endfor %}
-  </div>
+    </ul>
 </nav>
 {% endmacro %}

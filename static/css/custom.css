@@ -2,7 +2,7 @@ html, body {
     font-family: -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
 }
 
-#link {
+.lead-link {
     padding-left: 20px;
     text-decoration: none;
 }
