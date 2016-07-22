@@ -1,5 +1,6 @@
 from flask import Flask
 from flaskext.markdown import Markdown
+from flask_compress import Compress
 
 from portfolio.views import portfolio
 from config import Config
@@ -12,6 +13,9 @@ def create_app(config=None):
 
     # Enable Markdown for better/simpler blog posts
     Markdown(app)
+
+    # Enable Flask-Compress for gzipping static files
+    Compress(app)
 
     if config:
         # There is a specified configuration

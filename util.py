@@ -39,6 +39,7 @@ def construct_blog_posts(path, skip, limit):
         post_info['date'] = datetime.strptime(date_string, '%Y-%m-%d')
         post_info['title'] = ''.join(name.split('-')[3:])
         post_info['id'] = construct_post_id(post_id)
+        post_info['filename'] = post
 
         with codecs.open(path + post, 'r', encoding='utf-8') as f:
             post_info['text'] = f.read()
