@@ -2,6 +2,7 @@ from flask import Flask
 from flaskext.markdown import Markdown
 from flask_compress import Compress
 from flask_assets import Environment, Bundle
+from flask_cachecontrol import FlaskCacheControl
 
 from portfolio.views import portfolio
 from config import Config
@@ -20,6 +21,9 @@ def create_app(config=None):
 
     # Enable Flask-Assets to create bundles for assets
     assets = Environment(app)
+
+    cache_control = FlaskCacheControl()
+    cache_control.init_app(app)
 
     css = Bundle('css/bootstrap.min.css', 'css/custom.min.css',
                  filters='cssmin', output='css/app.css')

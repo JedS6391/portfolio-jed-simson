@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
+from flask_cachecontrol import (cache, cache_for, dont_cache)
 
 import os
 
@@ -11,6 +12,7 @@ portfolio = Blueprint('portfolio', __name__)
 
 CONTACT_EMAIL = os.environ['CONTACT_EMAIL']
 PER_PAGE = int(os.environ.get('PER_PAGE', 10))
+DEFAULT_CACHE_CONTROL_TIME = 21600    # 6 hours
 
 
 @portfolio.app_errorhandler(404)
@@ -21,17 +23,20 @@ def page_not_found(error):
 @portfolio.route('/')
 @portfolio.route('/home/')
 @portfolio.route('/index/')
+@cache(max_age=DEFAULT_CACHE_CONTROL_TIME, public=True)
 def home():
     return render_template('home.html')
 
 
 @portfolio.route('/about/')
+@cache(max_age=DEFAULT_CACHE_CONTROL_TIME, public=True)
 def about():
     return render_template('about.html')
 
 
 @portfolio.route('/blog/')
 @portfolio.route('/blog/page/<int:page>/')
+@cache(max_age=10800, public=True)
 def blog(page=1):
     path = 'static/assets/posts/'
 
@@ -53,6 +58,7 @@ def blog(page=1):
 
 
 @portfolio.route('/contact/', methods=['GET', 'POST'])
+@cache(max_age=DEFAULT_CACHE_CONTROL_TIME, public=True)
 def contact():
     form = ContactForm()
 
