@@ -1,4 +1,5 @@
 import os
+import codecs
 from datetime import datetime
 import time
 import string
@@ -59,7 +60,7 @@ def construct_blog_posts(path, skip, limit):
         meta['filename'] = file
         meta['filesize'] = st.st_size
 
-        with open(path + file, 'r', encoding='utf-8') as f:
+        with codecs.open(path + file, 'r', encoding='utf-8') as f:
             text = f.read()
             meta['words'] = count_words(text)
 
