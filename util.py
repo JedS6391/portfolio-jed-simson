@@ -1,6 +1,21 @@
 import os
-import codecs
 from datetime import datetime
+import time
+import string
+import re
+
+from portfolio.models import Post
+
+
+def count_words(text):
+    html_tags = re.compile('<.*?>')
+    text = re.sub(html_tags, '', text)
+
+    punctuation = re.compile('[{}]'.format(re.escape(string.punctuation)))
+    text = punctuation.sub(' ', text)
+    words = text.split()
+
+    return len(words)
 
 
 def construct_blog_posts(path, skip, limit):
@@ -28,24 +43,30 @@ def construct_blog_posts(path, skip, limit):
     if '.DS_Store' in filenames:
         filenames.remove('.DS_Store')
 
-    post_id = 1
+    current = 1
 
-    for post in filenames:
-        name = remove_extension(post, '.md')
-        split_filename = post.split('-')
-
-        post_info = {}
+    for file in filenames:
+        name = remove_extension(file, '.md')
+        split_filename = file.split('-')
         date_string = '-'.join(split_filename[:3])
-        post_info['date'] = datetime.strptime(date_string, '%Y-%m-%d')
-        post_info['title'] = ''.join(name.split('-')[3:])
-        post_info['id'] = construct_post_id(post_id)
-        post_info['filename'] = post
+        st = os.stat(path + file)
+        last_modified = time.ctime(st.st_mtime)
+        meta = {}
 
-        with codecs.open(path + post, 'r', encoding='utf-8') as f:
-            post_info['text'] = f.read()
+        post_id = construct_post_id(current)
+        meta['title'] = ''.join(name.split('-')[3:])
+        meta['date'] = datetime.strptime(date_string, '%Y-%m-%d')
+        meta['filename'] = file
+        meta['filesize'] = st.st_size
 
-        blog_posts.append(post_info)
-        post_id += 1
+        with open(path + file, 'r', encoding='utf-8') as f:
+            text = f.read()
+            meta['words'] = count_words(text)
+
+        post = Post(post_id, text, meta, last_modified)
+
+        blog_posts.append(post)
+        current += 1
 
     blog_posts = sorted(blog_posts, key=lambda p: p['date'], reverse=True)
 

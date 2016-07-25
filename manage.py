@@ -21,9 +21,12 @@ def list():
           .format(count, BLOG_PATH))
 
     for count, post in enumerate(posts, 1):
-        print('{}:\t<ID: {}, Title: {}, Date: {}>'
-              .format(count, post['id'], post['title'],
-                      post['date'].strftime('%a, %d %b %Y')))
+        print('{}:\t<ID: {}, Title: {}, Date: {}, Words: {}, Modified: {}>'
+              .format(count, post.id, post['title'],
+                      post['date'].strftime('%a, %d %b %Y'),
+                      post['words'],
+                      post.last_modified))
+
 
 if __name__ == '__main__':
     manager.run()
