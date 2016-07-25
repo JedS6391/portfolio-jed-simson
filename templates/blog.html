@@ -19,47 +19,21 @@
         <div id="content" role="main" class="col-md-8 col-md-offset-2">
             <div id="lead">
                 <h3 class="display-4 text-xs-center">Blog</h3>
-                <nav class="text-xs-center">
-                    <ul class="pagination">
-                        <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
-                            <a class="page-link" href="/blog/page/{{ pagination.page - 1 }}/" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
 
-                        {% for page in pagination.generate() %}
-                            <li class="page-item {% if page == pagination.page %}active{% endif %}">
-                                <a class="page-link" href="/blog/page/{{ page }}/">{{ page }}</a>
-                            </li>
-                        {% endfor %}
+                {% from "pagination.html" import pagination_ %}
+                {{ pagination_(pagination) }}
 
-
-                        <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
-                            <a class="page-link" href="/blog/page/{{ pagination.page + 1 }}/" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
 
             <div id="posts">
                 {% for post in blog_posts %}
-                    <section id="blog" class="card">
-                        <div class="card-header card-inverse" style="background-color: #333;">
-                            <h1 class="card-title">{{ post.title }}</h1>
-                            <small class="card-subtitle text-muted pull-xs-right" style="padding-top: 5px;">{{ loop.index + skip }} of {{ pagination.total_count }}</small>
-                            <span class="label label-primary pull-xs-left">{{ post.date.strftime('%a, %d %b %Y') }}</span>
-                            <br>
-                        </div>
 
-                        <div class="card-block">
-                            {{ post.text | markdown }}
-                            <a href="{{ url_for('static', filename='assets/posts/' + post.filename) }}" class="card-link pull-xs-right">Download</a>
-                        </div>
-                    </section>
+                        {% from "post.html" import post_ %}
+                        {{ post_(loop.index, post, pagination, skip) }}
+
+                        {% from "modal.html" import modal %}
+                        {{ modal(loop.index, post) }}
+
                 {% else %}
                     <div class="card card-block text-xs-center">
                         <p class="card-text text-danger">

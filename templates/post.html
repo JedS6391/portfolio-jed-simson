@@ -1,0 +1,32 @@
+{% macro post_(idx, post, pagination, skip) %}
+<section id="blog" class="card">
+    <div class="card-header card-inverse" style="background-color: #333;">
+        <h1 class="card-title">{{ post.title }}</h1>
+
+        <span class="label label-primary pull-xs-left">{{ post.date|format_date }}</span>
+
+        <div class="dropdown dropdown-menu-right pull-xs-right">
+
+            <small class="card-subtitle text-muted dropdown-toggle pull-xs-right" style="padding-top: 5px;" class="dropdown-toggle" id=blog_post_dropdown_{{ idx }}" data-toggle="dropdown">
+                {{ idx + skip }} of {{ pagination.total_count }}
+            </small>
+            <div class="dropdown-menu" aria-labelledby="blog_post_dropdown_{{ idx }}">
+                <h6 class="dropdown-header">Options</h6>
+                <div class="dropdown-divider"></div>
+                <a href="{{ url_for('static', filename='assets/posts/' + post.filename) }}" class="dropdown-item">Download</a>
+                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#blog_post_modal_{{ idx }}">Info</a>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div class="card-block">
+        {{ post.text | markdown }}
+
+        {% for tag in markdown_instance.Meta['tags']|format_tags %}
+            <span class="label label-primary">{{ tag }}</span>
+        {% endfor %}
+
+    </div>
+</section>
+{% endmacro %}
