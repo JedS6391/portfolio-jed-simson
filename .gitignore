@@ -31,3 +31,4 @@ build
 .env
 
 #static/assets/posts
+static/.webassets-cache
