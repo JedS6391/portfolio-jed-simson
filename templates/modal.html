@@ -9,12 +9,9 @@
                 <h4 class="modal-title">Info</h4>
             </div>
             <div class="modal-body">
-              <p><strong>Post ID:</strong> {{ post.id }}</p>
-              <p><strong>Title:</strong> {{ post['title'] }}</p>
-              <p><strong>Date:</strong> {{ post['date'].strftime('%a, %d %b %Y') }}</p>
-              <p><strong>Filename:</strong> {{ post['filename'] }}</p>
-              <p><strong>Size:</strong> {{ post['filesize'] }} bytes</p>
-              <p><strong>Words:</strong> {{ post['words'] }} words</p>
+              {% for key, value in post.info %}
+                <p><strong>{{ key }}:</strong> {{ value }}</p>
+              {% endfor %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

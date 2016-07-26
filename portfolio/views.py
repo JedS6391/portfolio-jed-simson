@@ -1,12 +1,13 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, abort
 from flask_cachecontrol import (cache, cache_for, dont_cache)
 
 import os
 
 from .forms import ContactForm
 from .helpers import Pagination
+from blog import blog_manager
 from mail import send_email
-from util import construct_blog_posts
+
 
 portfolio = Blueprint('portfolio', __name__)
 
@@ -38,14 +39,12 @@ def about():
 @portfolio.route('/blog/page/<int:page>/')
 @cache(max_age=10800, public=True)
 def blog(page=1):
-    path = 'static/assets/posts/'
-
     # How far in are we?
     skip = (page - 1) * PER_PAGE
 
     # How many pages do we need?
     limit = PER_PAGE
-    blog_posts, count = construct_blog_posts(path, skip, limit)
+    blog_posts, count = blog_manager._load(skip, limit)
     pagination = Pagination(page, PER_PAGE, count)
 
     if not blog_posts and page != 1:
@@ -55,6 +54,29 @@ def blog(page=1):
                            skip=skip,
                            blog_posts=blog_posts,
                            pagination=pagination)
+
+
+@portfolio.route('/blog/<int:post>/')
+@cache(max_age=10800, public=True)
+def blog_post(post):
+    # Ensure that post number is greater than 0
+    if post <= 0:
+        abort(404)
+
+    # Constructing blog posts with no limit/skip retreives all posts
+    # ordered newest to oldest. We index the posts by the post
+    # number given. The contract is that lower indices reference
+    # newer posts, i.e. posts[1] is more recent than posts[2], etc.
+    blog_posts, count = blog_manager._load(0, None)
+
+    try:
+        post = blog_posts[post-1]
+
+        return render_template('blog_post.html',
+                               post=post)
+    except IndexError:
+        # No post found... redirect to the 404 page
+        abort(404)
 
 
 @portfolio.route('/contact/', methods=['GET', 'POST'])

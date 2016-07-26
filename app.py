@@ -7,17 +7,11 @@ from flask_cachecontrol import FlaskCacheControl
 from markdown.extensions.meta import MetaExtension
 
 from portfolio.views import portfolio
+from blog import blog_manager
+from util import format_date, format_tags
 from config import Config
 
 import os
-
-
-def format_date(value, format='%a, %d %b %Y'):
-    return value.strftime(format)
-
-
-def format_tags(tags):
-    return ['#{}'.format(tag) for tag in tags[0].split(', ')]
 
 
 def create_app(config=None):
@@ -38,6 +32,12 @@ def create_app(config=None):
     css = Bundle('css/bootstrap.min.css', 'css/custom.css',
                  filters='cssmin', output='css/app.css')
     assets.register('css_all', css)
+
+    # Use my custom blogging extension
+    blog_manager.init_app(os.environ.get('POSTS_PATH',
+                                         'static/assets/posts/'),
+                          md._instance,
+                          app)
 
     if config:
         # There is a specified configuration

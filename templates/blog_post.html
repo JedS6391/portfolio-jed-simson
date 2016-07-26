@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% set active_page = "blog" %}
+
+{% block title %}
+    <title>Jed Simson &sdot; Blog | {% if post %} {{ post.title }} {% else %} Not Found {% endif %}</title>
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="{% if post %} {{ post.summary }} {% else %}Blog post by Jed Simson{% endif %}">
+{% endblock %}
+
+{% block nav %}
+    {% from "nav.html" import nav %}
+    {{ nav(active_page) }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div id="content" role="main" class="col-md-8 col-md-offset-2">
+            <div id="posts">
+
+                {% if post %}
+                    {% from "post.html" import post_ %}
+                    {{ post_(1, post, None, 0) }}
+
+                    {% from "modal.html" import modal %}
+                    {{ modal(1, post) }}
+                {% else %}
+                    <div class="card card-block text-xs-center">
+                        <p class="card-text text-danger">
+                            <strong>Sorry, the post you are looking for doesn't exist!</strong>
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <a id="to-top" href="#" class="to-top pull-xs-right text-xs-center" role="button"
+               title="Go to top" data-toggle="tooltip" data-placement="left">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Don't allow clicking the disabled pagination links
+            $('.pagination > li.disabled > a').click(function() {
+                return false;
+            });
+
+            // Provide 'back to top' functionality
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#to-top').fadeIn();
+                } else {
+                    $('#to-top').fadeOut();
+                }
+            });
+
+            // scroll body to 0px on click
+            $('#to-top').click(function () {
+                $('to-top').tooltip('hide');
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 800);
+
+                return false;
+            });
+
+            //$('#to-top').tooltip('show');
+        });
+    </script>
+{% endblock %}
