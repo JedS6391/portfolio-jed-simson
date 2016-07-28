@@ -29,7 +29,7 @@
                 {% for post in blog_posts %}
 
                         {% from "post.html" import post_ %}
-                        {{ post_(loop.index, post, pagination, skip) }}
+                        {{ post_(loop.index, post, pagination, skip, False) }}
 
                         {% from "modal.html" import modal %}
                         {{ modal(loop.index, post) }}
@@ -49,8 +49,6 @@
             </a>
         </div>
     </div>
-
-
 {% endblock %}
 
 {% block scripts %}
@@ -80,7 +78,11 @@
                 return false;
             });
 
-            //$('#to-top').tooltip('show');
+            hljs.initHighlightingOnLoad();
+
+            // Bootstrap v4 doesn't style blockquote elements
+            // but instead needs a class
+            $('blockquote').addClass('blockquote');
         });
     </script>
 {% endblock %}

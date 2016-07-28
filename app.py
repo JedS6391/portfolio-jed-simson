@@ -13,6 +13,8 @@ from config import Config
 
 import os
 
+ONE_DAY = 60 * 60 * 24
+
 
 def create_app(config=None):
     app = Flask(__name__)
@@ -37,6 +39,7 @@ def create_app(config=None):
     blog_manager.init_app(os.environ.get('POSTS_PATH',
                                          'static/assets/posts/'),
                           md._instance,
+                          30,      # Invalidate cached posts after 1 day
                           app)
 
     if config:

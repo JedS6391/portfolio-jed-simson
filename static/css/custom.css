@@ -73,6 +73,8 @@ html, body {
 
 .card {
     border-radius: 0;
+    border-bottom: 2px solid #69c;
+    margin-bottom: 2rem;
 }
 
 .card-header {
@@ -81,6 +83,10 @@ html, body {
 
 .card-header:first-child {
     border-radius: 0;
+}
+
+.modal-content {
+    border-bottom: 2px solid #69c;
 }
 
 .pagination {
@@ -93,6 +99,18 @@ html, body {
 
 .page-item:last-child .page-link  {
     border-radius: 0;
+}
+
+code, pre {
+    background: #f5f7f9 !important;
+    color: #a7adba;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+}
+
+pre {
+    padding-left: 0.4rem;
+    border-left: 2px solid #69c;
 }
 
 .form-control {

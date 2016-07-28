@@ -1,7 +1,7 @@
-{% macro post_(idx, post, pagination, skip) %}
+{% macro post_(idx, post, pagination, skip, show_full_post) %}
 <section id="blog" class="card">
-    <div class="card-header card-inverse" style="background-color: #333;">
-        <h1 class="card-title"><a href="{{ url_for('portfolio.blog_post', post=idx)}}" style="color:#fff;">{{ post.title }}</a></h1>
+    <div class="card-header">
+        <h1 class="card-title"><a href="{{ url_for('portfolio.blog_post', post=idx)}}" style="color:#373a3c;">{{ post.title }}</a></h1>
 
         <span class="label label-primary pull-xs-left">{{ post.date }}</span>
 
@@ -24,10 +24,16 @@
     </div>
 
     <div class="card-block">
-        {{ post.text|markdown }}
+        {% if post.words <= 500 or show_full_post %}
+            {{ post.text|markdown }}
+        {% else %} 
+            {{ post.text|markdown|truncate(800, end='...') }}
+            <a class="card-link pull-xs-right" href="{{ url_for('portfolio.blog_post', post=idx) }}"> Continue Reading...</a><br>
+            <br>
+        {% endif %}
 
-        {% for tag in post.meta.tags|format_tags %}
-            <span class="label label-primary">{{ tag }}</span>
+        {% for tag in post.tags|format_tags %}
+            <a href="{{ url_for('portfolio.blog_by_tag', tag=tag) }}"><span class="label label-primary">#{{ tag }}</span></a>
         {% endfor %}
 
     </div>

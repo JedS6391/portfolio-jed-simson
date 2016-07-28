@@ -2,11 +2,11 @@
 {% set active_page = "blog" %}
 
 {% block title %}
-    <title>Jed Simson &sdot; Blog | {% if post %} {{ post.title }} {% else %} Not Found {% endif %}</title>
+    <title>Jed Simson &sdot; Blog | Tag: {{ tag }}</title>
 {% endblock %}
 
 {% block description %}
-    <meta name="description" content="{% if post %} {{ post.summary }} {% else %}Blog post by Jed Simson{% endif %}">
+    <meta name="description" content="Blog posts by Jed Simson tagged {{ tag }}.">
 {% endblock %}
 
 {% block nav %}
@@ -19,19 +19,20 @@
         <div id="content" role="main" class="col-md-8 col-md-offset-2">
             <div id="posts">
 
-                {% if post %}
+                {% for post in posts %}
                     {% from "post.html" import post_ %}
-                    {{ post_(1, post, None, 0, True) }}
+                    {{ post_(loop.index, post, None, 0, True) }}
 
                     {% from "modal.html" import modal %}
-                    {{ modal(1, post) }}
+                    {{ modal(loop.index, post) }}
+
                 {% else %}
                     <div class="card card-block text-xs-center">
                         <p class="card-text text-danger">
                             <strong>Sorry, the post you are looking for doesn't exist!</strong>
                         </p>
                     </div>
-                {% endif %}
+                {% endfor %}
             </div>
 
             <a id="to-top" href="#" class="to-top pull-xs-right text-xs-center" role="button"

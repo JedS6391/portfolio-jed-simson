@@ -26,4 +26,4 @@ def format_date(value, format='%a, %d %b %Y'):
 
 
 def format_tags(tags):
-    return ['#{}'.format(tag) for tag in tags.split(', ')]
+    return ['{}'.format(tag) for tag in tags.split(', ')]

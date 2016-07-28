@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, abort
+from flask import Blueprint, render_template, flash, redirect, url_for, abort, jsonify
 from flask_cachecontrol import (cache, cache_for, dont_cache)
 
 import os
@@ -44,7 +44,7 @@ def blog(page=1):
 
     # How many pages do we need?
     limit = PER_PAGE
-    blog_posts, count = blog_manager._load(skip, limit)
+    blog_posts, count = blog_manager.get(skip, limit)
     pagination = Pagination(page, PER_PAGE, count)
 
     if not blog_posts and page != 1:
@@ -67,7 +67,7 @@ def blog_post(post):
     # ordered newest to oldest. We index the posts by the post
     # number given. The contract is that lower indices reference
     # newer posts, i.e. posts[1] is more recent than posts[2], etc.
-    blog_posts, count = blog_manager._load(0, None)
+    blog_posts, count = blog_manager.get(0, None)
 
     try:
         post = blog_posts[post-1]
@@ -78,6 +78,19 @@ def blog_post(post):
         # No post found... redirect to the 404 page
         abort(404)
 
+
+@portfolio.route('/blog/tag/<tag>/')
+@cache(max_age=10800, public=True)
+def blog_by_tag(tag):
+    blog_posts, _ = blog_manager.get_with_tag(tag.lower())
+
+    if blog_posts:
+        return render_template('blog_by_tag.html',
+                               posts=blog_posts,
+                               tag=tag.lower())
+        #return jsonify([post.__dict__ for post in blog_posts])
+
+    abort(404)
 
 @portfolio.route('/contact/', methods=['GET', 'POST'])
 @cache(max_age=DEFAULT_CACHE_CONTROL_TIME, public=True)

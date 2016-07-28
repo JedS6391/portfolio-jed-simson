@@ -1,6 +1,7 @@
 import os
 import codecs
 import time
+from collections import OrderedDict
 from util import count_words
 
 from portfolio.models import Post
@@ -8,15 +9,16 @@ from portfolio.models import Post
 
 class Blog(object):
 
-    def __init__(self, path=None, parser=None, app=None):
-        self._cache = {}
+    def __init__(self, path=None, parser=None, max_age=None, app=None):
+        self._cache = OrderedDict()
         self.path = path
         self.parser = parser
+        self.max_age = max_age
 
         if app:
             self.init_app(path, parser, app)
 
-    def init_app(self, path, parser, app):
+    def init_app(self, path, parser, max_age, app):
         if 'blog' not in app.extensions:
             app.extensions['blog'] = {}
 
@@ -24,10 +26,37 @@ class Blog(object):
 
         self.path = path
         self.parser = parser
+        self.max_age = max_age
 
         self.app = app
+        self._load()
 
-    def _load(self, skip, limit):
+    def maybe_clear_cache(self):
+        if (time.time() - self.cache_age) > self.max_age:
+            # Expire the cache and reload any posts
+            self._cache = OrderedDict()
+            self._load()
+
+    def get(self, skip, limit):
+        self.maybe_clear_cache()
+
+        posts = list(self._cache.values())
+
+        if limit:
+            return posts[skip:skip+limit], len(posts)
+
+        return posts, len(posts)
+
+    def get_with_tag(self, tag):
+        self.maybe_clear_cache()
+
+        posts = list(self._cache.values())
+
+        filtered = [post for post in posts if tag in post['tags'].lower()]
+
+        return filtered, len(filtered)
+
+    def _load(self):
         '''
             Adapted from Flask-Portfolio:
             https://github.com/longboardcat/Flask-Portfolio
@@ -77,21 +106,16 @@ class Blog(object):
 
             post = Post(post_id, text, meta, last_modified)
 
-            # Cache this post to prevent doing this every time the post
-            # is requested
-            self._cache[post_id] = (post, time.time())
-
             blog_posts.append(post)
             current += 1
 
         blog_posts = sorted(blog_posts, key=lambda p: p['date'], reverse=True)
 
-        if limit:
-            posts = blog_posts[skip:skip+limit]
-        else:
-            posts = blog_posts
+        for post in blog_posts:
+            self._cache[post.id] = post
 
-        return posts, len(blog_posts)
+        self.cache_age = time.time()
 
 
+# For use in ``app.py``, i.e. app.init_app(blog_manager)
 blog_manager = Blog()
