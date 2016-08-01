@@ -16,6 +16,8 @@ def update_view_count(post):
     else:
         views[title] = 1
 
+    print('Updated {} : {}'.format(title, views[title]))
+
     with open(VIEW_COUNT_FILE, 'w+') as f:
         f.write(json.dumps(views))
 
