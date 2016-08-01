@@ -1,4 +1,23 @@
 from math import ceil
+import os
+import json
+
+VIEW_COUNT_FILE = os.environ.get('VIEW_COUNT_FILE', 'view_count.json')
+
+
+def update_view_count(post):
+    with open(VIEW_COUNT_FILE, 'r') as f:
+        views = json.load(f)
+
+    title = post['title']
+
+    if title in views:
+        views[title] += 1
+    else:
+        views[title] = 1
+
+    with open(VIEW_COUNT_FILE, 'w+') as f:
+        f.write(json.dumps(views))
 
 
 class Pagination(object):

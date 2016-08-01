@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, abort, jsonify
+from flask import Blueprint, render_template, flash, redirect, url_for, abort
 from flask_cachecontrol import (cache, cache_for, dont_cache)
 
 import os
 
 from .forms import ContactForm
-from .helpers import Pagination
+from .helpers import Pagination, update_view_count
 from blog import blog_manager
 from mail import send_email
 
@@ -71,6 +71,7 @@ def blog_post(post):
 
     try:
         post = blog_posts[post-1]
+        update_view_count(post)
 
         return render_template('blog_post.html',
                                post=post)
@@ -88,9 +89,9 @@ def blog_by_tag(tag):
         return render_template('blog_by_tag.html',
                                posts=blog_posts,
                                tag=tag.lower())
-        #return jsonify([post.__dict__ for post in blog_posts])
 
     abort(404)
+
 
 @portfolio.route('/contact/', methods=['GET', 'POST'])
 @cache(max_age=DEFAULT_CACHE_CONTROL_TIME, public=True)
