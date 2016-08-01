@@ -5,6 +5,15 @@ import json
 VIEW_COUNT_FILE = os.environ.get('VIEW_COUNT_FILE', 'view_count.json')
 
 
+def get_view_count(title):
+    with open(VIEW_COUNT_FILE, 'r') as f:
+        views = json.load(f)
+
+    # Raises KeyError if title is not in views.
+    # Caller must handle
+    return views[title]
+
+
 def update_view_count(post):
     with open(VIEW_COUNT_FILE, 'r') as f:
         views = json.load(f)
