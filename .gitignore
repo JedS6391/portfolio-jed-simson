@@ -32,3 +32,4 @@ build
 
 #static/assets/posts
 static/.webassets-cache
+view_count.json
