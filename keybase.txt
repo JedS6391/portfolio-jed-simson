@@ -1,0 +1,75 @@
+==================================================================
+https://keybase.io/jedsimson
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://jedsimson.co.nz
+  * I am jedsimson (https://keybase.io/jedsimson) on keybase.
+  * I have a public key with fingerprint 6A9D 092B 3B21 EB90 BB3D  A495 2121 5902 942E 2354
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0120db2f2936cd91fdc50f158014e998f7a950fbf29e899eaf827da9e31b92d0a4670a",
+            "fingerprint": "6a9d092b3b21eb90bb3da49521215902942e2354",
+            "host": "keybase.io",
+            "key_id": "21215902942e2354",
+            "kid": "01013907f7e3e28564b4d956fd481c7edcaa16555ab433804b0b71c84d956f5634ad0a",
+            "uid": "870f4905208996bdec584ea73e04d319",
+            "username": "jedsimson"
+        },
+        "service": {
+            "hostname": "jedsimson.co.nz",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1472072741,
+    "expire_in": 157680000,
+    "prev": "9f59186a5c4965c8eac325998f0fbdd007ac833d01181bb82744871bebdb7baa",
+    "seqno": 8,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.56
+Comment: https://keybase.io/crypto
+
+yMNyAnicbZJ7UFRVHMeXlxoDSIpuEFJcqBwFuu97z1bIIBJQkoNsyoBt5957LiyP
+3WUfLOAQtolRzshMISnTQJIDPiYNdMrk4figAHFIGSlAMJXHYA4yGUoFbvdS/tN0
+/rlzfvfz/Z7v+f3OJX8vja9HeHiGZ3VMRLrH5fO1Ds22Dr8XdmKCWSrBdDuxPLT4
+QfkSstkNeUYJ02E4QeKSQMokoFhRAoQsiQwuEwyPEzQCgJc5CJSCoACIBwBBmSc5
+CQJEEQIgJRzSLIdDLAqTjaZsZLVYjSa7YstCIOGAFCiBJJAAcEGgJEgDhiRIggE4
+CWgSkRRDK8Ics01VKOEEaEMxRrNSUzaGxXj/wz/JjRMUwDmZQxQieYalBVoCDCtL
+NE+IHJJECAmWYRgo0BTF47SACxwh8v9ADEvRUFrM7Vi04zlcpgHOkLhySVaQkMjw
+NIIchXBaogiggjZkNcECpNC5SLIZC2xmE1YWhSnlIqOI1M6qV/kvEiOaY0ylit5i
+NdvNojlf+Zljt1t0qtZeYlFhJxIM/9oYBKNJUlqpCIqQ1WZUztARCinajaovQXMk
+zpEcTURhqNhitCKDUSUYjuVxZanHoCLFEsgMIHgWMiINWEbkERQpklEHqgxTknCc
+gyJPURJOEDwhCMpQaZrnCAEJksAJUO2MDRWazJiOV2LCbMXSZsw2QbvDirCyC+ez
+vDUevpolPp7qE9P4PhX45OFR6cvdOWEnHaZ1QXdCU51pOaZXLc/352XuTWqdSVi6
+Ksbv4yH90Vtu96nqs8umMn5q2w0vGD44MXBa3/ChzbWrs3PyUO+msBafd3dUzIKx
+lEYaa3jpatjay+jsYHSEz4T23o3uvu7AfXMXVy4kw+nExPUBQZmu3x7P3pbFsTjd
+7e3FSx8VTqyZoZs1aWvnf4jbcjgvI3qYet0r3XdH36i7omX3xMbh+gHn4JnkJRve
+3+d90ifqWqLXEf+O+Pfe9nF6NafMx4a6IysyAq6Glfo9PVqS03AgZDagf6QdelZ/
+u3lFYM9gXzt7KHJuPM6y6aPE5a8dHw+Yi7z5XaGnsGV/+7nPvn8YLXeV111s2m4f
+DUT3ubpCV1fwag/mz/K2E5V/1TZGvKMdOvj5lT1JYwdKC7BeGTyo2RrtHL/f5PDc
+qmnauK28/Gbq7/Sn616sWU20fnPHlXlsc3VuaNUfXzflHvdPrce+SEpYQx3mVtC7
+tG9qVzouzfR3HKMGTp2LTV5WU9U1r6/MumVxfflIcjXW3dXnp0+WZbsNzpGerPzr
+z96YhnpydPLHlPUPHzwTdHpv2tD43Xivuak9Lc95aHu894O6zuKFpFUHM38hO0Ne
+Lvg1Xh+ewE/9vCHw6GS1f/D1r+61D79VOcsuvPJJbO3yvu6RxwHm6cLmN66d6Q2t
+1xDQpm/Thlw50htmDW6t+hs11LmY
+=7C9O
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/jedsimson
+
+==================================================================
