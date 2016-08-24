@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, abort
-from flask_cachecontrol import (cache, cache_for, dont_cache)
+from flask import (Blueprint, render_template, flash, redirect, url_for, abort,
+                   send_from_directory)
+from flask_cachecontrol import cache
 
 import os
 
@@ -19,6 +20,11 @@ DEFAULT_CACHE_CONTROL_TIME = 21600    # 6 hours
 @portfolio.app_errorhandler(404)
 def page_not_found(error):
     return render_template('errors/404.html'), 404
+
+
+@portfolio.route('/keybase.txt')
+def keybase():
+    return send_from_directory('static/', 'keybase.txt')
 
 
 @portfolio.route('/')
