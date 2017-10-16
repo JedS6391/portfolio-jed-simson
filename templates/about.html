@@ -11,127 +11,134 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div id="lead" class="col-md-4 col-md-offset-4">
-            <h3 class="display-4 text-xs-center">About</h3>
+    <div class="uk-section uk-section-default">
+        <div class="uk-container">
+
+            <h1 class="uk-heading-primary">About</h1>
+
+            <h2 class="uk-heading-bullet">Me</h2>
+
+            <p>
+                I am currently a student at the University of Waikato, studying towards a Bachelor of Computing
+                and Mathematical Sciences (Hons). I have a strong interest in artificial intelligence, computer
+                networks and communications, and compiler theory/construction.
+            </p>
+
+            <p>
+                Whilst studying I have maintained grades in the A range and have worked on a variety of personal
+                side projects which can be viewed on my <a href="https://gitlab.com/u/JedS6391" target="_blank">GitLab</a> account.
+                One of my favourite projects was a website I created to provide an alternative, and more reliable interface
+                for searching <a href="https://www.reddit.com" target="_blank">reddit</a>, which can be found
+                <a href="https://reddit-slider-search.herokuapp.com" target="_blank">here</a>.
+            </p>
+
+            <hr class="uk-margin-medium">
+
+            <h2 class="uk-heading-bullet">Interests</h2>
+
+            <h3>Computing</h3>
+
+            <p>
+                I am confident using a variety of different technologies, but my language of choice is Python which I have
+                been using for ~4 years. This site was even created using Python and the excellent Flask framework -
+                feel free to <a href="https://gitlab.com/JedS6391/portfolio-jed-simson" target="_blank">view the source</a>.
+            </p>
+
+            <p>
+                A complete list of technologies I am comfortable with can be found within my CV, but here is a brief list of my most
+                frequently used languages/frameworks/etc:
+            </p>
+
+            <dl class="uk-description-list">
+                <dt><b>Languages</b></dt>
+                <dd>Python, Java, Swift, C#, Haskell, HTML, CSS, JavaScript, TypeScript, Assembly</dd>
+                <dt><b>Frameworks</b></dt>
+                <dd>Flask, Django, Android, React, Bootstrap, SQLAlchemy, Heroku, AWS</dd>
+                <dt><b>SQL/NoSQL Database Technologies</b></dt>
+                <dd>MySQL, SQL Server, PostgreSQL, MongoDB, Redis</dd>
+                <dt><b>Version Control</b></dt>
+                <dd>Git, GitHub, GitLab</dd>
+            </dl>
+
+            <p>
+                I am constantly learning new languages and frameworks as I believe it all helps me to become
+                a better programmer, as I learn new ways to approach solving various problems and I can come to
+                an informed decision about what technology may be best for the problem I am faced with.
+            </p>
+
+            <h3>Music</h3>
+            <p>
+                I am a passionate musician, having studied Jazz Performance for a year at the University of Auckland
+                in 2014. I love to create interesting music which could be described as a mix of genres such as Jazz,
+                Progressive Rock, Alternative, Electronic and a whole lot more! Some of my music is available on my
+                <a href="https://soundcloud.com/jed-simson" target="_blank">SoundCloud</a> account.
+                I'm always interested in collaborations too!
+            </p>
+
+            <hr class="uk-margin-medium">
         </div>
     </div>
 
-    <div class="row">
-        <section class="col-md-8 col-md-offset-2">
-            <div class="card">
-                <h3 class="card-header">Me</h3>
+    <div class="uk-section uk-section-default" style="padding-top: 20px; padding-bottom: 20px;">
+        <div class="uk-container">
 
-                <div class="card-block">
-                    <p class="card-text">
-                        I am currently a student at the University of Waikato, studying towards a Bachelor of Computing
-                        and Mathematical Sciences (Hons). I have a strong interest in artificial intelligence, computer
-                        networks and communications, and compiler theory/construction.
-                    </p>
+            <h1>Projects</h1>
 
-                    <p class="card-text">
-                        Whilst studying I have maintained grades in the A range and have worked on a variety of personal
-                        side projects which can be viewed on my <a href="https://gitlab.com/u/JedS6391" target="_blank">GitLab</a> account.
-                        One of my favourite projects was a website I created to provide an alternative, and more reliable interface
-                        for searching <a href="https://www.reddit.com" target="_blank">reddit</a>, which can be found
-                        <a href="https://reddit-slider-search.herokuapp.com" target="_blank">here</a>.
-                    </p>
-                </div>
+            <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
 
-            </div>
-
-            <div class="card">
-                <h3 class="card-header">Interests</h3>
-
-                <div class="card-block">
-                    <h5 class="card-title">Computing</h5>
-
-                    <p class="card-text">
-                        I am confident using a variety of different technologies, but my language of choice is Python which I have
-                        been using for ~4 years. This site was even created using Python and the excellent Flask framework -
-                        feel free to <a href="https://gitlab.com/JedS6391/portfolio-jed-simson" target="_blank">view the source</a>.
-                    </p>
-
-                    <p class="card-text">
-                        A complete list of technologies I am comfortable with can be found within my CV, but here is a brief list of my most
-                        frequently used languages/frameworks/etc:
-                    </p>
-
-                    <dl class="card-text">
-                        <dt>Languages</dt>
-                        <dd>Python, Java, Swift, C#, Haskell, HTML, CSS, JavaScript, TypeScript, Assembly</dd>
-                        <dt>Frameworks</dt>
-                        <dd>Flask, Django, Android, React, Bootstrap, SQLAlchemy, Heroku, AWS</dd>
-                        <dt>SQL/NoSQL Database Technologies</dt>
-                        <dd>MySQL, SQL Server, PostgreSQL, MongoDB, Redis</dd>
-                        <dt>Version Control</dt>
-                        <dd>Git, GitHub, GitLab</dd>
-                    </dl>
-
-                    <p class="card-text">
-                        I am constantly learning new languages and frameworks as I believe it all helps me to become
-                        a better programmer, as I learn new ways to approach solving various problems and I can come to
-                        an informed decision about what technology may be best for the problem I am faced with.
-                    </p>
-                </div>
-
-                <div class="card-block">
-                    <h5 class="card-title">Music</h5>
-
-                    <p class="card-text">
-                        I am a passionate musician, having studied Jazz Performance for a year at the University of Auckland
-                        in 2014. I love to create interesting music which could be described as a mix of genres such as Jazz,
-                        Progressive Rock, Alternative, Electronic and a whole lot more! Some of my music is available on my
-                        <a href="https://soundcloud.com/jed-simson" target="_blank">SoundCloud</a> account.
-                        I'm always interested in collaborations too!
-                    </p>
-                </div>
-            </div>
-
-            <!-- It would be better to generate these dynamically, but the GitLab API
-                 was being fussy when I attempted to implement that - so for now it is
-                 static! -->
-            <h3>Projects</h3>
-            <br>
-            <div class="card-deck-wrapper">
-                <div class="card-deck">
-
-                    <div class="card">
-                        <div class="card-header">
-                            <strong>bencode-swift</strong>
-                        </div>
-                        <div class="card-block text-xs-center">
-                            <h6 class="card-subtitle text-muted">Simple Bencode parsing/serialising in Swift.</h6>
-                            <br>
-                            <a href="https://gitlab.com/JedS6391/bencode-swift" class="btn btn-primary">View on GitLab</a>
+                <div class="uk-card uk-card-small uk-card-secondary uk-card-body uk-light">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">LGP</h3>
+                            </div>
                         </div>
                     </div>
+                    <div class="uk-card-body">
+                        A robust LGP implementation built using Kotlin.
+                    </div>
+                    <div class="uk-card-footer">
+                        <a class="uk-button uk-button-default uk-width-1-1" href="https://github.com/JedS6391/LGP" target="_blank">View on GitHub</a>
+                    </div>
+                </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <strong>reddit-slider</strong>
-                        </div>
-                        <div class="card-block text-xs-center">
-                            <h6 class="card-subtitle text-muted">A more versatile and reliable interface for searching reddit.com.</h6>
-                            <br>
-                            <a href="https://gitlab.com/JedS6391/reddit-slider" class="btn btn-primary">View on GitLab</a>
+                <div class="uk-card uk-card-small uk-card-default uk-card-body uk-dark">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">KGP</h3>
+                            </div>
                         </div>
                     </div>
+                    <div class="uk-card-body">
+                        Genetic Programming for Kotlin &mdash; an implementation of tree-based GP.
+                    </div>
+                    <div class="uk-card-footer">
+                        <a class="uk-button uk-button-secondary uk-width-1-1" href="https://github.com/JedS6391/KGP" target="_blank">View on GitHub</a>
+                    </div>
+                </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <strong>ShowChecker</strong>
+                <div class="uk-card uk-card-small uk-card-secondary uk-card-body uk-light">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">reddit-slider</h3>
+                            </div>
                         </div>
-                        <div class="card-block text-xs-center">
-                            <h6 class="card-subtitle text-muted">A simple project to keep up-to-date with the shows you love.</h6>
-                            <br>
-                            <a href="https://gitlab.com/JedS6391/ShowChecker" class="btn btn-primary">View on GitLab</a>
-                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        A more versatile and reliable interface for searching reddit.com.
+                    </div>
+                    <div class="uk-card-footer">
+                        <a class="uk-button uk-button-default uk-width-1-1" href="https://gitlab.com/JedS6391/reddit-slider" target="_blank">View on GitLab</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
+
+    <br>
 
 {% endblock %}
 

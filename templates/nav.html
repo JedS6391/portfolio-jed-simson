@@ -7,6 +7,38 @@
 ] -%}
 
 {% macro nav(page) %}
+<nav class="uk-navbar-container uk-visible@m" uk-navbar>
+    <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+            {% for href, id, caption in navigation_bar %}
+                <li{% if id == page %} class="uk-active"{% endif %}>
+                    <a href="{{ href|e }}">{{ caption|e }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+
+
+<div class="uk-hidden@m">
+    <a uk-navbar-toggle-icon="" href="#mobile-nav" uk-toggle="" class="uk-navbar-toggle-icon uk-icon" style="padding: 10px;"></a>
+</div>
+
+<div id="mobile-nav" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+    <div class="uk-offcanvas-bar">
+        <div class="uk-panel">
+            <ul class="uk-nav uk-nav-default">
+                {% for href, id, caption in navigation_bar %}
+                    <li{% if id == page %} class="uk-active"{% endif %}>
+                        <a href="{{ href|e }}">{{ caption|e }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--
 <nav class="navbar navbar-full navbar-light bg-faded m-b-3">
     <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#nav-collapse">
     &#9776;
@@ -21,4 +53,5 @@
     </ul>
   </div>
 </nav>
+-->
 {% endmacro %}
