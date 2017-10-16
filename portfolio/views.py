@@ -5,7 +5,7 @@ from flask_cachecontrol import cache
 import os
 
 from .forms import ContactForm
-from .helpers import Pagination, update_view_count
+from .helpers import Pagination
 from blog import blog_manager
 from mail import send_email
 
@@ -77,7 +77,6 @@ def blog_post(post):
 
     try:
         post = blog_posts[post-1]
-        update_view_count(post)
 
         return render_template('blog_post.html',
                                post=post)

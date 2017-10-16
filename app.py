@@ -31,8 +31,13 @@ def create_app(config=None):
     cache_control = FlaskCacheControl()
     cache_control.init_app(app)
 
-    css = Bundle('css/bootstrap.min.css', 'css/custom.css',
-                 filters='cssmin', output='css/app.css')
+    css = Bundle(
+        'css/bootstrap.min.css',
+        'css/custom.css',
+        'css/uikit.min.css',
+        filters='cssmin',
+        output='css/app.css'
+    )
     assets.register('css_all', css)
 
     # Use my custom blogging extension
