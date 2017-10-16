@@ -11,6 +11,10 @@ html, body {
     margin: auto !important;
 }
 
+.project-grid {
+    margin: 0 !important;
+}
+
 #form {
     padding-top: 2rem;
 }
