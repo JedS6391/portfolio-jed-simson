@@ -11,25 +11,29 @@
 {% endblock %}
 
 {% block content %}
-    <div class="uk-section uk-section-default">
-
-
+    <div class="uk-section uk-section-default section-pad">
+        <div class="uk-container">
             <h1 class="uk-heading-primary">About</h1>
 
             <h2 class="uk-heading-bullet">Me</h2>
 
             <p>
-                I am currently a student at the University of Waikato, studying towards a Bachelor of Computing
-                and Mathematical Sciences (Hons). I have a strong interest in artificial intelligence, computer
-                networks and communications, and compiler theory/construction.
+                I am currently in my fourth and final year of studying towards a Bachelor of Computing
+                and Mathematical Sciences (Hons) at the University of Waikato. I have a strong interest in artificial intelligence, computer
+                networks and communications, and compiler theory/construction. In 2017, I undertook an honours project that involved building an
+                <a href="https://github.com/JedS6391/LGP" target="_blank">open-source Linear Genetic Programming system</a> (view the accompanying thesis <a href="{{ url_for('static', filename='assets/thesis/Open-Source Linear Genetic Programming.pdf') }}">here</a>).
             </p>
 
             <p>
                 Whilst studying I have maintained grades in the A range and have worked on a variety of personal
                 side projects which can be viewed on my <a href="https://gitlab.com/u/JedS6391" target="_blank">GitLab</a> account.
-                One of my favourite projects was a website I created to provide an alternative, and more reliable interface
-                for searching <a href="https://www.reddit.com" target="_blank">reddit</a>, which can be found
+                One of my favourite projects is a website I created to provide an alternative and more reliable interface
+                for searching <a href="https://www.reddit.com" target="_blank">reddit</a> &mdash; the source can be found
                 <a href="https://reddit-slider-search.herokuapp.com" target="_blank">here</a>.
+            </p>
+
+            <p>
+                On the side, I play an array of different instruments and enjoy creating music in all sorts of styles that I can share with the world.
             </p>
 
             <hr class="uk-margin-medium">
@@ -40,49 +44,49 @@
 
             <p>
                 I am confident using a variety of different technologies, but my language of choice is Python which I have
-                been using for ~4 years. This site was even created using Python and the excellent Flask framework -
+                been using for ~4 years. This site was even created using Python and the excellent Flask framework &mdash;
                 feel free to <a href="https://gitlab.com/JedS6391/portfolio-jed-simson" target="_blank">view the source</a>.
             </p>
 
             <p>
-                A complete list of technologies I am comfortable with can be found within my CV, but here is a brief list of my most
+                An exhaustive list of technologies I am comfortable with can be found within my CV, but here is a subset of my most
                 frequently used languages/frameworks/etc:
             </p>
 
             <dl class="uk-description-list">
                 <dt><b>Languages</b></dt>
-                <dd>Python, Java, Swift, C#, Haskell, HTML, CSS, JavaScript, TypeScript, Assembly</dd>
+                <dd>Python, Java, Kotlin, Swift, C#, Haskell, HTML, CSS, JavaScript, TypeScript, Assembly, C</dd>
                 <dt><b>Frameworks</b></dt>
-                <dd>Flask, Django, Android, React, Bootstrap, SQLAlchemy, Heroku, AWS</dd>
-                <dt><b>SQL/NoSQL Database Technologies</b></dt>
+                <dd>Flask, Django, Android, React, Bootstrap, SQLAlchemy, Heroku, .NET</dd>
+                <dt><b>Databases</b></dt>
                 <dd>MySQL, SQL Server, PostgreSQL, MongoDB, Redis</dd>
                 <dt><b>Version Control</b></dt>
-                <dd>Git, GitHub, GitLab</dd>
+                <dd>Git, Subversion, GitHub, GitLab, Team Foundation Server</dd>
             </dl>
 
             <p>
-                I am constantly learning new languages and frameworks as I believe it all helps me to become
-                a better programmer, as I learn new ways to approach solving various problems and I can come to
-                an informed decision about what technology may be best for the problem I am faced with.
+                Learning new languages, frameworks, and other technologies is important to me, as I believe it all
+                contributes to me becoming a better developer &mdash; particularly by showing me new approaches to
+                solving problems and helping me create informed decisions regarding technology choice.
             </p>
 
             <h3>Music</h3>
             <p>
-                I am a passionate musician, having studied Jazz Performance for a year at the University of Auckland
+                I consider myself to be a passionate musician, having studied Jazz Performance for a year at the University of Auckland
                 in 2014. I love to create interesting music which could be described as a mix of genres such as Jazz,
-                Progressive Rock, Alternative, Electronic and a whole lot more! Some of my music is available on my
+                Progressive Rock, Alternative, Ambient, and a whole lot more! Some of my music is available on my
                 <a href="https://soundcloud.com/jed-simson" target="_blank">SoundCloud</a> account.
-                I'm always interested in collaborations too!
             </p>
 
             <hr class="uk-margin-medium">
         </div>
     </div>
 
-    <div class="uk-section uk-section-default" style="padding-top: 20px; padding-bottom: 20px;">
+    <div class="uk-section uk-section-default section-pad">
         <div class="uk-container">
 
             <h1>Projects</h1>
+            <p class="uk-text-muted"><i>A selection of programming projects I've been working on.</i></p>
 
             <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match project-grid" uk-grid>
 
@@ -98,7 +102,7 @@
                         A robust LGP implementation built using Kotlin.
                     </div>
                     <div class="uk-card-footer">
-                        <a class="uk-button uk-button-default uk-width-1-1" href="https://github.com/JedS6391/LGP" target="_blank">View on GitHub</a>
+                        <a class="uk-button uk-button-default uk-width-1-1 btn-hover-fill" href="https://github.com/JedS6391/LGP" target="_blank">View on GitHub</a>
                     </div>
                 </div>
 
@@ -114,7 +118,7 @@
                         Genetic Programming for Kotlin &mdash; an implementation of tree-based GP.
                     </div>
                     <div class="uk-card-footer">
-                        <a class="uk-button uk-button-secondary uk-width-1-1" href="https://github.com/JedS6391/KGP" target="_blank">View on GitHub</a>
+                        <a class="uk-button uk-button-default uk-width-1-1 btn-hover-fill-inverse" href="https://github.com/JedS6391/KGP" target="_blank">View on GitHub</a>
                     </div>
                 </div>
 
@@ -130,15 +134,12 @@
                         A more versatile and reliable interface for searching reddit.com.
                     </div>
                     <div class="uk-card-footer">
-                        <a class="uk-button uk-button-default uk-width-1-1" href="https://gitlab.com/JedS6391/reddit-slider" target="_blank">View on GitLab</a>
+                        <a class="uk-button uk-button-default uk-width-1-1 btn-hover-fill" href="https://gitlab.com/JedS6391/reddit-slider" target="_blank">View on GitLab</a>
                     </div>
                 </div>
             </div>
-
-
+        </div>
     </div>
-
-    <br>
 
 {% endblock %}
 

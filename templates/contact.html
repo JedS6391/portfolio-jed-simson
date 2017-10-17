@@ -15,22 +15,21 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div id="lead" class="col-md-4 col-md-offset-4">
-            <h3 class="display-4 text-xs-center">Contact</h3>
+    <div class="uk-section uk-section-default section-pad">
+        <div class="uk-container">
+            <h1 class="uk-heading-primary">Contact</h1>
 
             <div id="subtext">
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
-                        <p class="lead text-success text-xs-center">
+                        <p class="uk-text-success">
                             {% for message in messages %}
                                 {{ message|safe }}
                             {% endfor %}
                         </p>
                     {% else %}
-                        <p class="lead text-muted text-xs-center">
-                            Please submit any queries using the form below or contact
-                            me using any of the following:
+                        <p class="uk-text-muted">
+                            Please feel free to contact me using any of the methods provided below &mdash; generally email is the best way to get in touch!
                         </p>
                     {% endif %}
                 {% endwith %}
@@ -38,48 +37,67 @@
         </div>
     </div>
 
-    <div class="row">
-        <div id="form" class="col-md-4 col-md-offset-2">
-            <form method="POST" action="/contact/">
-                <fieldset class="form-group {% if 'name' in errors %}has-danger{% endif %}">
-                    {{ form.name(class_="form-control", placeholder="Name") }}
-                </fieldset>
+    <div class="uk-section uk-section-default section-pad">
 
-                <fieldset class="form-group {% if 'email' in errors %}has-danger{% endif %}">
-                    {{ form.email(class_="form-control", placeholder="Email Address") }}
-                    <small class="text-muted">Your email address won't be saved.</small>
-                </fieldset>
+        <div class="uk-container uk-grid-small uk-child-width-expand@s" uk-grid>
+            <div>
+                <form method="POST" action="/contact/">
 
-                <fieldset class="form-group {% if 'message' in errors %}has-danger{% endif %}">
-                    {{ form.message(class_="form-control", placeholder="Message") }}
-                </fieldset>
-
-                <fieldset class="form-group text-xs-center">
-                    <div style="display: inline-block;">
-                        {% if 'recaptcha' in errors %}
-                            <p class="text-danger">Please prove you are not a robot!</p>
+                    <div class="uk-margin">
+                        {% if 'name' in errors %}
+                            {{ form.name(class_="uk-input uk-form-danger ", placeholder="Name") }}
+                        {% else %}
+                            {{ form.name(class_="uk-input ", placeholder="Name") }}
                         {% endif %}
-                        {{ form.recaptcha }}
                     </div>
-                </fieldset>
 
-                <div class="text-xs-center">
-                    <button type="submit" class="btn btn-primary-outline ">Submit</button>
+                    <div class="uk-margin">
+                        {% if 'email' in errors %}
+                            {{ form.email(class_="uk-input uk-form-danger", placeholder="Email Address") }}
+                        {% else %}
+                            {{ form.email(class_="uk-input", placeholder="Email Address") }}
+                        {% endif %}
+
+                        <small class="uk-text-muted"><i>Your email address won't be saved.</i></small>
+                    </div>
+
+                    <div class="uk-margin">
+                        {% if 'message' in errors %}
+                            {{ form.message(class_="uk-textarea uk-form-danger", placeholder="Message") }}
+                        {% else %}
+                            {{ form.message(class_="uk-textarea", placeholder="Message") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="uk-margin text-center">
+                        <div style="display: inline-block;">
+                            {% if 'recaptcha' in errors %}
+                                <p class="uk-text-danger">Please prove you are not a robot!</p>
+                            {% endif %}
+                            {{ form.recaptcha }}
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="uk-button uk-button-primary">Submit</button>
+                    </div>
+
+                    {{ form.csrf_token }}
+
+                </form>
+            </div>
+
+            <div>
+                <div class="uk-card uk-card-default uk-card-body">
+                    <address class="text-center">
+                        <strong>Jed Simson</strong><br>
+                        <span uk-icon="icon: mail"></span> <a href="mailto:jed.simson@gmail.com">jed.simson@gmail.com</a><br>
+                        <span uk-icon="icon: phone"></span> <a href="tel://0278459720">027 845 9720</a>
+                    </address>
                 </div>
-
-                {{ form.csrf_token }}
-            </form>
-        </div>
-
-        <div id="details" class="col-md-4">
-            <div class="card card-block">
-                <address class="text-xs-center">
-                    <strong>Jed Simson</strong><br>
-                    <i class="fa fa-envelope-o"></i> <a href="mailto:jed.simson@gmail.com">jed.simson@gmail.com</a><br>
-                    <i class="fa fa-mobile"></i> <a href="tel://0278459720">027 845 9720</a>
-                </address>
             </div>
         </div>
+
     </div>
 
 {% endblock %}

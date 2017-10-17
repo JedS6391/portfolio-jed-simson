@@ -2,7 +2,7 @@
     ('/', 'home', 'HOME'),
     ('/about/', 'about', 'ABOUT'),
     ('/blog/', 'blog', 'BLOG'),
-    (url_for('static', filename='assets/cv/CV - 2016.pdf'), 'cv', 'CURRICULUM VITAE'),
+    (url_for('static', filename='assets/cv/CV - 2017.pdf'), 'cv', 'CURRICULUM VITAE'),
     ('/contact/', 'contact', 'CONTACT')
 ] -%}
 
@@ -20,14 +20,14 @@
 </nav>
 
 
-<div class="uk-hidden@m">
+<div class="uk-hidden@m uk-background-muted uk-animation-fade">
     <a uk-navbar-toggle-icon="" href="#mobile-nav" uk-toggle="" class="uk-navbar-toggle-icon uk-icon" style="padding: 10px;"></a>
 </div>
 
 <div id="mobile-nav" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
     <div class="uk-offcanvas-bar">
         <div class="uk-panel">
-            <ul class="uk-nav uk-nav-default">
+            <ul class="uk-nav uk-nav-default mobile-nav-menu">
                 {% for href, id, caption in navigation_bar %}
                     <li{% if id == page %} class="uk-active"{% endif %}>
                         <a href="{{ href|e }}">{{ caption|e }}</a>
@@ -37,21 +37,4 @@
         </div>
     </div>
 </div>
-
-<!--
-<nav class="navbar navbar-full navbar-light bg-faded m-b-3">
-    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#nav-collapse">
-    &#9776;
-    </button>
-  <div class="collapse navbar-toggleable-xs" id="nav-collapse">
-    <ul class="nav navbar-nav">
-    {% for href, id, caption in navigation_bar %}
-        <li class="nav-item {% if id == page %}active{% endif %}">
-            <a class="nav-link" href="{{ href|e }}">{{ caption|e }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-  </div>
-</nav>
--->
 {% endmacro %}

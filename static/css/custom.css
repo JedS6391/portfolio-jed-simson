@@ -11,8 +11,54 @@ html, body {
     margin: auto !important;
 }
 
+.container-width-adjust {
+    max-width: 1140px !important;
+}
+
 .project-grid {
     margin: 0 !important;
+}
+
+.btn-hover-fill-inverse {
+    color: #333 !important;
+    background-color: #fff !important;
+    -webkit-transition: all 0.2s ease-in-out !important;
+    -moz-transition:    all 0.2s ease-in-out !important;
+    -ms-transition:     all 0.2s ease-in-out !important;
+    -o-transition:      all 0.2s ease-in-out !important;
+    transition:         all 0.2s ease-in-out !important;
+}
+
+.btn-hover-fill-inverse:hover {
+    border: 1px solid #000 !important;
+    background-color: #333 !important;
+    color: #fff !important;
+}
+
+.btn-hover-fill {
+    -webkit-transition: all 0.2s ease-in-out !important;
+    -moz-transition:    all 0.2s ease-in-out !important;
+    -ms-transition:     all 0.2s ease-in-out !important;
+    -o-transition:      all 0.2s ease-in-out !important;
+    transition:         all 0.2s ease-in-out !important;
+}
+
+.btn-hover-fill:hover {
+    background-color: #fff !important;
+    color: #333 !important;
+}
+
+.mobile-nav-menu {
+    font-size: 20px !important;
+}
+
+.disabled-cursor {
+    cursor: not-allowed !important;
+}
+
+.section-pad {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
 }
 
 #form {
