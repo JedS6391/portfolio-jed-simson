@@ -116,7 +116,7 @@ def contact():
 
         send_email(CONTACT_EMAIL, subject, html)
 
-        flash('Your message was successfully sent.<br> I will try to' +
+        flash('Your message has made its way to my inbox &mdash; I will try to' +
               ' respond promptly!')
 
         return redirect(url_for('portfolio.contact'))
