@@ -3,7 +3,7 @@ from sendgrid.helpers.mail import Email, Content, Mail
 import threading
 import os
 
-class Mail(object):
+class Mailer(object):
 
     def __init__(self, api_key, default_from):
         self.api_key = api_key
@@ -32,7 +32,7 @@ class Mail(object):
 
         return message
 
-email_manager = Mail(
+email_manager = Mailer(
     api_key=os.environ['SENDGRID_API_KEY'],
     default_from=os.environ['SENDGRID_DEFAULT_FROM']
 )
