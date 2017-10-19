@@ -11,28 +11,28 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div id="content" role="main" class="col-md-4 col-md-offset-4">
-            <div id="lead">
-                <h3 class="display-4 text-xs-center">Oh no!</h3>
+    <div class="uk-section uk-section-default section-pad">
+        <div class="uk-container">
 
-                <div id="subtext">
-                    <p class="lead text-muted text-xs-center">
-                        It looks as though you've taken a wrong turn somewhere and the page you're
-                        looking for does not exist!
-                        <br><br>
-                        If you believe this a mistake, feel free to send
-                        me a message using the contact page.
-                    </p>
+            <h1 class="uk-heading-primary">Oh no!</h1>
 
-                    <div class="text-xs-center">
-                    <div class="btn-group" role="group" style="padding-bottom: 1rem;">
-                        <a class="btn btn-success-outline" href="/" role="button">Take me somewhere safe!</a>
-                        <a class="btn btn-primary-outline" href="/contact/" role="button">Contact</a>
-                    </div>
-                    </div>
-                </div>
+            <p>
+                It looks as though you've taken a wrong turn somewhere and the page you're
+                looking for does not exist!
+            </p>
+
+            <p>
+                If you believe this a mistake, feel free to send
+                me a message using the contact page.
+            </p>
+            <br>
+
+            <div class="text-center">
+                <a class="uk-button uk-button-primary" href="/">Take me somewhere safe!</a>
+                <a class="uk-button uk-button-default" href="/contact/">Contact</a>
             </div>
+
+        </div>
     </div>
 {% endblock %}
 

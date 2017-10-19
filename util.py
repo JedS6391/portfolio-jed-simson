@@ -1,6 +1,8 @@
 import string
 import re
+from unicodedata import normalize
 
+PUNCTUATION_RE = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 def count_words(text):
     '''
@@ -20,10 +22,19 @@ def count_words(text):
 
     return len(words)
 
+def slugify(text):
+    result = []
+
+    for word in PUNCTUATION_RE.split(text.lower()):
+        word = normalize('NFKD', word).encode('ascii', 'ignore')
+
+        if word:
+            result.append(word.decode('utf-8'))
+
+    return '-'.join(result)
 
 def format_date(value, format='%a, %d %b %Y'):
     return value.strftime(format)
-
 
 def format_tags(tags):
     return ['{}'.format(tag) for tag in tags.split(', ')]

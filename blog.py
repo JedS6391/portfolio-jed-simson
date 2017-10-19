@@ -6,7 +6,6 @@ from util import count_words
 
 from portfolio.models import Post
 
-
 class Blog(object):
 
     def __init__(self, path=None, parser=None, max_age=None, app=None):
@@ -37,7 +36,7 @@ class Blog(object):
             self._cache = OrderedDict()
             self._load()
 
-    def get(self, skip, limit):
+    def get_range(self, skip, limit):
         self.maybe_clear_cache()
 
         posts = list(self._cache.values())
@@ -47,6 +46,9 @@ class Blog(object):
 
         return posts, len(posts)
 
+    def get(self, key):
+        return self._cache[key]
+
     def get_with_tag(self, tag):
         self.maybe_clear_cache()
 
@@ -54,7 +56,7 @@ class Blog(object):
 
         filtered = [post for post in posts if tag in post['tags'].lower()]
 
-        return filtered, len(filtered)
+        return filtered
 
     def _load(self):
         '''
@@ -75,7 +77,7 @@ class Blog(object):
         def construct_post_id(counter):
             return 'blog_post_' + str(counter)
 
-        blog_posts = []
+        blog_posts = {}
         filenames = os.listdir(self.path)
 
         # Handle hidden files that may exist on Mac
@@ -84,6 +86,7 @@ class Blog(object):
 
         current = 1
 
+        # Go through each file and construct an appropriate model
         for file in filenames:
             st = os.stat(self.path + file)
             last_modified = time.ctime(st.st_mtime)
@@ -106,13 +109,19 @@ class Blog(object):
 
             post = Post(post_id, text, meta, last_modified)
 
-            blog_posts.append(post)
+            if post.route in blog_posts:
+                # A blog post made on the exact same day and with the same title as another? Unlikely!
+                # But if this happens we'll just throw an error so that the user can sort their posts out...
+                raise OSError('Duplicate blog creation date + title combination {}'.format(post.route))
+            else:
+                blog_posts[post.route] = post
+
             current += 1
 
-        blog_posts = sorted(blog_posts, key=lambda p: p['date'], reverse=True)
+        blog_posts = sorted(blog_posts.items(), key=lambda i: i[1]['date'], reverse=True)
 
-        for post in blog_posts:
-            self._cache[post.id] = post
+        for route, post in blog_posts:
+            self._cache[route] = post
 
         self.cache_age = time.time()
 

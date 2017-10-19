@@ -19,8 +19,8 @@
         <div class="uk-container uk-grid-small" uk-grid>
 
             {% if post %}
-                {% from "post.html" import post_ %}
-                {{ post_(1, post, None, 0, True) }}
+                {% from "article.html" import article_ %}
+                {{ article_(1, post) }}
 
                 {% from "modal.html" import modal %}
                 {{ modal(1, post) }}
@@ -43,22 +43,6 @@
 {% block scripts %}
     <script type="text/javascript">
         $(document).ready(function() {
-            // Don't allow clicking the disabled pagination links
-            $('.disabled-cursor').click(function() {
-                return false;
-            });
-
-            // Make sure that any dropdowns are closed when a link contained in
-            // a dropdown is clicked.
-            $('.dropdown-link').click(function(e) {
-                var link = e.target;
-                var dropdown = $(link).closest('.uk-dropdown');
-
-                // By default, UIkit waits before hiding dropdowns which we don't want,
-                // so we short-circuit that behaviour.
-                UIkit.dropdown(dropdown).hide(delay = false);
-            });
-
             // Initialise code highlighting library
             hljs.initHighlightingOnLoad();
 

@@ -3,7 +3,7 @@
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
             <div class="uk-width-expand">
-                <h1 class="uk-card-title"><a class="uk-card-title" href="{{ url_for('portfolio.blog_post', post=idx)}}">{{ post.title }}</a></h1>
+                <h1 class="uk-card-title"><a class="uk-card-title" href="{{ url_for('portfolio.blog_post', year=post.year, month=post.month, day=post.day, slug=post.slug) }}">{{ post.title }}</a></h1>
 
                 <div class="uk-align-right">
                     <small class="uk-text-muted">
@@ -31,7 +31,7 @@
             {{ post.text|markdown }}
         {% else %}
             {{ post.text|markdown|truncate(800, end='...') }}
-            <a class="uk-link uk-align-right" href="{{ url_for('portfolio.blog_post', post=idx) }}"> Continue Reading...</a>
+            <a class="uk-link uk-align-right" href="{{ url_for('portfolio.blog_post', year=post.year, month=post.month, day=post.day, slug=post.slug) }}"> Continue Reading...</a>
         {% endif %}
     </div>
 

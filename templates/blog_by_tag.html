@@ -16,19 +16,22 @@
 
 {% block content %}
     <div class="uk-section uk-section-default section-pad">
+        <h1 class="uk-heading-primary">Blog</h1>
+        <h3 class="uk-heading-bullet">#{{ tag }}</h3>
+
         <div class="uk-container uk-grid-small" uk-grid>
 
             {% for post in posts %}
                 {% from "post.html" import post_ %}
-                {{ post_(loop.index, post, None, 0, True) }}
+                {{ post_(loop.index, post, None, 0, False) }}
 
                 {% from "modal.html" import modal %}
                 {{ modal(loop.index, post) }}
 
             {% else %}
-                <div class="card card-block text-xs-center">
-                    <p class="card-text text-danger">
-                        <strong>Sorry, the post you are looking for doesn't exist!</strong>
+                <div class="uk-card uk-card-body uk-width-1-1">
+                    <p class="text-danger text-center">
+                        <strong>Sorry, no posts with that tag exist!</strong>
                     </p>
                 </div>
             {% endfor %}

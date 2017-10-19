@@ -19,6 +19,10 @@ html, body {
     margin: 0 !important;
 }
 
+.blog-post-grid {
+    margin: 0 !important;
+}
+
 .btn-hover-fill-inverse {
     color: #333 !important;
     background-color: #fff !important;
