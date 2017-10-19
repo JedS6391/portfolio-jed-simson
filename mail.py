@@ -10,7 +10,7 @@ class Mail(object):
         self.default_from = default_from
 
     def send_email(self, to, subject, template):
-        sg = sendgrid.SendGridAPIClient(apikey=API_KEY)
+        sg = sendgrid.SendGridAPIClient(apikey=self.api_key)
         message = self.create_message(to, subject, template)
 
         def send_message(message):
