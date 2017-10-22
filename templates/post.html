@@ -39,8 +39,8 @@
         <!-- Show the post date with the tags when on mobile -->
         <div class="uk-label uk-hidden@m">{{ post.date }}</div>
 
-        {% for tag in post.tags|format_tags %}
-            <a href="{{ url_for('portfolio.blog_by_tag', tag=tag) }}"><span class="uk-label  uk-background-secondary">#{{ tag }}</span></a>
+        {% for tag in post.tags %}
+            <a href="{{ url_for('portfolio.blog_by_tag', tag=tag) }}"><span class="uk-label uk-background-secondary">#{{ tag }}</span></a>
         {% endfor %}
     </div>
 </div>

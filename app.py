@@ -8,7 +8,7 @@ from markdown.extensions.meta import MetaExtension
 
 from portfolio.views import portfolio
 from blog import blog_manager
-from util import format_date, format_tags
+from util import format_date, format_value
 from config import Config
 
 import os
@@ -54,7 +54,7 @@ def create_app(config=None):
 
     # Custom filters
     app.jinja_env.filters['format_date'] = format_date
-    app.jinja_env.filters['format_tags'] = format_tags
+    app.jinja_env.filters['format_value'] = format_value
     app.jinja_env.globals['markdown_instance'] = md._instance
 
     app.register_blueprint(portfolio)

@@ -18,11 +18,26 @@
     {{ post.text|markdown }}
 
     <div class="uk-grid-small uk-child-width-auto" uk-grid>
-        {% for tag in post.tags|format_tags %}
+        {% for tag in post.tags %}
             <div>
                 <a href="{{ url_for('portfolio.blog_by_tag', tag=tag) }}"><span class="uk-label uk-background-secondary">#{{ tag }}</span></a>
             </div>
         {% endfor %}
+    </div>
+
+    <hr class="uk-margin-medium">
+
+    <div>
+        <div id="disqus_thread"></div>
+        <script>
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://jedsimson-co-nz.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
 </div>
 {% endmacro %}

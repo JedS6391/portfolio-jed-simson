@@ -36,5 +36,15 @@ def slugify(text):
 def format_date(value, format='%a, %d %b %Y'):
     return value.strftime(format)
 
-def format_tags(tags):
-    return ['{}'.format(tag) for tag in tags.split(', ')]
+def format_value(value):
+    if isinstance(value, str) or isinstance(value, int):
+        # Don't need to do anything special for strings/ints
+        return value
+    elif isinstance(value, list):
+        # Convert the list to a print format.
+        normalised = [v.title() for v in value]
+
+        return ', '.join(normalised)
+    else:
+        # Just convert the value to a string if we get any other type.
+        return str(value)

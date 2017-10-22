@@ -54,7 +54,10 @@ class Blog(object):
 
         posts = list(self._cache.values())
 
-        filtered = [post for post in posts if tag in post['tags'].lower()]
+        filtered = [
+            post for post in posts
+            if tag in post['tags']
+        ]
 
         return filtered
 
@@ -106,6 +109,10 @@ class Blog(object):
             if self.parser:
                 self.parser.convert(text)
                 meta.update({k: v[0] for (k, v) in self.parser.Meta.items()})
+
+            # Split tags into list
+            tag_string = meta['tags']
+            meta['tags'] = tag_string.lower().split(', ')
 
             post = Post(post_id, text, meta, last_modified)
 

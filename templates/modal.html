@@ -13,7 +13,7 @@
                     {% for key, value in post.info %}
                         <tr>
                             <td><b>{{ key }}</b></td>
-                            <td>{{ value }}</td>
+                            <td>{{ value|format_value }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
