@@ -15,7 +15,6 @@ import os
 
 ONE_DAY = 60 * 60 * 24
 
-
 def create_app(config=None):
     app = Flask(__name__)
 
@@ -32,7 +31,6 @@ def create_app(config=None):
     cache_control.init_app(app)
 
     css = Bundle(
-        'css/bootstrap.min.css',
         'css/custom.css',
         'css/uikit.min.css',
         filters='cssmin',
@@ -41,11 +39,12 @@ def create_app(config=None):
     assets.register('css_all', css)
 
     # Use my custom blogging extension
-    blog_manager.init_app(os.environ.get('POSTS_PATH',
-                                         'static/assets/posts/'),
-                          md._instance,
-                          30,      # Invalidate cached posts after 1 day
-                          app)
+    blog_manager.init_app(
+        os.environ.get('POSTS_PATH', 'static/assets/posts/'),
+        md._instance,
+        ONE_DAY, # Invalidate cached posts after 1 day
+        app
+    )
 
     if config:
         # There is a specified configuration
