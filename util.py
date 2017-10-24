@@ -27,13 +27,8 @@ def count_words(text):
 
     lines = text.split('\n')
     idx = first_occurence_of(lines, 'Tags:')
-
-    if idx == -1:
-        # For some reason this post doesn't have tags so we'll just have to approximate
-        # using the original text.
-        body_text = text
-    else:
-        body_text = ''.join(lines[idx + 1:])
+    # Approximate the number of words if the original text has no tag metadata attribute.
+    body_text = text if idx == -1 else ''.join(lines[idx + 1:])
 
     html_tags = re.compile('<.*?>')
     body_text = re.sub(html_tags, '', body_text)
