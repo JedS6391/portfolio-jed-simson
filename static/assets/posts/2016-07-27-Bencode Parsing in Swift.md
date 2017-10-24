@@ -6,34 +6,31 @@ Tags:    Bencode, Swift, Parsing, Personal, Code
 
 Recently I decided to look further into the BitTorrent Protocol, as I have been fascinated by distributed systems (like peer-to-peer) and the communication protocols involved.
 
-As I learnt more about how the protocol works, I thought it would be a good exercise to create a parser for the [Bencode](https://en.wikipedia.org/wiki/Bencode) format, used to store and transfer metadata about a torrent file. My main goal was to create a simple program that simply constructs an internal representation of the Bencoded string and can output in a nicer format (such as JSON).
+As I learnt more about how the protocol works, I thought it would be a good exercise to create a parser for the [Bencode](https://en.wikipedia.org/wiki/Bencode) format &mdash; the format used to store and transfer metadata about a torrent file. My main goal was to create a simple program that is capable of constructing an internal representation of the Bencoded string and can output it in a nicer format (e.g. JSON).
 
 ---
 
 ## Bencode
 
-Bencode is a fairly simple encoding which has four different types:
+Bencode is a relatively straight-forward encoding which has four different types:
 
-**Byte Strings**
+#### Byte Strings
 
 Encoded as `<length>:<string>`, where length is a base ten value representing the length of the string following the colon.
- 
- 
-**Integers**
+  
+#### Integers
 
 Encoded as `i<number>e`.
 
+#### Lists
 
-**Lists**
+Encoded as `l<elements>e`, where elements are Bencoded values themselves (e.g. byte strings, integers).
 
-Encoded as `l<elements>e`, where elements are Bencoded values themselves.
-
-
-**Dictionaries**
+#### Dictionaries
 
 Encoded as `d<elements>e`, where elements are alternating keys and values of any Bencoded type.
 
-**Examples**
+### Examples
 
 <pre>
 <code class="python"># Byte Strings
@@ -47,8 +44,8 @@ i-5e => -5
 l4:abcd3:efge => ['adcd', 'efg']
     
 # Dictionaries
-d13:creation datei1467011725e8:encoding5:UTF-8e => 
-{'creation date': 1467011725, 'encoding': 'UTF-8'}</code>
+d13:creation datei1467011725e8:encoding5:UTF-8e => {'creation date': 1467011725, 'encoding': 'UTF-8'}
+</code>
 </pre>
     
 ## Implementation
@@ -58,12 +55,15 @@ I decided to use Swift as my language of choice for this project, as I had not u
 Swift's Enum type allowed me to create an elegant solution for representing Bencoded types internally.
 
 <pre>
-<code class="swift">enum BEncodedValue {
-    case Dict(Dictionary<String, BEncodedValue>)
+<code class="swift">
+// Here, we represent each of the types of Bencoded values.
+enum BEncodedValue {
+    case Dict(Dictionary&lt;String, BEncodedValue&gt;)
     case List([BEncodedValue])
     case Number(Int64)
     case Str([UInt8])
-}</code>
+}
+</code>
 </pre>
 
 <small>
