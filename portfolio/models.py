@@ -10,11 +10,10 @@ class Post:
         post is responsible for handling the logic to generate those properties.
     '''
 
-    def __init__(self, post_id, text, meta, modified):
+    def __init__(self, post_id, text, meta):
         self.id = post_id
         self.text = text
         self.meta = meta
-        self.last_modified = modified
         self.route_date = datetime.strptime(self['date'], '%B %d, %Y')
         self.year = self.route_date.strftime('%Y')
         self.month = self.route_date.strftime('%m')
@@ -39,11 +38,10 @@ class Post:
         ''' Gives a collection of the metadata attributes. '''
         info = {}
         info['Post ID'] = self.id
-        info['Modified'] = self.last_modified
 
         info.update({k.title(): v for (k, v) in self.meta.items()})
 
-        return info.items()
+        return sorted(info.items(), key=lambda t: t[0])
 
     def __repr__(self):
         return self.__str__()

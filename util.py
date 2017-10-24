@@ -1,8 +1,16 @@
 import string
 import re
 from unicodedata import normalize
+import datetime
 
 PUNCTUATION_RE = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+
+def first_occurence_of(strings, substring):
+    for i, s in enumerate(strings):
+        if substring in s:
+              return i
+
+    return -1
 
 def count_words(text):
     '''
@@ -13,12 +21,26 @@ def count_words(text):
         towards the final total. Additionally, puncutation must be replaced
         by whitespace where appropriate.
     '''
+
+    # First, we need to ignore until the end of the metadata section.
+    # This is signalled by the "Tags" attribute (note this is very specific to my blog implementation).
+
+    lines = text.split('\n')
+    idx = first_occurence_of(lines, 'Tags:')
+
+    if idx == -1:
+        # For some reason this post doesn't have tags so we'll just have to approximate
+        # using the original text.
+        body_text = text
+    else:
+        body_text = ''.join(lines[idx + 1:])
+
     html_tags = re.compile('<.*?>')
-    text = re.sub(html_tags, '', text)
+    body_text = re.sub(html_tags, '', body_text)
 
     punctuation = re.compile('[{}]'.format(re.escape(string.punctuation)))
-    text = punctuation.sub(' ', text)
-    words = text.split()
+    body_text = punctuation.sub(' ', body_text)
+    words = body_text.split()
 
     return len(words)
 
@@ -42,9 +64,10 @@ def format_value(value):
         return value
     elif isinstance(value, list):
         # Convert the list to a print format.
-        normalised = [v.title() for v in value]
-
-        return ', '.join(normalised)
+        return ', '.join(value)
+    elif isinstance(value, datetime.datetime):
+        # Use the nice date formatter for dates
+        return format_date(value)
     else:
         # Just convert the value to a string if we get any other type.
         return str(value)
