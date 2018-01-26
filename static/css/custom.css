@@ -1,6 +1,14 @@
 html, body {
-    font-family: -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif !important;
     color: #666;
+}
+
+body * {
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif !important;
+}
+
+.blog-post-preview {
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .text-center {
