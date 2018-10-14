@@ -23,8 +23,12 @@ def page_not_found(error):
     return render_template('errors/404.html'), 404
 
 @portfolio.route('/.well-known/acme-challenge/mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU')
-def acme_challenge():
+def acme_challenge_portfolio():
     return 'mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
+
+@portfolio.route('/.well-known/acme-challenge/aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0')
+def acme_challenge_www():
+    return 'aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
 
 @portfolio.route('/keybase.txt')
 def keybase():
