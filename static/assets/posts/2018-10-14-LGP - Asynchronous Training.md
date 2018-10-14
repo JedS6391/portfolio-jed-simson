@@ -46,14 +46,14 @@ return runBlocking {
 The new `trainAsync` function has the signature:
 
 <pre>
-<code class="kotlin">abstract suspend fun trainAsync(dataset: Dataset<TProgram>): TrainingJob<TProgram, TMessage></code>
+<code class="kotlin">abstract suspend fun trainAsync(dataset: Dataset&lt;TProgram&gt;): TrainingJob&lt;TProgram, TMessage&gt;</code>
 </pre>
 
 So, how does this work behind the scenes?
 
 ## Implementation
 
-### `SequentialTrainer`	
+### SequentialTrainer
 
 The `SequentialTrainer` implementation is less complicated than the `DistributedTrainer` as it launches a single coroutine that performs all training.
 
@@ -79,7 +79,7 @@ Step two is a little trickier. Kotlin's `ConflatedBroadcastChannel` allows a sen
 
 <pre>
 <code class="kotlin">// ProgressUpdate is our message type, a simple data class left out for brevity.
-val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram>>()
+val progressChannel = ConflatedBroadcastChannel&lt;ProgressUpdate&lt;TProgram&gt;&gt;()
 
 val job = GlobalScope.async {
 	// Training process here...
@@ -110,7 +110,7 @@ To break down what's going on here:
 
 This logic is implemented in the `SequentialTrainingJob` class to simplify some of these operations, but the core logic remains the same.
 
-### `DistributedTrainer`
+### DistributedTrainer
 
 The fundamental concept behind the asynchronous training remains the same as for the `SequentialTrainer`, but there a few more complexities to take care of:
 
@@ -134,14 +134,14 @@ The idea here is that there is a single actor which the training processes send 
 <pre>
 <code class="kotlin">private class TrainingProgressUpdateActor<TProgram>(
     private val totalRuns: Int,
-    private val progressChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram>>
+    private val progressChannel: ConflatedBroadcastChannel&lt;ProgressUpdate&lt;TProgram&gt;&gt;
 ) {
     private var completedTrainers = 0
     // The progress that all trainers share. 
     // Any updates should be broadcast on the progress channel.
     private var progress = 0.0
 
-    suspend fun onReceive(message: ProgressUpdate<TProgram>) {
+    suspend fun onReceive(message: ProgressUpdate&lt;TProgram&gt;) {
         // Basically, we ignore the progress value in the message for any 
         // legitimate updates and let the actor control the progress.
         this.completedTrainers = if (message.result != null) {
@@ -161,10 +161,10 @@ The idea here is that there is a single actor which the training processes send 
 </pre>
 
 <pre>
-<code class="kotlin">val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram>>()
+<code class="kotlin">val progressChannel = ConflatedBroadcastChannel&lt;ProgressUpdate&lt;TProgram&gt;&gt;()
 
 // Our actor will manage the training progress state.
-val progressActor = GlobalScope.actor<ProgressUpdate<TProgram>> {
+val progressActor = GlobalScope.actor&lt;ProgressUpdate&lt;TProgram&gt;&gt; {
     with (TrainingProgressUpdateActor(this@DistributedTrainer.runs, progressChannel)) {
         consumeEach { message ->
             onReceive(message)
