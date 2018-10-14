@@ -132,7 +132,7 @@ The second step is slightly tricker in this scenario as there are multiple train
 The idea here is that there is a single actor which the training processes send messages to. It is the actors responsibility to maintain state about the current progress and update its internal state as messages from the training processes comes in. Each time a message is received by the actor, it will forward the message on the broadcast channel similarly to in the sequential implementation. To simplify the details, the actor is encapsulated in a class:
 
 <pre>
-<code class="kotlin">private class TrainingProgressUpdateActor<TProgram>(
+<code class="kotlin">private class TrainingProgressUpdateActor&lt;TProgram&gt;(
     private val totalRuns: Int,
     private val progressChannel: ConflatedBroadcastChannel&lt;ProgressUpdate&lt;TProgram&gt;&gt;
 ) {
