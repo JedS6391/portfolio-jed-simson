@@ -22,6 +22,10 @@ def page_not_found(error):
     # Nice to have a custom 404 error handler.
     return render_template('errors/404.html'), 404
 
+@portfolio.route('.well-known/acme-challenge/mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU')
+def acme_challenge():
+    return 'mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
+
 @portfolio.route('/keybase.txt')
 def keybase():
     # Let's keybase verify my domain actually belongs to me.

@@ -172,7 +172,7 @@ class Blog(object):
 
             current += 1
 
-        blog_posts = sorted(blog_posts.items(), key=lambda i: i[1]['date'], reverse=True)
+        blog_posts = sorted(blog_posts.items(), key=lambda i: i[1].route_date, reverse=True)
 
         for route, post in blog_posts:
             self._cache[route] = post

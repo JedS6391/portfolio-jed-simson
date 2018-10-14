@@ -1,10 +1,10 @@
 html, body {
-    font-family: 'Lato', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif !important;
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
     color: #666;
 }
 
 body * {
-    font-family: 'Lato', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif !important;
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
 }
 
 .blog-post-preview {
@@ -132,16 +132,18 @@ body * {
     border-radius: 0;
 }
 
-code, pre {
+code {
     background: #f5f7f9 !important;
     color: #69c;
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'Source Code Pro', monospace !important;
     font-size: 12px;
 }
 
-pre {
-    padding-left: 0.4rem;
-    border-left: 2px solid #69c;
+code > span {
+    background: #f5f7f9 !important;
+    color: #69c;
+    font-family: 'Source Code Pro', monospace !important;
+    font-size: 12px;
 }
 
 .form-control {
