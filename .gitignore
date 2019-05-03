@@ -17,6 +17,7 @@ develop-eggs
 
 include/
 lib/
+.webassets-cach/e
 
 # Installer logs
 pip-log.txt
