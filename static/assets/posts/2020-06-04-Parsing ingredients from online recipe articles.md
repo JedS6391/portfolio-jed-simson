@@ -16,9 +16,8 @@ In starting the process, I wished to discover if there was a common format that 
 
 The documentation describes that a website can add a `script` tag, with the `application/ld+json` type containing metadata about the recipe. This is great, as it means the data is in an easily consumable format. I decided to out-of-scope sites that don't adhere to this format for now.
 
-```json
-<script type="application/ld+json">
-{
+<pre>
+<code class="json">{
     "@context": "https://schema.org/",
     "@type": "Recipe",
     "name": "Party Coffee Cake",
@@ -54,9 +53,8 @@ The documentation describes that a website can add a `script` tag, with the `app
     "3/4 cup milk"
     ],
     ...
-}
-</script>
-```
+}</code>
+</pre>
 
 The algorithm I devised for extracting this content is as follows:
 
@@ -93,8 +91,8 @@ Armed with a set of template definition (which describe the sequence of token re
 
 So far this post has been a bit hand-wavey, so to cement these ideas a bit further, here's an example of the library I built for parsing ingredients in action:
 
-```csharp
-// Token readers are responsible for reading a component from an 
+<pre>
+<code class="csharp">// Token readers are responsible for reading a component from an 
 // ingredient string into a token (e.g. cup -> UnitToken("cup")).
 // Each token reader will map to a token type.
 var tokenReaders = new ITokenReader[] 
@@ -133,7 +131,8 @@ if (parser.TryParseIngredient("1 cup flour", out var parseResult))
     var unit = parseResult.Unit;
     var ingredient = parseResult.Ingredient;
 }
-```
+</code>
+</pre>
 
 ## Wrapping up
 
