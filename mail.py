@@ -1,6 +1,6 @@
+from flask import current_app
 import sendgrid
 from sendgrid.helpers.mail import Email, Content, Mail
-import threading
 import os
 
 class Mailer(object):
@@ -10,19 +10,20 @@ class Mailer(object):
         self.default_from = default_from
 
     def send_email(self, to, subject, template):
-        sg = sendgrid.SendGridAPIClient(apikey=self.api_key)
         message = self.create_message(to, subject, template)
 
-        def send_message(message):
-            response = sg.client.mail.send.post(request_body=message.get())
+        self.send_message(message)
 
-            print('Email response status: {}'.format(response.status_code))
-            return response.status_code == 200
+    def send_message(self, message):
+        sg = sendgrid.SendGridAPIClient(apikey=self.api_key)
 
-        sender = threading.Thread(name='mail_sender',
-                                  target=send_message,
-                                  args=(message,))
-        sender.start()
+        response = sg.client.mail.send.post(request_body=message.get())
+        
+        if response.status_code != 200:
+            current_app.logger.error('Failed to send email')
+            current_app.logger.error(response)
+        else:
+            current_app.logger.debug('Email sent')
 
     def create_message(self, to, subject, template):
         from_email = Email(self.default_from)
