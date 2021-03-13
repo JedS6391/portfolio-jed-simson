@@ -15,7 +15,6 @@ from .forms import ContactForm
 from .helpers import Pagination
 from blog import blog_manager
 from mail import email_manager
-from cache import cache
 
 portfolio = Blueprint('portfolio', __name__)
 
@@ -45,18 +44,15 @@ def keybase():
 @portfolio.route('/')
 @portfolio.route('/home/')
 @portfolio.route('/index/')
-@cache.cached(timeout=DEFAULT_CACHE_CONTROL_TIME)
 def home():
     return render_template('home.html')
 
 @portfolio.route('/about/')
-@cache.cached(timeout=DEFAULT_CACHE_CONTROL_TIME)
 def about():
     return render_template('about.html')
 
 @portfolio.route('/blog/')
 @portfolio.route('/blog/page/<int:page>/')
-@cache.cached(timeout=DEFAULT_CACHE_CONTROL_TIME)
 def blog(page=1):
     # Here, we handle two different routes: if the default /blog/
     # view is being accessed, we're essentially rendering page 1
@@ -83,7 +79,6 @@ def blog(page=1):
                            pagination=pagination)
 
 @portfolio.route('/blog/<year>/<month>/<day>/<slug>')
-@cache.cached(timeout=DEFAULT_CACHE_CONTROL_TIME)
 def blog_post(year, month, day, slug):
     # Reconstruct key for the given post, so we can render just that post.
     key = '{}/{}/{}/{}'.format(year, month, day, slug)
@@ -99,7 +94,6 @@ def blog_post(year, month, day, slug):
         abort(404)
 
 @portfolio.route('/blog/tag/<tag>/')
-@cache.cached(timeout=DEFAULT_CACHE_CONTROL_TIME)
 def blog_by_tag(tag):
     filtered_posts = blog_manager.get_with_tag(tag.lower())
 
