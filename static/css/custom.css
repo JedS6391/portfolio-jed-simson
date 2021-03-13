@@ -166,3 +166,7 @@ code > span {
 .rc-anchor {
     border-radius: 0 !important;
 }
+
+.contact-form-errors {
+    display: inline-block;
+}
