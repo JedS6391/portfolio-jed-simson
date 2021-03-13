@@ -53,7 +53,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript">
+    <script nonce="{{ csp_nonce() }}" type="text/javascript">
         $(document).ready(function() {
             // Don't allow clicking the disabled pagination links
             $('.disabled-cursor').click(function() {

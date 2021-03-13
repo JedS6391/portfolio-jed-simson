@@ -41,7 +41,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript">
+    <script nonce="{{ csp_nonce() }}" type="text/javascript">
         $(document).ready(function() {
             // Initialise code highlighting library
             hljs.initHighlightingOnLoad();
