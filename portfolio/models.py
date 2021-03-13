@@ -20,7 +20,7 @@ class Post:
         self.day = self.route_date.strftime('%d')
 
     def __getitem__(self, name):
-        # Let's us access meta properties with obj['key'] syntax.
+        # Allows us access meta properties with obj['key'] syntax.
         return self.meta[name]
 
     @property

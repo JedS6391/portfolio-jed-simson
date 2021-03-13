@@ -1,14 +1,17 @@
+from typing import Optional, Text
+from collections import OrderedDict
+from util import count_words
+from markdown import Markdown
+from flask import Flask, current_app as app
+from threading import Lock
+
 import os
 import codecs
 import time
 import datetime
-from collections import OrderedDict
-from util import count_words
+import uuid
 
 from portfolio.models import Post
-
-class PostsNotLoadedException(Exception):
-    pass
 
 class InvalidPathException(Exception):
     pass
@@ -28,17 +31,15 @@ class Blog(object):
         that all data is loaded and cached.
     '''
 
-    def __init__(self, path=None, parser=None, max_age=None, app=None):
+    def __init__(self):
         self._cache = OrderedDict()
-        self.path = path
-        self.parser = parser
-        self.max_age = max_age
-        self.loaded = False
+        self.path: Optional[Text] = None
+        self.parser: Optional[Markdown] = None
+        self.max_age: int = -1
+        self.loading_lock = Lock()
+        self.loaded: bool = False
 
-        if app:
-            self.init_app(path, parser, app)
-
-    def init_app(self, path, parser, max_age, app):
+    def init_app(self, path: Text, parser: Markdown, app: Flask, max_age: int):
         ''' Allows initialisation to be defered until Flask app creation. '''
 
         if 'blog' not in app.extensions:
@@ -50,14 +51,13 @@ class Blog(object):
         self.parser = parser
         self.max_age = max_age
 
-        self.app = app
-        self._load()
+        self.app = app        
 
     def check_loaded(self):
         ''' Verifies that the loading process has been completed. '''
 
         if not self.loaded:
-            raise PostsNotLoadedException('Posts were queried but were not loaded beforehand.')
+            self._load()
 
     def maybe_clear_cache(self):
         ''' Clears the cache, but only if it has reached ``self.max_age``. '''
@@ -65,9 +65,11 @@ class Blog(object):
         if (time.time() - self.cache_age) > self.max_age:
             # Expire the cache and reload any posts
             self._cache = OrderedDict()
+            self.loaded = False
+            
             self._load()
 
-    def get_range(self, skip, limit):
+    def get_range(self, skip: int, limit: int):
         '''
             Fetches a range of posts.
 
@@ -88,7 +90,7 @@ class Blog(object):
 
         return posts, len(posts)
 
-    def get(self, key):
+    def get(self, key: str):
         ''' Returns the post identified by the key given. '''
 
         self.check_loaded()
@@ -96,7 +98,7 @@ class Blog(object):
 
         return self._cache[key]
 
-    def get_with_tag(self, tag):
+    def get_with_tag(self, tag: str):
         ''' Gets all posts with the specified tag. '''
 
         self.check_loaded()
@@ -119,67 +121,70 @@ class Blog(object):
             https://github.com/longboardcat/Flask-Portfolio
         '''
 
-        if not os.path.exists(self.path):
-            # The path given for searching for blog posts does not exist, so throw an early error.
-            raise InvalidPathException('Supplied path for blog posts does not exist - {}'.format(self.path))
+        with self.loading_lock:
+            if self.loaded:
+                # Another thread has loaded the posts while waiting for the lock so there's nothing to do.
+                return
 
-        blog_posts = {}
-        filenames = os.listdir(self.path)
+            app.logger.debug('Loading blog posts from {}'.format(self.path))
 
-        # Handle hidden files that may exist on Mac
-        if '.DS_Store' in filenames:
-            filenames.remove('.DS_Store')
+            if not os.path.exists(self.path):
+                # The path given for searching for blog posts does not exist, so throw an early error.
+                raise InvalidPathException('Supplied path for blog posts does not exist - {}'.format(self.path))
 
-        current = 1
+            blog_posts = {}
+            filenames = os.listdir(self.path)            
 
-        # Go through each file and construct an appropriate model
-        for file in filenames:
-            # Get system info about the file
-            st = os.stat(self.path + file)
-            last_modified = datetime.datetime.fromtimestamp(st.st_mtime)
-            meta = {}
+            # Go through each file and construct an appropriate model
+            for file in filenames:
+                post = self.create_post(file)
 
-            post_id = 'blog_post_{}'.format(str(current))
+                if post.route in blog_posts:
+                    # A blog post made on the exact same day and with the same title as another? Unlikely!
+                    # But if this happens we'll just throw an error so that the user can sort their posts out...
+                    raise DuplicationPostException('Duplicate blog creation date + title combination {}'.format(post.route))
+                else:
+                    app.logger.debug('Processed post: {}'.format(post.route))
 
-            # Collect a bunch of metadata about this file (and the post it contains)
-            meta['last modified'] = last_modified
-            meta['filename'] = file
-            meta['filesize'] = st.st_size
+                    blog_posts[post.route] = post
 
-            with codecs.open(self.path + file, 'r', encoding='utf-8') as f:
-                text = f.read()
+            blog_posts = sorted(blog_posts.items(), key=lambda i: i[1].route_date, reverse=True)
 
-            # Get an approximate count of the number of words in the post.
-            meta['words'] = count_words(text)
+            for route, post in blog_posts:
+                self._cache[route] = post
 
-            # Use the markdown parser to parse convert the raw text and collect metadata.
-            if self.parser:
-                self.parser.convert(text)
-                meta.update({k: v[0] for (k, v) in self.parser.Meta.items()})
+            self.cache_age = time.time()
+            self.loaded = True
 
-            # Split tags into list
-            tag_string = meta['tags']
-            meta['tags'] = tag_string.lower().split(', ')
+    def create_post(self, filename: str) -> Post:
+        # Get system info about the file
+        st = os.stat(self.path + filename)
+        last_modified = datetime.datetime.fromtimestamp(st.st_mtime)
+        meta = {}
 
-            post = Post(post_id, text, meta)
+        post_id = 'blog_post_{}'.format(str(uuid.uuid4()))
 
-            if post.route in blog_posts:
-                # A blog post made on the exact same day and with the same title as another? Unlikely!
-                # But if this happens we'll just throw an error so that the user can sort their posts out...
-                raise DuplicationPostException('Duplicate blog creation date + title combination {}'.format(post.route))
-            else:
-                blog_posts[post.route] = post
+        # Collect a bunch of metadata about this file (and the post it contains)
+        meta['last modified'] = last_modified
+        meta['filename'] = filename
+        meta['filesize'] = st.st_size
 
-            current += 1
+        with codecs.open(self.path + filename, 'r', encoding='utf-8') as f:
+            text = f.read()
 
-        blog_posts = sorted(blog_posts.items(), key=lambda i: i[1].route_date, reverse=True)
+        # Get an approximate count of the number of words in the post.
+        meta['words'] = count_words(text)
 
-        for route, post in blog_posts:
-            self._cache[route] = post
+        # Use the markdown parser to parse convert the raw text and collect metadata.
+        if self.parser:
+            self.parser.convert(text)
+            meta.update({k: v[0] for (k, v) in self.parser.Meta.items()})
 
-        self.cache_age = time.time()
-        self.loaded = True
+        # Split tags into list
+        tag_string = meta['tags']
+        meta['tags'] = tag_string.lower().split(', ')
 
+        return Post(post_id, text, meta)
 
 # For use in ``app.py``, i.e. app.init_app(blog_manager)
 blog_manager = Blog()

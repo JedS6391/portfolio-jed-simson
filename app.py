@@ -7,6 +7,8 @@ from flask_assets import Environment, Bundle
 
 from markdown.extensions.meta import MetaExtension
 
+import logging
+
 from portfolio.views import portfolio
 from blog import blog_manager
 from util import format_date, format_value
@@ -42,8 +44,8 @@ def create_app(config=None):
     blog_manager.init_app(
         os.environ.get('POSTS_PATH', 'static/assets/posts/'),
         md._instance,
+        app,
         ONE_DAY, # Invalidate cached posts after 1 day
-        app
     )
 
     if config:
@@ -59,9 +61,15 @@ def create_app(config=None):
 
     app.register_blueprint(portfolio)
 
+    logging.basicConfig(level=app.config['LOG_LEVEL'])
+
+    app.logger.info('App configured')
+
     return app
 
 if __name__ == '__main__':
     app = create_app()
+
+    app.logger.info('App starting...')
 
     app.run(host='0.0.0.0', port=5050)

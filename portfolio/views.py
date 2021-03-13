@@ -7,7 +7,8 @@ from flask import (
     redirect, 
     url_for, 
     abort,
-    send_from_directory
+    send_from_directory,
+    current_app as app
 )
 
 from .forms import ContactForm
@@ -38,7 +39,7 @@ def acme_challenge_www():
 
 @portfolio.route('/keybase.txt')
 def keybase():
-    # Let's keybase verify my domain actually belongs to me.
+    # Allows keybase verify my domain actually belongs to me.
     return send_from_directory('static/', 'keybase.txt')
 
 @portfolio.route('/')
@@ -58,7 +59,7 @@ def about():
 @cache.cached(timeout=DEFAULT_CACHE_CONTROL_TIME)
 def blog(page=1):
     # Here, we handle two different routes: if the default /blog/
-    # view is being accessed, where essentially rendering page 1
+    # view is being accessed, we're essentially rendering page 1
     # of the posts. Alternatively, if a page is specified, we
     # need to retrieve the posts for that page.
 
@@ -110,7 +111,6 @@ def blog_by_tag(tag):
                            tag=tag.lower())
 
 @portfolio.route('/contact/', methods=['GET', 'POST'])
-@cache.cached(timeout=DEFAULT_CACHE_CONTROL_TIME)
 def contact():
     form = ContactForm()
 
