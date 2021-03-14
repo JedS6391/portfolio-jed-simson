@@ -17,21 +17,17 @@
 {% block content %}
     <div class="uk-section uk-section-default section-pad">
         <div class="uk-container uk-grid-small" uk-grid>
-
             {% if post %}
-                {% from "article.html" import article_ %}
-                {{ article_(1, post) }}
+                {% from "blog/post-content.html" import post_content_ %}
+                {{ post_content_(1, post) }}
 
-                {% from "modal.html" import modal %}
-                {{ modal(1, post) }}
+                {% from "blog/modal.html" import modal_ %}
+                {{ modal_(1, post) }}
             {% else %}
                 <div class="uk-card uk-card-body text-center">
-                    <p class="text-danger">
-                        <strong>Sorry, the post you are looking for doesn't exist!</strong>
-                    </p>
+                    <p class="text-danger"><strong>Sorry, the post you are looking for doesn't exist!</strong></p>
                 </div>
             {% endif %}
-
         </div>
     </div>
 
@@ -45,10 +41,6 @@
         $(document).ready(function() {
             // Initialise code highlighting library
             hljs.initHighlightingOnLoad();
-
-            // Bootstrap v4 doesn't style blockquote elements by default,
-            // but instead requires a class to be applied
-            $('blockquote').addClass('blockquote');
         });
     </script>
 {% endblock %}

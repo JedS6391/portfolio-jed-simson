@@ -1,4 +1,4 @@
-{% macro post_(idx, post, pagination, skip, show_full_post) %}
+{% macro list_post_(idx, post, pagination, skip, show_full_post) %}
 <div class="uk-card uk-card-default uk-card-hover uk-width-1-1">
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
@@ -7,9 +7,11 @@
 
                 <div class="uk-align-right">
                     <small class="uk-text-muted">
-                        {% if pagination %}
-                            {{ idx + skip }} of {{ pagination.total_count }} &blacktriangledown;
-                        {% endif %}
+                        <span uk-icon="icon: more">
+                            {% if pagination %}
+                                {{ idx + skip }} of {{ pagination.total_count }} 
+                            {% endif %}
+                        </span>
                     </small>
                     <div uk-dropdown="mode: click; boundary: .uk-card" id="blog_post_dropdown_{{ idx }}">
                         <ul class="uk-nav uk-dropdown-nav">
@@ -27,7 +29,7 @@
     </div>
 
     <div class="uk-card-body">
-        {% if post.words <= 500 or show_full_post %}
+        {% if show_full_post %}
             {{ post.text|markdown }}
         {% else %}
             {{ post.text|markdown|truncate(800, end='...') }}

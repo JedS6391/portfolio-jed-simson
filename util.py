@@ -5,41 +5,14 @@ import datetime
 
 PUNCTUATION_RE = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
-def first_occurence_of(strings, substring):
+def first_occurence_of(strings, substring) -> int:
     for i, s in enumerate(strings):
         if substring in s:
               return i
 
     return -1
 
-def count_words(text):
-    '''
-        Count the words in a string given by `text`.
-
-        The text generally will come from a Markdown file, which allows
-        for arbitary HTML tags, which must be removed as they do not count
-        towards the final total. Additionally, puncutation must be replaced
-        by whitespace where appropriate.
-    '''
-
-    # First, we need to ignore until the end of the metadata section.
-    # This is signalled by the "Tags" attribute (note this is very specific to my blog implementation).
-
-    lines = text.split('\n')
-    idx = first_occurence_of(lines, 'Tags:')
-    # Approximate the number of words if the original text has no tag metadata attribute.
-    body_text = text if idx == -1 else ''.join(lines[idx + 1:])
-
-    html_tags = re.compile('<.*?>')
-    body_text = re.sub(html_tags, '', body_text)
-
-    punctuation = re.compile('[{}]'.format(re.escape(string.punctuation)))
-    body_text = punctuation.sub(' ', body_text)
-    words = body_text.split()
-
-    return len(words)
-
-def slugify(text):
+def slugify(text: str) -> str:
     result = []
 
     for word in PUNCTUATION_RE.split(text.lower()):

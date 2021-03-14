@@ -15,27 +15,31 @@
 {% endblock %}
 
 {% block content %}
+    <div id="top-anchor"></div>
+
+    <!-- Header -->
     <div class="uk-section uk-section-default section-pad">
-        <h1 class="uk-heading-primary">Blog</h1>
-        <h3 class="uk-heading-bullet">#{{ tag }}</h3>
+        <div class="uk-container">
+            <h1 class="uk-heading-primary">Blog</h1>
+            <h3 class="uk-heading-bullet">#{{ tag }}</h3>
+        </div>
+    </div>
 
-        <div class="uk-container uk-grid-small" uk-grid>
-
+    <!-- List -->
+    <div class="uk-section uk-section-default section-pad">
+        <div class="uk-container blog-post-grid" uk-grid>
             {% for post in posts %}
-                {% from "post.html" import post_ %}
-                {{ post_(loop.index, post, None, 0, False) }}
+                {% from "blog/list-post.html" import list_post_ %}
+                {{ list_post_(loop.index, post, None, 0, False) }}
 
-                {% from "modal.html" import modal %}
-                {{ modal(loop.index, post) }}
+                {% from "blog/modal.html" import modal_ %}
+                {{ modal_(loop.index, post) }}
 
             {% else %}
                 <div class="uk-card uk-card-body uk-width-1-1">
-                    <p class="text-danger text-center">
-                        <strong>Sorry, no posts with that tag exist!</strong>
-                    </p>
+                    <p class="text-danger text-center"><strong>Sorry, no posts with that tag exist!</strong></p>
                 </div>
             {% endfor %}
-
         </div>
     </div>
 
@@ -45,7 +49,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript">
+    <script nonce="{{ csp_nonce() }}" type="text/javascript">
         $(document).ready(function() {
             // Don't allow clicking the disabled pagination links
             $('.disabled-cursor').click(function() {
@@ -65,10 +69,6 @@
 
             // Initialise code highlighting library
             hljs.initHighlightingOnLoad();
-
-            // Bootstrap v4 doesn't style blockquote elements by default,
-            // but instead requires a class to be applied
-            $('blockquote').addClass('blockquote');
         });
     </script>
 {% endblock %}

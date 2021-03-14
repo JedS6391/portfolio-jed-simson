@@ -17,31 +17,30 @@
 {% block content %}
     <div id="top-anchor"></div>
 
+    <!-- Header + pagination -->
     <div class="uk-section uk-section-default section-pad">
         <div class="uk-container">
             <h1 class="uk-heading-primary">Blog</h1>
 
-            {% from "pagination.html" import pagination_ %}
+            {% from "blog/pagination.html" import pagination_ %}
             {{ pagination_(pagination) }}
-
         </div>
     </div>
 
+    <!-- List -->
     <div class="uk-section uk-section-default section-pad">
         <div class="uk-container blog-post-grid" uk-grid>
             {% for post in blog_posts %}
 
-                    {% from "post.html" import post_ %}
-                    {{ post_(loop.index, post, pagination, skip, False) }}
+                {% from "blog/list-post.html" import list_post_ %}
+                {{ list_post_(loop.index, post, pagination, skip, False) }}
 
-                    {% from "modal.html" import modal %}
-                    {{ modal(loop.index, post) }}
+                {% from "blog/modal.html" import modal_ %}
+                {{ modal_(loop.index, post) }}
 
             {% else %}
                 <div class="uk-card uk-card-body text-center">
-                    <p class="text-danger">
-                        <strong>Sorry, I have not made any blog posts yet!</strong>
-                    </p>
+                    <p class="text-danger"><strong>Sorry, I have not made any blog posts yet!</strong></p>
                 </div>
             {% endfor %}
         </div>
@@ -73,10 +72,6 @@
 
             // Initialise code highlighting library
             hljs.initHighlightingOnLoad();
-
-            // Bootstrap v4 doesn't style blockquote elements by default,
-            // but instead requires a class to be applied
-            $('blockquote').addClass('blockquote');
         });
     </script>
 {% endblock %}

@@ -1,16 +1,20 @@
 import os
 from typing import Any, List, Callable
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from flaskext.markdown import Markdown
 from flask_compress import Compress
 from flask_assets import Environment, Bundle
 from flask_talisman import Talisman
 
+import sentry_sdk as sentry
+from sentry_sdk.integrations.flask import FlaskIntegration as SentryFlaskIntegration
+
 import logging
 
 from portfolio.views import portfolio as portfolio_blueprint
 from blog import blog_manager
+from mail import email_manager
 from util import format_date, format_value
 from config import Config
 
@@ -48,12 +52,19 @@ class PortfolioBuilder:
 
         self.app.logger.info('App logging configured')
 
-def create_app(config=None):
+def create_app(config=None) -> Flask:
+    ''' Creates a ``Flask`` app instance that represents the portfolio.
+
+        The instance returned will be configured using ``config`` or if not available
+        will read which configuration to use from the ``APP_SETTINGS` environment variable.
+    '''
     app = Flask(__name__)
     portfolio = PortfolioBuilder(app, [
         configure_markdown_and_blog,
+        configure_mailer,
         configure_compression_and_asset_bundling,
         configure_security,
+        configure_monitoring,
         configure_blueprints
     ])
 
@@ -70,7 +81,7 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
     # Enable Markdown for better/simpler blog posts
     md = Markdown(app, extensions=['markdown.extensions.meta'])
 
-    app.logger.debug('Configuring blog manager')
+    app.logger.debug('Configuring blog manager...')
 
     # Configure the blog
     if 'blog' not in app.extensions:
@@ -79,7 +90,7 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
     app.extensions['blog'] = blog_manager
 
     blog_manager.initialise(
-        path=os.environ.get('POSTS_PATH', 'static/assets/posts/'),
+        path=app.config['POSTS_PATH'],
         parser=md._instance,    
         max_cache_age=ONE_DAY
     )
@@ -91,6 +102,14 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
 
     return app
 
+def configure_mailer(app: Flask) -> Flask:
+    email_manager.initialise(
+        api_key=app.config['SENDGRID_API_KEY'],
+        default_from= app.config['SENDGRID_DEFAULT_FROM']
+    )
+
+    return app
+ 
 def configure_compression_and_asset_bundling(app: Flask) -> Flask:
     app.logger.debug('Configuring compression for static files...')
 
@@ -114,8 +133,18 @@ def configure_compression_and_asset_bundling(app: Flask) -> Flask:
 
     return app
 
+def configure_monitoring(app: Flask) -> Flask:
+    app.logger.debug('Configuring app monitoring...')
+
+    sentry.init(
+        dsn=app.config['SENTRY_DSN'],
+        integrations=[SentryFlaskIntegration()]
+    )
+
+    return app
+
 def configure_security(app: Flask) -> Flask:
-    app.logger.debug('Configuring security features')
+    app.logger.debug('Configuring security features...')
 
     # Enable Flask-Talisman to automatically set HTTP headers for web app security issues
     Talisman(
@@ -123,16 +152,39 @@ def configure_security(app: Flask) -> Flask:
         content_security_policy=app.config['CONTENT_SECURITY_POLICY'],
         content_security_policy_nonce_in=['script-src'])
 
+    app.logger.debug('Configuring ACME challenge routes...')
+
+    def acme_challenge_portfolio() -> str:
+        return 'mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU'
+
+    def acme_challenge_www() -> str:
+        return 'aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
+
+    # Set routes for ACME challenges needed for Let's Encrypt verification
+    app.add_url_rule(
+        rule='/.well-known/acme-challenge/mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU',
+        view_func=acme_challenge_portfolio
+    )
+
+    app.add_url_rule(
+        rule='/.well-known/acme-challenge/aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0',
+        view_func=acme_challenge_www
+    )
+
+    app.logger.debug('Configuring Keybase verification routes...')
+
+    # Set up routes to support Keybase verification
+    def keybase():
+        return send_from_directory('static/', 'keybase.txt')
+
+    app.add_url_rule(
+        rule='/keybase.txt',
+        view_func=keybase
+    )
+
     return app
 
 def configure_blueprints(app: Flask) -> Flask:
     app.register_blueprint(portfolio_blueprint)
 
     return app
-
-if __name__ == '__main__':
-    app = create_app()
-
-    app.logger.info('App starting...')
-
-    app.run(host='0.0.0.0', port=5050)
