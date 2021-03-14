@@ -7,7 +7,8 @@ from flask import (
     redirect, 
     url_for, 
     abort,
-    send_from_directory
+    send_from_directory,
+    current_app as app
 )
 
 from .forms import ContactForm
@@ -17,58 +18,54 @@ from mail import email_manager
 
 portfolio = Blueprint('portfolio', __name__)
 
-CONTACT_EMAIL = os.environ['CONTACT_EMAIL']
-PER_PAGE = int(os.environ.get('PER_PAGE', 10))
-DEFAULT_CACHE_CONTROL_TIME = 21600    # 6 hours
-
-
 @portfolio.app_errorhandler(404)
 def page_not_found(error):
-    # Nice to have a custom 404 error handler.
+    ''' Renders a 404 error page. '''
     return render_template('errors/404.html'), 404
 
 @portfolio.route('/.well-known/acme-challenge/mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU')
 def acme_challenge_portfolio():
+    # To support Let's Encrypt verification
     return 'mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
 
 @portfolio.route('/.well-known/acme-challenge/aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0')
 def acme_challenge_www():
+    # To support Let's Encrypt verification
     return 'aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
 
 @portfolio.route('/keybase.txt')
 def keybase():
-    # Allows keybase verify my domain actually belongs to me.
+    # To support Keybase verification
     return send_from_directory('static/', 'keybase.txt')
 
 @portfolio.route('/')
 @portfolio.route('/home/')
 @portfolio.route('/index/')
 def home():
+    ''' Renders the home page. '''
     return render_template('home.html')
 
 @portfolio.route('/about/')
 def about():
+    ''' Renders the about page. '''
     return render_template('about.html')
 
 @portfolio.route('/blog/')
 @portfolio.route('/blog/page/<int:page>/')
 def blog(page=1):
-    # Here, we handle two different routes: if the default /blog/
-    # view is being accessed, we're essentially rendering page 1
-    # of the posts. Alternatively, if a page is specified, we
-    # need to retrieve the posts for that page.
+    ''' Renders the main blog list page. '''
+    # Here, we handle two different routes: 
+    #   1. '/blog/': we render page 1 of the posts. 
+    #   2. '/blog/page/<int:page>/': we render the posts for the specific page.
+    
+    posts_per_page = app.config['POSTS_PER_PAGE']
+    skip = (page - 1) * posts_per_page
 
-    # How far in are we?
-    skip = (page - 1) * PER_PAGE
-
-    # How many pages do we need?
-    limit = PER_PAGE
+    limit = posts_per_page
     blog_posts, count = blog_manager.get_range(skip, limit)
-    pagination = Pagination(page, PER_PAGE, count)
+    pagination = Pagination(page, posts_per_page, count)
 
-    # Handle the case where we're asked for a page that doesn't
-    # actually exist because there are not enough posts to warrant
-    # that number of pages.
+    # If we're asked for a page that doesn't actually exist just redirect back to the main blog page.
     if not blog_posts and page != 1:
         return redirect(url_for('portfolio.blog'))
 
@@ -79,26 +76,24 @@ def blog(page=1):
 
 @portfolio.route('/blog/<year>/<month>/<day>/<slug>')
 def blog_post(year, month, day, slug):
-    # Reconstruct key for the given post, so we can render just that post.
+    ''' Renders the blog post page. '''
     key = '{}/{}/{}/{}'.format(year, month, day, slug)
 
-    try:
-        # Let the manager worry about getting the correct post.
-        # If we get a key error, then we're probably getting an invalid request.
+    try:    
         post = blog_manager.get(key)
 
         return render_template('blog_post.html', post=post)
     except KeyError:
-        # No post found... redirect to the 404 page.
+        # If we get a key error, then we're probably getting an invalid request.
         abort(404)
 
 @portfolio.route('/blog/tag/<tag>/')
 def blog_by_tag(tag):
+    ''' Renders the blog list page, with the posts filtered by the specified tag. '''
     filtered_posts = blog_manager.get_with_tag(tag.lower())
 
-    # We don't 404 if there are no matching posts -- it doesn't really make sense as the
-    # page for showing matching posts exists, there is just no data to present.
-    # Instead, we inform the user that there are no matching posts in the template.
+    # Note we don't 404 if there are no matching posts - it just means there 
+    # will be no posts to render on the page.
     return render_template('blog_by_tag.html',
                            posts=filtered_posts,
                            tag=tag.lower())
@@ -107,29 +102,26 @@ def blog_by_tag(tag):
 def contact():
     form = ContactForm()
 
-    # Check that the information provided is alright.
     if form.validate_on_submit():
         name = str(form.name.data)
         email = str(form.email.data)
         message = str(form.message.data)
 
-        # Build our email
+        # The email content is rendered as HTML.
         html = render_template('email/message.html',
                                name=name,
                                email=email,
                                message=message)
 
-        subject = 'New message from {} <{}> | Portfolio'.format(name, email)
+        subject = 'New message from {} [{}] | Portfolio'.format(name, email)
 
-        email_manager.send_email(CONTACT_EMAIL, subject, html)
+        email_manager.send_email(app.config['CONTACT_EMAIL'], subject, html)
 
-        flash('Your message has made its way to my inbox &mdash; ' +
-              'I will try to respond promptly!')
-
-        # Send the user back to the contact page so they can see the message.
+        flash('Your message has made its way to my inbox. I will try to respond promptly!')
+        
         return redirect(url_for('portfolio.contact'))
 
-    # Something invalid was provided -- let the user try again with the error information.
+    # Something invalid was provided. Let the user try again with the error information.
     return render_template('contact.html',
                            form=form,
                            errors=form.errors.keys())

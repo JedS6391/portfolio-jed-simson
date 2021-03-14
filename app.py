@@ -11,6 +11,7 @@ import logging
 
 from portfolio.views import portfolio as portfolio_blueprint
 from blog import blog_manager
+from mail import email_manager
 from util import format_date, format_value
 from config import Config
 
@@ -48,10 +49,16 @@ class PortfolioBuilder:
 
         self.app.logger.info('App logging configured')
 
-def create_app(config=None):
+def create_app(config=None) -> Flask:
+    ''' Creates a ``Flask`` app instance that represents the portfolio.
+
+        The instance returned will be configured using ``config`` or if not available
+        will read which configuration to use from the ``APP_SETTINGS` environment variable.
+    '''
     app = Flask(__name__)
     portfolio = PortfolioBuilder(app, [
         configure_markdown_and_blog,
+        configure_mailer,
         configure_compression_and_asset_bundling,
         configure_security,
         configure_blueprints
@@ -79,7 +86,7 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
     app.extensions['blog'] = blog_manager
 
     blog_manager.initialise(
-        path=os.environ.get('POSTS_PATH', 'static/assets/posts/'),
+        path=app.config['POSTS_PATH'],
         parser=md._instance,    
         max_cache_age=ONE_DAY
     )
@@ -91,6 +98,14 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
 
     return app
 
+def configure_mailer(app: Flask) -> Flask:
+    email_manager.initialise(
+        api_key=app.config['SENDGRID_API_KEY'],
+        default_from= app.config['SENDGRID_DEFAULT_FROM']
+    )
+
+    return app
+ 
 def configure_compression_and_asset_bundling(app: Flask) -> Flask:
     app.logger.debug('Configuring compression for static files...')
 
@@ -129,10 +144,3 @@ def configure_blueprints(app: Flask) -> Flask:
     app.register_blueprint(portfolio_blueprint)
 
     return app
-
-if __name__ == '__main__':
-    app = create_app()
-
-    app.logger.info('App starting...')
-
-    app.run(host='0.0.0.0', port=5050)

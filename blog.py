@@ -1,6 +1,5 @@
-from typing import Optional, Text
+from typing import Optional, Text, Tuple, List
 from collections import OrderedDict
-from util import count_words
 from markdown import Markdown
 import logging
 from threading import Lock
@@ -22,20 +21,19 @@ class InvalidPathException(Exception):
 class DuplicationPostException(Exception):
     pass
 
-class Blog(object):
-    '''
-        Manager for blog posts.
+class Blog:
+    ''' Provides mechanisms for interacting with blog posts.
 
-        This custom implementation loads blog posts in the form of markdown files
-        and collects information about them. The posts are stored so that a view
-        can query for specific posts, range of posts, or posts which match a tag.
+        This custom implementation loads blog posts in the form of Markdown files
+        and collects information about them as metadata. 
+        
+        The posts are stored so that a caller can query for specific posts, range of posts, or posts which match a tag.
 
-        The loading of posts should be done before any querying is done to ensure
-        that all data is loaded and cached.
+        Loading of posts is done on demand and cached, with automatic cache invalidation after a certain time.
     '''
 
     def __init__(self):
-        self._cache = OrderedDict()
+        self._cache: OrderedDict[str, Post] = OrderedDict()
         self.path: Optional[Text] = None
         self.parser: Optional[Markdown] = None
         self.max_cache_age: int = -1
@@ -45,6 +43,7 @@ class Blog(object):
         self.initialised_lock = Lock()
 
     def initialise(self, path: Text, parser: Markdown, max_cache_age: int):
+        '''  Initialises the blog manager. '''
         if self.initialised:
             return
 
@@ -58,7 +57,7 @@ class Blog(object):
             self.initialised = True  
 
     def check_loaded(self):
-        ''' Verifies that the loading process has been completed. '''
+        ''' Verifies that the loading process has been completed. If not, then loading will be performed. '''
         if not self.initialised:
             raise BlogNotInitialisedException('Blog must first be initialised.')
 
@@ -66,7 +65,7 @@ class Blog(object):
             self._load()
 
     def maybe_clear_cache(self):
-        ''' Clears the cache, but only if it has reached ``self.max_cache_age``. '''
+        ''' Clears the cache once it has reached ``self.max_cache_age``. '''
 
         if (time.time() - self.cache_age) > self.max_cache_age:
             # Expire the cache and reload any posts
@@ -75,15 +74,15 @@ class Blog(object):
             
             self._load()
 
-    def get_range(self, skip: int, limit: int):
-        '''
-            Fetches a range of posts.
+    def get_range(self, skip: int, limit: int) -> Tuple[List[Post], int]:
+        ''' Fetches a range of posts.
 
-            ``skip`` dictates how far into the list of posts to start the range,
-            while ``limit`` controls how far the range should extend.
+            ``skip`` dictates how far into the list of posts to start the range.
+            
+            ``limit`` controls how far the range should extend.
 
             e.g. when skip = 1, limit = 3, posts = [p_1, p_2, p_3, p_4, p_5],
-            ``get_range()`` would return [p2, p3, p4].
+            ``get_range()`` would return [p_2, p_3, p_4].
         '''
 
         self.check_loaded()
@@ -96,7 +95,7 @@ class Blog(object):
 
         return posts, len(posts)
 
-    def get(self, key: str):
+    def get(self, key: str) -> Post:
         ''' Returns the post identified by the key given. '''
 
         self.check_loaded()
@@ -104,7 +103,7 @@ class Blog(object):
 
         return self._cache[key]
 
-    def get_with_tag(self, tag: str):
+    def get_with_tag(self, tag: str) -> List[Post]:
         ''' Gets all posts with the specified tag. '''
 
         self.check_loaded()
@@ -154,7 +153,7 @@ class Blog(object):
 
                     blog_posts[post.route] = post
 
-            blog_posts = sorted(blog_posts.items(), key=lambda i: i[1].route_date, reverse=True)
+            blog_posts = sorted(blog_posts.items(), key=lambda i: i[1].metadata_date, reverse=True)
 
             for route, post in blog_posts:
                 self._cache[route] = post
@@ -177,9 +176,6 @@ class Blog(object):
 
         with codecs.open(self.path + filename, 'r', encoding='utf-8') as f:
             text = f.read()
-
-        # Get an approximate count of the number of words in the post.
-        meta['words'] = count_words(text)
 
         # Use the markdown parser to parse convert the raw text and collect metadata.
         if self.parser:

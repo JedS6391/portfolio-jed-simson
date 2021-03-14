@@ -27,7 +27,7 @@
     </div>
 
     <div class="uk-card-body">
-        {% if post.words <= 500 or show_full_post %}
+        {% if show_full_post %}
             {{ post.text|markdown }}
         {% else %}
             {{ post.text|markdown|truncate(800, end='...') }}
