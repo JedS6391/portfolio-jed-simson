@@ -84,13 +84,21 @@ def blog_post(year, month, day, slug):
 @portfolio.route('/blog/tag/<tag>/')
 def blog_by_tag(tag):
     ''' Renders the blog list page, with the posts filtered by the specified tag. '''
-    filtered_posts = blog_manager.get_with_tag(tag.lower())
+    posts_with_tag = blog_manager.get_matching(lambda p: tag.lower() in p['tags'])
 
     # Note we don't 404 if there are no matching posts - it just means there 
     # will be no posts to render on the page.
     return render_template('blog/list-tags.html',
-                           posts=filtered_posts,
+                           posts=posts_with_tag,
                            tag=tag.lower())
+
+@portfolio.route('/blog/year/<int:year>/')
+def blog_by_year(year):
+    posts_for_year = blog_manager.get_matching(lambda p: p.year == str(year))
+
+    return render_template('blog/list-tags.html',
+                           posts=posts_for_year,
+                           tag=year)
 
 @portfolio.route('/contact/', methods=['GET', 'POST'])
 def contact():

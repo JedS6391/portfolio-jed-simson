@@ -25,7 +25,9 @@
             </div>
         </div>
 
-        <div class="uk-card-badge uk-label uk-visible@m">{{ post.date }}</div>
+        <div class="uk-card-badge uk-label uk-visible@m">
+            <a class="uk-link uk-link-reset" href="{{ url_for('portfolio.blog_by_year', year=post.year) }}"><span>{{ post.date }}</span></a>
+        </div>
     </div>
 
     <div class="uk-card-body">

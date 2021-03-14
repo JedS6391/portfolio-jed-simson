@@ -1,4 +1,4 @@
-from typing import Optional, Text, Tuple, List
+from typing import Optional, Text, Tuple, List, Callable
 from collections import OrderedDict
 from markdown import Markdown
 import logging
@@ -103,20 +103,15 @@ class Blog:
 
         return self._cache[key]
 
-    def get_with_tag(self, tag: str) -> List[Post]:
-        ''' Gets all posts with the specified tag. '''
+    def get_matching(self, predicate: Callable[[Post], bool]) -> List[Post]:
+        ''' Gets all posts matching the specified predicate. '''
 
         self.check_loaded()
         self.maybe_clear_cache()
 
-        posts = list(self._cache.values())
+        filtered_posts = filter(predicate, self._cache.values())
 
-        filtered = [
-            post for post in posts
-            if tag in post['tags']
-        ]
-
-        return filtered
+        return list(filtered_posts)
 
     def _load(self):
         '''
