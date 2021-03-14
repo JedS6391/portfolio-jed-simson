@@ -62,10 +62,9 @@
 </body>
 
 <!-- Scripts -->
-<script src="{{ url_for('static', filename='js/highlight.pack.js') }}"></script>
-<script src="{{ url_for('static', filename='js/uikit.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/uikit-icons.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+{% assets "js_all" %}
+<script src="{{ ASSET_URL }}"></script>
+{% endassets %}
 
 <!-- Allow templates inheriting from the base to inject their own scripts. -->
 {% block scripts %}{% endblock %}

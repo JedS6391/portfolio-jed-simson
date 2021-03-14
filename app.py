@@ -129,7 +129,17 @@ def configure_compression_and_asset_bundling(app: Flask) -> Flask:
         output='css/app.css'
     )
 
+    js = Bundle(
+        'js/highlight.pack.js',
+        'js/uikit.min.js',
+        'js/uikit-icons.min.js',
+        'js/jquery.min.js',
+        filters='jsmin',
+        output='js/app.js'
+    )
+    
     assets.register('css_all', css)
+    assets.register('js_all', js)
 
     return app
 
