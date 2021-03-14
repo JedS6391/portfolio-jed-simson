@@ -2,7 +2,7 @@ from typing import Optional, Text
 from collections import OrderedDict
 from util import count_words
 from markdown import Markdown
-from flask import Flask, current_app as app
+import logging
 from threading import Lock
 
 import os
@@ -12,6 +12,9 @@ import datetime
 import uuid
 
 from portfolio.models import Post
+
+class BlogNotInitialisedException(Exception):
+    pass
 
 class InvalidPathException(Exception):
     pass
@@ -35,34 +38,37 @@ class Blog(object):
         self._cache = OrderedDict()
         self.path: Optional[Text] = None
         self.parser: Optional[Markdown] = None
-        self.max_age: int = -1
+        self.max_cache_age: int = -1
         self.loading_lock = Lock()
         self.loaded: bool = False
+        self.initialised: bool = False
+        self.initialised_lock = Lock()
 
-    def init_app(self, path: Text, parser: Markdown, app: Flask, max_age: int):
-        ''' Allows initialisation to be defered until Flask app creation. '''
+    def initialise(self, path: Text, parser: Markdown, max_cache_age: int):
+        if self.initialised:
+            return
 
-        if 'blog' not in app.extensions:
-            app.extensions['blog'] = {}
+        with self.initialised_lock:
+            if self.initialised:
+                return
 
-        app.extensions['blog'] = self
-
-        self.path = path
-        self.parser = parser
-        self.max_age = max_age
-
-        self.app = app        
+            self.path = path
+            self.parser = parser
+            self.max_cache_age = max_cache_age
+            self.initialised = True  
 
     def check_loaded(self):
         ''' Verifies that the loading process has been completed. '''
+        if not self.initialised:
+            raise BlogNotInitialisedException('Blog must first be initialised.')
 
         if not self.loaded:
             self._load()
 
     def maybe_clear_cache(self):
-        ''' Clears the cache, but only if it has reached ``self.max_age``. '''
+        ''' Clears the cache, but only if it has reached ``self.max_cache_age``. '''
 
-        if (time.time() - self.cache_age) > self.max_age:
+        if (time.time() - self.cache_age) > self.max_cache_age:
             # Expire the cache and reload any posts
             self._cache = OrderedDict()
             self.loaded = False
@@ -126,7 +132,7 @@ class Blog(object):
                 # Another thread has loaded the posts while waiting for the lock so there's nothing to do.
                 return
 
-            app.logger.debug('Loading blog posts from {}'.format(self.path))
+            logging.debug('Loading blog posts from {}'.format(self.path))
 
             if not os.path.exists(self.path):
                 # The path given for searching for blog posts does not exist, so throw an early error.
@@ -144,7 +150,7 @@ class Blog(object):
                     # But if this happens we'll just throw an error so that the user can sort their posts out...
                     raise DuplicationPostException('Duplicate blog creation date + title combination {}'.format(post.route))
                 else:
-                    app.logger.debug('Processed post: {}'.format(post.route))
+                    logging.debug('Processed post: {}'.format(post.route))
 
                     blog_posts[post.route] = post
 
@@ -186,5 +192,4 @@ class Blog(object):
 
         return Post(post_id, text, meta)
 
-# For use in ``app.py``, i.e. app.init_app(blog_manager)
 blog_manager = Blog()

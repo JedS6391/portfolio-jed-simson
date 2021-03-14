@@ -72,12 +72,16 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
 
     app.logger.debug('Configuring blog manager')
 
-    # Use my custom blogging extension
-    blog_manager.init_app(
-        os.environ.get('POSTS_PATH', 'static/assets/posts/'),
-        md._instance,
-        app,
-        ONE_DAY, # Invalidate cached posts after 1 day
+    # Configure the blog
+    if 'blog' not in app.extensions:
+        app.extensions['blog'] = {}
+
+    app.extensions['blog'] = blog_manager
+
+    blog_manager.initialise(
+        path=os.environ.get('POSTS_PATH', 'static/assets/posts/'),
+        parser=md._instance,    
+        max_cache_age=ONE_DAY
     )
 
     # Custom Jinja filters for the blog
