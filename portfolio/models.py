@@ -53,3 +53,21 @@ class Post:
     def __str__(self) -> str:
         return 'Post<{}, {}, {}, {}>'.format(self.id, self['title'], self.slug, self.route)
 
+class Project:
+    ''' Represents a project. 
+
+        A project will be included as part of the project feed and can be loaded from different sources as appropriate.
+    '''
+
+    def __init__(self, project_id: str, name: str, description: str, link: str, link_description: str):
+        self.project_id = project_id
+        self.name = name
+        self.description = description
+        self.link = link
+        self.link_description = link_description
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def __str__(self) -> str:
+        return 'Project<{}, {}, {}, {}>'.format(self.project_id, self.name, self.description, self.link)

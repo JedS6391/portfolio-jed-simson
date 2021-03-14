@@ -1,4 +1,4 @@
-from typing import Optional, Text, Tuple, List
+from typing import Optional, Text, Tuple, List, Callable
 from collections import OrderedDict
 from markdown import Markdown
 import logging
@@ -39,22 +39,14 @@ class Blog:
         self.max_cache_age: int = -1
         self.loading_lock = Lock()
         self.loaded: bool = False
-        self.initialised: bool = False
-        self.initialised_lock = Lock()
+        self.initialised = False
 
     def initialise(self, path: Text, parser: Markdown, max_cache_age: int):
-        '''  Initialises the blog manager. '''
-        if self.initialised:
-            return
-
-        with self.initialised_lock:
-            if self.initialised:
-                return
-
-            self.path = path
-            self.parser = parser
-            self.max_cache_age = max_cache_age
-            self.initialised = True  
+        '''  Initialises the blog. '''
+        self.path = path
+        self.parser = parser
+        self.max_cache_age = max_cache_age
+        self.initialised = True  
 
     def check_loaded(self):
         ''' Verifies that the loading process has been completed. If not, then loading will be performed. '''
@@ -103,20 +95,15 @@ class Blog:
 
         return self._cache[key]
 
-    def get_with_tag(self, tag: str) -> List[Post]:
-        ''' Gets all posts with the specified tag. '''
+    def get_matching(self, predicate: Callable[[Post], bool]) -> List[Post]:
+        ''' Gets all posts matching the specified predicate. '''
 
         self.check_loaded()
         self.maybe_clear_cache()
 
-        posts = list(self._cache.values())
+        filtered_posts = filter(predicate, self._cache.values())
 
-        filtered = [
-            post for post in posts
-            if tag in post['tags']
-        ]
-
-        return filtered
+        return list(filtered_posts)
 
     def _load(self):
         '''

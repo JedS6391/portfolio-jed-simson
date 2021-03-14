@@ -1,19 +1,19 @@
-import os
 from typing import Any, List, Callable
-
 from flask import Flask, send_from_directory
 from flaskext.markdown import Markdown
 from flask_compress import Compress
 from flask_assets import Environment, Bundle
 from flask_talisman import Talisman
 
+import os
+import logging
+
 import sentry_sdk as sentry
 from sentry_sdk.integrations.flask import FlaskIntegration as SentryFlaskIntegration
 
-import logging
-
 from portfolio.views import portfolio as portfolio_blueprint
 from blog import blog_manager
+from project_feed import project_feed_manager
 from mail import email_manager
 from util import format_date, format_value
 from config import Config
@@ -41,7 +41,7 @@ class PortfolioBuilder:
         self.app.logger.info('Configuring app')
 
         for step in self.configuration_pipeline:
-            step(self.app)
+            self.app = step(self.app)
 
         self.app.logger.info('App configured')
 
@@ -61,6 +61,7 @@ def create_app(config=None) -> Flask:
     app = Flask(__name__)
     portfolio = PortfolioBuilder(app, [
         configure_markdown_and_blog,
+        configure_project_feed,
         configure_mailer,
         configure_compression_and_asset_bundling,
         configure_security,
@@ -102,6 +103,15 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
 
     return app
 
+def configure_project_feed(app: Flask) -> Flask:
+    app.logger.debug('Configuring project feed...')
+
+    project_feed_manager.initialise(
+        path=app.config['PROJECT_FEED_PATH']
+    )
+
+    return app
+ 
 def configure_mailer(app: Flask) -> Flask:
     email_manager.initialise(
         api_key=app.config['SENDGRID_API_KEY'],
@@ -129,7 +139,17 @@ def configure_compression_and_asset_bundling(app: Flask) -> Flask:
         output='css/app.css'
     )
 
+    js = Bundle(
+        'js/highlight.pack.js',
+        'js/uikit.min.js',
+        'js/uikit-icons.min.js',
+        'js/jquery.min.js',
+        filters='jsmin',
+        output='js/app.js'
+    )
+    
     assets.register('css_all', css)
+    assets.register('js_all', js)
 
     return app
 

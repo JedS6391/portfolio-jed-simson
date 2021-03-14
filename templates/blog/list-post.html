@@ -18,14 +18,16 @@
                             <li class="uk-nav-header">Options</li>
                             <li class="uk-nav-divider"></li>
                             <li><a class="dropdown-link" href="{{ url_for('static', filename='assets/posts/' + post.filename) }}">Download</a></li>
-                            <li><a class="dropdown-link" href="#blog_post_modal_{{ idx }}" uk-toggle>Info</a>
+                            <li><a class="dropdown-link" href="#blog_post_modal_{{ idx }}" uk-toggle>Info</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="uk-card-badge uk-label uk-visible@m">{{ post.date }}</div>
+        <div class="uk-card-badge uk-label uk-visible@m">
+            <a class="uk-link uk-link-reset" href="{{ url_for('portfolio.blog_by_year', year=post.year) }}"><span>{{ post.date }}</span></a>
+        </div>
     </div>
 
     <div class="uk-card-body">

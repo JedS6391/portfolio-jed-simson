@@ -3,6 +3,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 DEFAULT_POSTS_PATH = 'static/assets/posts/'
+DEFAULT_PROJECT_FEED_PATH = 'static/assets/projects/project_feed.json'
 DEFAULT_POSTS_PER_PAGE = 10
 
 DEFAULT_CONTENT_SECURITY_POLICY = {
@@ -23,6 +24,9 @@ class Config:
     # Blog
     POSTS_PATH = os.environ.get('POSTS_PATH', DEFAULT_POSTS_PATH)
     POSTS_PER_PAGE = os.environ.get('POSTS_PER_PAGE', DEFAULT_POSTS_PER_PAGE)
+
+    # Project feed
+    PROJECT_FEED_PATH = os.environ.get('PROJECT_FEED_PATH', DEFAULT_PROJECT_FEED_PATH)
 
     # Email
     SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
