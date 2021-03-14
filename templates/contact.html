@@ -40,6 +40,7 @@
     <div class="uk-section uk-section-default section-pad">
 
         <div class="uk-container uk-child-width-expand@s" uk-grid>
+            <!-- Contact form -->
             <div>
                 <form method="POST" action="/contact/">
 
@@ -83,10 +84,10 @@
                     </div>
 
                     {{ form.csrf_token }}
-
                 </form>
             </div>
 
+            <!-- Contact details -->
             <div>
                 <div class="uk-card uk-card-default uk-card-body">
                     <address class="text-center">
@@ -97,8 +98,6 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 {% endblock %}
 

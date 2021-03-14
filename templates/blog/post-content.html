@@ -1,22 +1,27 @@
-{% macro article_(idx, post) %}
+{% macro post_content_(idx, post) %}
 <article class="uk-article uk-width-1-1 uk-text-medium">
-    <h1 class="uk-article-title">
-        <a class="uk-link-reset" href="{{ url_for('portfolio.blog_post', year=post.year, month=post.month, day=post.day, slug=post.slug) }}">{{ post.title }}</a>
-    </h1>
+    <!-- Header -->
+    <header>
+        <h1 class="uk-article-title">
+            <a class="uk-link-reset" href="{{ url_for('portfolio.blog_post', year=post.year, month=post.month, day=post.day, slug=post.slug) }}">{{ post.title }}</a>
+        </h1>
+    
+        <p class="uk-article-meta">Written by {{ post['author'] }} on {{ post['date'] }}</p>
+    
+        <ul class="uk-iconnav">
+            <li><a class="uk-icon" href="{{ url_for('static', filename='assets/posts/' + post.filename) }}" uk-icon="icon: download; ratio: 1"></a></li>
+            <li><a class="uk-icon" href="#blog_post_modal_{{ idx }}" uk-toggle uk-icon="icon: info; ratio: 1"></a></li>
+        </ul>
+    </header>
 
-    <p class="uk-article-meta">
-        Written by {{ post['author'] }} on {{ post['date'] }}.
-    </p>
+    <hr class="uk-margin-medium">
 
-    <ul class="uk-iconnav">
-        <li><a class="uk-icon" href="{{ url_for('static', filename='assets/posts/' + post.filename) }}" uk-icon="icon: download; ratio: 1"></a></li>
-        <li><a class="uk-icon" href="#blog_post_modal_{{ idx }}" uk-toggle uk-icon="icon: info; ratio: 1"></a></li>
-    </ul>
+    <!-- Content -->
+    <section>
+        {{ post.text|markdown }}
+    </section>
 
-    <br>
-
-    {{ post.text|markdown }}
-
+    <!-- Tags -->
     <div class="uk-grid-small uk-child-width-auto" uk-grid>
         {% for tag in post.tags %}
             <div>
