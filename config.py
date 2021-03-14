@@ -36,6 +36,9 @@ class Config:
     # Logging
     LOG_LEVEL = os.environ['LOG_LEVEL']
 
+    # Monitoring 
+    SENTRY_DSN = os.environ['SENTRY_DSN']
+
     # Security
     CONTENT_SECURITY_POLICY = os.environ.get('CONTENT_SECURITY_POLICY', DEFAULT_CONTENT_SECURITY_POLICY)
 

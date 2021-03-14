@@ -7,7 +7,6 @@ from flask import (
     redirect, 
     url_for, 
     abort,
-    send_from_directory,
     current_app as app
 )
 
@@ -18,25 +17,20 @@ from mail import email_manager
 
 portfolio = Blueprint('portfolio', __name__)
 
+# Error handlers
 @portfolio.app_errorhandler(404)
-def page_not_found(error):
+def not_found(error):
     ''' Renders a 404 error page. '''
-    return render_template('errors/404.html'), 404
+    app.logger.exception('404 error encountered.')    
 
-@portfolio.route('/.well-known/acme-challenge/mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU')
-def acme_challenge_portfolio():
-    # To support Let's Encrypt verification
-    return 'mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
+    return render_template('errors/404.html'), 200
 
-@portfolio.route('/.well-known/acme-challenge/aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0')
-def acme_challenge_www():
-    # To support Let's Encrypt verification
-    return 'aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
+@portfolio.app_errorhandler(500)
+def internal_server_error(error):
+    ''' Renders a generic error page. '''
+    app.logger.exception('500 error encountered.')
 
-@portfolio.route('/keybase.txt')
-def keybase():
-    # To support Keybase verification
-    return send_from_directory('static/', 'keybase.txt')
+    return render_template('errors/500.html'), 200
 
 @portfolio.route('/')
 @portfolio.route('/home/')
@@ -69,7 +63,7 @@ def blog(page=1):
     if not blog_posts and page != 1:
         return redirect(url_for('portfolio.blog'))
 
-    return render_template('blog.html',
+    return render_template('blog/list.html',
                            skip=skip,
                            blog_posts=blog_posts,
                            pagination=pagination)
@@ -82,7 +76,7 @@ def blog_post(year, month, day, slug):
     try:    
         post = blog_manager.get(key)
 
-        return render_template('blog_post.html', post=post)
+        return render_template('blog/post.html', post=post)
     except KeyError:
         # If we get a key error, then we're probably getting an invalid request.
         abort(404)
@@ -94,7 +88,7 @@ def blog_by_tag(tag):
 
     # Note we don't 404 if there are no matching posts - it just means there 
     # will be no posts to render on the page.
-    return render_template('blog_by_tag.html',
+    return render_template('blog/list-tags.html',
                            posts=filtered_posts,
                            tag=tag.lower())
 

@@ -1,11 +1,14 @@
 import os
 from typing import Any, List, Callable
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from flaskext.markdown import Markdown
 from flask_compress import Compress
 from flask_assets import Environment, Bundle
 from flask_talisman import Talisman
+
+import sentry_sdk as sentry
+from sentry_sdk.integrations.flask import FlaskIntegration as SentryFlaskIntegration
 
 import logging
 
@@ -61,6 +64,7 @@ def create_app(config=None) -> Flask:
         configure_mailer,
         configure_compression_and_asset_bundling,
         configure_security,
+        configure_monitoring,
         configure_blueprints
     ])
 
@@ -77,7 +81,7 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
     # Enable Markdown for better/simpler blog posts
     md = Markdown(app, extensions=['markdown.extensions.meta'])
 
-    app.logger.debug('Configuring blog manager')
+    app.logger.debug('Configuring blog manager...')
 
     # Configure the blog
     if 'blog' not in app.extensions:
@@ -129,14 +133,54 @@ def configure_compression_and_asset_bundling(app: Flask) -> Flask:
 
     return app
 
+def configure_monitoring(app: Flask) -> Flask:
+    app.logger.debug('Configuring app monitoring...')
+
+    sentry.init(
+        dsn=app.config['SENTRY_DSN'],
+        integrations=[SentryFlaskIntegration()]
+    )
+
+    return app
+
 def configure_security(app: Flask) -> Flask:
-    app.logger.debug('Configuring security features')
+    app.logger.debug('Configuring security features...')
 
     # Enable Flask-Talisman to automatically set HTTP headers for web app security issues
     Talisman(
         app, 
         content_security_policy=app.config['CONTENT_SECURITY_POLICY'],
         content_security_policy_nonce_in=['script-src'])
+
+    app.logger.debug('Configuring ACME challenge routes...')
+
+    def acme_challenge_portfolio() -> str:
+        return 'mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU'
+
+    def acme_challenge_www() -> str:
+        return 'aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0.K2tT6yEn2xKfamcfv_y2hTXLbRbp3qeaqp6AC0yItFE'
+
+    # Set routes for ACME challenges needed for Let's Encrypt verification
+    app.add_url_rule(
+        rule='/.well-known/acme-challenge/mApkXLQFWzmY1klfIKc0a3cwZZhNMoiUwlqKoFWpfYU',
+        view_func=acme_challenge_portfolio
+    )
+
+    app.add_url_rule(
+        rule='/.well-known/acme-challenge/aCdATJ7Fe28t2tesajUoprKARyPnKOG7fbkvp_uYhs0',
+        view_func=acme_challenge_www
+    )
+
+    app.logger.debug('Configuring Keybase verification routes...')
+
+    # Set up routes to support Keybase verification
+    def keybase():
+        return send_from_directory('static/', 'keybase.txt')
+
+    app.add_url_rule(
+        rule='/keybase.txt',
+        view_func=keybase
+    )
 
     return app
 
