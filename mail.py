@@ -1,8 +1,8 @@
 from typing import Text
-from flask import current_app as app
 import sendgrid
 from sendgrid.helpers.mail import Email, Content, Mail, To
 import os
+import logging
 
 class Mailer(object):
 
@@ -19,13 +19,13 @@ class Mailer(object):
         sendgrid_client = sendgrid.SendGridAPIClient(self.api_key)
 
         try:            
-            app.logger.debug('Sending email...')
+            logging.debug('Sending email...')
 
             sendgrid_client.send(message)
 
-            app.logger.debug('Email successfully sent')
+            logging.debug('Email successfully sent')
         except Exception as e:
-            app.logger.exception('Email failed to send.')            
+            logging.exception('Email failed to send.')            
 
     def create_message(self, to: str, subject: str, template: Text) -> Mail:
         from_email = Email(self.default_from)

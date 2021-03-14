@@ -7,8 +7,7 @@ from flask import (
     redirect, 
     url_for, 
     abort,
-    send_from_directory,
-    current_app as app
+    send_from_directory
 )
 
 from .forms import ContactForm
