@@ -13,6 +13,7 @@ from flask import (
 from .forms import ContactForm
 from .helpers import Pagination
 from blog import blog_manager
+from project_feed import project_feed_manager
 from mail import email_manager
 
 portfolio = Blueprint('portfolio', __name__)
@@ -42,7 +43,9 @@ def home():
 @portfolio.route('/about/')
 def about():
     ''' Renders the about page. '''
-    return render_template('about.html')
+    project_feed = project_feed_manager.get_feed()
+
+    return render_template('about.html', project_feed=project_feed)
 
 @portfolio.route('/blog/')
 @portfolio.route('/blog/page/<int:page>/')

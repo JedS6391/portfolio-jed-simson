@@ -1,0 +1,15 @@
+{% macro project_(project, theme) %}
+<div class="uk-card uk-card-small  uk-card-body {% if theme == "light" %} uk-card-secondary uk-light {% else %} uk-card-default uk-dark {% endif %}">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom">{{ project.name }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-body">{{ project.description }}</div>
+    <div class="uk-card-footer">
+        <a class="uk-button uk-button-default uk-width-1-1 btn-hover-fill" href="{{ project.link }}" target="_blank">{{ project.link_description }}</span></a>
+    </div>
+</div>
+{% endmacro %}

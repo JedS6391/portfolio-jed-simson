@@ -39,22 +39,14 @@ class Blog:
         self.max_cache_age: int = -1
         self.loading_lock = Lock()
         self.loaded: bool = False
-        self.initialised: bool = False
-        self.initialised_lock = Lock()
+        self.initialised = False
 
     def initialise(self, path: Text, parser: Markdown, max_cache_age: int):
-        '''  Initialises the blog manager. '''
-        if self.initialised:
-            return
-
-        with self.initialised_lock:
-            if self.initialised:
-                return
-
-            self.path = path
-            self.parser = parser
-            self.max_cache_age = max_cache_age
-            self.initialised = True  
+        '''  Initialises the blog. '''
+        self.path = path
+        self.parser = parser
+        self.max_cache_age = max_cache_age
+        self.initialised = True  
 
     def check_loaded(self):
         ''' Verifies that the loading process has been completed. If not, then loading will be performed. '''
