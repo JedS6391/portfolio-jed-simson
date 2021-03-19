@@ -10,43 +10,44 @@
     {{ nav(active_page) }}
 {% endblock %}
 
+
 {% block content %}
-    <div class="uk-section uk-section-default">
-        <div class="uk-container">
+    <div class="content content-home">
+        <div class="row justify-content-center pb-10">
             <div>
-                <center>
-                    <img src="{{ url_for('static', filename='assets/images/me-min.png') }}"
-                         alt="me" width=200 height=200 title="Jed Simson"/>
-                </center>
+                <img src="{{ url_for('static', filename='assets/images/me-min.png') }}"
+                alt="me" width=200 height=200 title="Jed Simson"/>
+            </div>
+        </div>
 
-                <h1 class="uk-heading-primary uk-text-center">Jed Simson</h1>
+        <div class="row justify-content-center pb-10">
+            <div>
+                <h1 class="text-center">Jed Simson</h1>
 
-                <p class="uk-text-muted uk-text-center">
-                    COMPUTER SCIENTIST &sdot; SOFTWARE DEVELOPER &sdot; MUSICIAN
+                <p class="text-muted text-center text-uppercase">
+                    Computer Scientist &sdot; Software Developer &sdot; Musician
                 </p>
             </div>
+        </div>
 
-            <hr class="uk-margin-medium">
+        <hr>
 
-            <div class="uk-child-width-1-3@m uk-width-1-4 uk-grid-small uk-grid-match center" uk-grid>
-
-                <div>
-                    <a href="https://www.linkedin.com/in/jedsimson" target="_blank">
-                        <img src="{{ url_for('static', filename='assets/images/icons/linkedin.svg') }}" width="40" height="40" alt="LinkedIn">
-                    </a>
-                </div>
-                <div>
-                    <a href="https://github.com/JedS6391" target="_blank">
-                        <img src="{{ url_for('static', filename='assets/images/icons/github.svg') }}" width="40" height="40" alt="LinkedIn">
-                    </a>
-                </div>
-                <div>
-                    <a href="https://soundcloud.com/jed-simson" target="_blank">
-                        <img src="{{ url_for('static', filename='assets/images/icons/gitlab.svg') }}" width="40" height="40" alt="LinkedIn">
-                    </a>
-                </div>
+        <div class="row justify-content-center">
+            <div class="p-20">                                
+                <a href="https://www.linkedin.com/in/jedsimson" target="_blank" data-toggle="tooltip" data-title="LinkedIn" data-placement="bottom">
+                    <i data-feather="linkedin" width="40" height="40" alt="LinkedIn"></i>
+                </a>
             </div>
-
+            <div class="p-20">
+                <a href="https://github.com/JedS6391" target="_blank" data-toggle="tooltip" data-title="GitHub" data-placement="bottom">
+                    <i data-feather="github" width="40" height="40" alt="GitHub"></i>
+                </a>
+            </div>
+            <div class="p-20">
+                <a href="https://soundcloud.com/jed-simson" target="_blank" data-toggle="tooltip" data-title="SoundCloud" data-placement="bottom">
+                    <i data-feather="headphones" width="40" height="40" alt="SoundCloud"></i>
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -1,20 +1,20 @@
 {% macro pagination_(pagination) %}
-<ul class="uk-pagination uk-flex-center" uk-margin>
-    <li>
-        <a {% if not pagination.has_prev %}href="#" class="disabled-cursor uk-link-reset"{% else %}href="/blog/page/{{ pagination.page - 1 }}/"{% endif %}>
-            <span uk-pagination-previous></span>
+<ul class="pagination text-center">
+    <li class="page-item {% if not pagination.has_prev %} disabled disabled-cursor {% endif %}">
+        <a class="page-link" {% if not pagination.has_prev %} href="#" {% else %} href="/blog/page/{{ pagination.page - 1 }}/" {% endif %}>
+            <i data-feather="chevron-left" width="18" height="18" alt="Previous"></i>
         </a>
     </li>
 
     {% for page in pagination.generate() %}
-        <li {% if page == pagination.page %}class="uk-active"{% endif %}>
-            <a href="/blog/page/{{ page }}/">{{ page }}</a>
+        <li class="page-item {% if page == pagination.page %} active {% endif %}">
+            <a class="page-link" href="/blog/page/{{ page }}/">{{ page }}</a>
         </li>
     {% endfor %}
 
-    <li>
-        <a {% if not pagination.has_next %}href="#" class="disabled-cursor uk-link-reset"{% else %}href="/blog/page/{{ pagination.page + 1 }}/"{% endif %}>
-            <span uk-pagination-next></span>
+    <li class="page-item {% if not pagination.has_next %} disabled disabled-cursor {% endif %}">
+        <a class="page-link" {% if not pagination.has_next %} href="#" {% else %} href="/blog/page/{{ pagination.page + 1 }}/" {% endif %}>
+            <i data-feather="chevron-right" width="16" height="16" alt="Next"></i>
         </a>
     </li>
 </ul>

@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 DEFAULT_POSTS_PATH = 'static/assets/posts/'
 DEFAULT_PROJECT_FEED_PATH = 'static/assets/projects/project_feed.json'
 DEFAULT_POSTS_PER_PAGE = 10
-
+DEFAULT_RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
 DEFAULT_CONTENT_SECURITY_POLICY = {
     'default-src': '\'self\' *.spotify.com *.google.com disqus.com *.disqus.com *.disquscdn.com',
     'style-src': '\'self\' fonts.googleapis.com',
@@ -36,6 +36,7 @@ class Config:
     # ReCaptcha
     RECAPTCHA_PUBLIC_KEY = os.environ['RECAPTCHA_PUBLIC_KEY']
     RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']
+    RECAPTCHA_DATA_ATTRS = os.environ.get('RECAPTCHA_DATA_ATTRS', DEFAULT_RECAPTCHA_DATA_ATTRS)
 
     # Logging
     LOG_LEVEL = os.environ['LOG_LEVEL']

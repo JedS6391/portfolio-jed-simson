@@ -133,17 +133,18 @@ def configure_compression_and_asset_bundling(app: Flask) -> Flask:
 
     css = Bundle(
         'css/custom.css',
-        'css/uikit.min.css',
+        'css/halfmoon-variables.css',
         'css/tomorrow.min.css',
         filters='cssmin',
         output='css/app.css'
     )
 
     js = Bundle(
+        'js/custom.js',
         'js/highlight.pack.js',
-        'js/uikit.min.js',
-        'js/uikit-icons.min.js',
-        'js/jquery.min.js',
+        'js/halfmoon.min.js',    
+        'js/feather.min.js',   
+        'js/jquery.min.js',        
         filters='jsmin',
         output='js/app.js'
     )

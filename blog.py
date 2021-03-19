@@ -36,6 +36,7 @@ class Blog:
         self._cache: OrderedDict[str, Post] = OrderedDict()
         self.path: Optional[Text] = None
         self.parser: Optional[Markdown] = None
+        self.cache_age: float = 0.0
         self.max_cache_age: int = -1
         self.loading_lock = Lock()
         self.loaded: bool = False
@@ -112,7 +113,6 @@ class Blog:
             Adapted from Flask-Portfolio:
             https://github.com/longboardcat/Flask-Portfolio
         '''
-
         with self.loading_lock:
             if self.loaded:
                 # Another thread has loaded the posts while waiting for the lock so there's nothing to do.
