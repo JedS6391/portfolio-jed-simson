@@ -14,33 +14,43 @@
     {{ nav(active_page) }}
 {% endblock %}
 
+{% block modals %}
+    {% if post %} 
+        {% from "blog/modal.html" import modal_ %}
+        
+        {{ modal_(1, post) }}
+    {% endif %}
+{% endblock %}
+
 {% block content %}
-    <div class="uk-section uk-section-default section-pad">
-        <div class="uk-container uk-grid-small" uk-grid>
+    <div id="top-anchor"></div>
+    <div class="content">
+        <div>
             {% if post %}
                 {% from "blog/post-content.html" import post_content_ %}
+                
                 {{ post_content_(1, post) }}
-
-                {% from "blog/modal.html" import modal_ %}
-                {{ modal_(1, post) }}
+                
             {% else %}
-                <div class="uk-card uk-card-body text-center">
-                    <p class="text-danger"><strong>Sorry, the post you are looking for doesn't exist!</strong></p>
+                <div class="card text-center">
+                    <div class="alert alert-danger" role="alert">
+                        <p class="font-weight-bold">Sorry, the post you are looking for does not exist!</p>
+                    </div>                    
                 </div>
             {% endif %}
         </div>
     </div>
 
-    <div class="uk-position-fixed uk-position-bottom-right uk-padding">
-        <a href="#top-anchor" title="Scroll to top" uk-totop uk-scroll uk-tooltip></a>
+    <div class="text-center mb-20">
+        <a class="btn btn-lg btn-primary m-auto" href="#top-anchor" title="Scroll to top">
+            <i data-feather="arrow-up" width="18" height="18" alt="Go to top"></i>
+        </a>
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script nonce="{{ csp_nonce() }}" type="text/javascript">
-        $(document).ready(function() {
-            // Initialise code highlighting library
-            hljs.initHighlightingOnLoad();
-        });
+        // Initialise code highlighting library    
+        hljs.highlightAll();    
     </script>
 {% endblock %}

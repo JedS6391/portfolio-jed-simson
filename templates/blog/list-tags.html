@@ -14,37 +14,41 @@
     {{ nav(active_page) }}
 {% endblock %}
 
+{% block modals %}
+    {% for post in posts %}     
+        {% from "blog/modal.html" import modal_ %}
+        {{ modal_(loop.index, post) }}
+    {% endfor %}
+{% endblock %}
+
 {% block content %}
     <div id="top-anchor"></div>
+    <div class="content">
 
-    <!-- Header -->
-    <div class="uk-section uk-section-default section-pad">
-        <div class="uk-container">
-            <h1 class="uk-heading-primary">Blog</h1>
-            <h3 class="uk-heading-bullet">#{{ tag }}</h3>
-        </div>
-    </div>
+        <!-- Header -->
+        <h1>Blog</h1>
+        <h3 class="text-muted font-italic">#{{ tag }}</h3>
 
-    <!-- List -->
-    <div class="uk-section uk-section-default section-pad">
-        <div class="uk-container blog-post-grid" uk-grid>
+        <!-- List -->
+        <div>
             {% for post in posts %}
                 {% from "blog/list-post.html" import list_post_ %}
-                {{ list_post_(loop.index, post, None, 0, False) }}
-
-                {% from "blog/modal.html" import modal_ %}
-                {{ modal_(loop.index, post) }}
-
+                
+                {{ list_post_(loop.index, post, None, 0) }}
             {% else %}
-                <div class="uk-card uk-card-body uk-width-1-1">
-                    <p class="text-danger text-center"><strong>Sorry, no posts with that tag exist!</strong></p>
+                <div class="card text-center">
+                    <div class="alert alert-danger" role="alert">
+                        <p class="font-weight-bold">Sorry, no posts with that tag exist!</p>
+                    </div>                    
                 </div>
             {% endfor %}
         </div>
-    </div>
 
-    <div class="uk-position-fixed uk-position-bottom-right uk-padding">
-        <a href="#top-anchor" title="Scroll to top" uk-totop uk-scroll uk-tooltip></a>
+        <div class="text-center">
+            <a class="btn btn-lg bg-black m-auto" href="#top-anchor" title="Scroll to top">
+                <i data-feather="arrow-up" width="18" height="18" alt="Go to top"></i>
+            </a>
+        </div>
     </div>
 {% endblock %}
 
@@ -56,19 +60,8 @@
                 return false;
             });
 
-            // Make sure that any dropdowns are closed when a link contained in
-            // a dropdown is clicked.
-            $('.dropdown-link').click(function(e) {
-                var link = e.target;
-                var dropdown = $(link).closest('.uk-dropdown');
-
-                // By default, UIkit waits before hiding dropdowns which we don't want,
-                // so we short-circuit that behaviour.
-                UIkit.dropdown(dropdown).hide(delay = false);
-            });
-
             // Initialise code highlighting library
-            hljs.initHighlightingOnLoad();
+            hljs.highlightAll();
         });
     </script>
 {% endblock %}

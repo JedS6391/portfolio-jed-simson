@@ -23,7 +23,7 @@
     {
         "project_id": "ccab230c-715b-4221-9e24-c522fe169cb0",
         "name": "KGP",
-        "description": "Genetic Programming for Kotlin — an implementation of tree-based GP.",
+        "description": "Tree-based genetic programming for Kotlin.",
         "link": "https://github.com/JedS6391/KGP",
         "link_description": "View on GitHub"
     },

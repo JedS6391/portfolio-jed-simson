@@ -1,0 +1,19 @@
+{% set navigation_bar = [
+    ('/', 'home', 'HOME'),
+    ('/about/', 'about', 'ABOUT'),
+    ('/blog/', 'blog', 'BLOG'),
+    (url_for('static', filename='assets/cv/CV - 2020.pdf'), 'cv', 'CURRICULUM VITAE'),
+    ('/contact/', 'contact', 'CONTACT')
+] -%}
+
+{% macro sidebar_(page) %}
+
+<div class="sidebar hidden-md-and-up">
+    <div class="sidebar-menu">
+        {% for href, id, caption in navigation_bar %}
+            <a class="sidebar-link {% if id == page %} active {% endif %}" href="{{ href|e }}">{{ caption|e }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endmacro %}

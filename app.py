@@ -132,18 +132,26 @@ def configure_compression_and_asset_bundling(app: Flask) -> Flask:
     assets = Environment(app)
 
     css = Bundle(
+        # Styling overrides for the portfolio application
         'css/custom.css',
-        'css/uikit.min.css',
-        'css/tomorrow.min.css',
+        # Halfmoon UI framework: https://www.gethalfmoon.com/
+        'css/halfmoon-ui.css',
+        # Dracula code highlighting theme
+        'css/dracula-code-highlight.css',        
         filters='cssmin',
         output='css/app.css'
     )
 
     js = Bundle(
-        'js/highlight.pack.js',
-        'js/uikit.min.js',
-        'js/uikit-icons.min.js',
-        'js/jquery.min.js',
+        # Logic for the portfolio application 
+        'js/custom.js',
+        # Halfmoon UI framework: https://www.gethalfmoon.com/
+        'js/halfmoon.min.js', 
+        # Code highlighting: https://highlightjs.org/
+        'js/highlight.min.js',   
+        # Feather icons: https://feathericons.com/
+        'js/feather.min.js',   
+        'js/jquery.min.js',                
         filters='jsmin',
         output='js/app.js'
     )

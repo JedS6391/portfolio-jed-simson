@@ -8,35 +8,35 @@
 
 {% macro nav(page) %}
 <!-- Standard navigation bar -->
-<nav class="uk-navbar-container uk-visible@m" uk-navbar>
-    <div class="uk-navbar-left">
-        <ul class="uk-navbar-nav">
-            {% for href, id, caption in navigation_bar %}
-                <li{% if id == page %} class="uk-active"{% endif %}>
-                    <a href="{{ href|e }}">{{ caption|e }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+<nav class="navbar hidden-sm-and-down">
+    <ul class="navbar-nav">
+        {% for href, id, caption in navigation_bar %}
+            <li class="nav-item {% if id == page %} active {% endif %}">
+                <a class="nav-link" href="{{ href|e }}">{{ caption|e }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="navbar-content ml-auto">                
+        <button id="dark-mode-toggle--full-size" class="btn btn-action" type="button" data-toggle="tooltip" data-title="Toggle dark mode" data-placement="left">
+            <i data-feather="moon" alt="Toggle dark mode" width="16" height="16"></i>
+        </button>
     </div>
 </nav>
 
-
-<!-- Mobile navigation bar (menu) -->
-<div class="uk-hidden@m uk-background-muted uk-animation-fade" uk-sticky>
-    <a href="#mobile-nav" class="uk-navbar-toggle-icon uk-icon" uk-toggle uk-navbar-toggle-icon></a>
-</div>
-
-<div id="mobile-nav" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
-    <div class="uk-offcanvas-bar">
-        <div class="uk-panel">
-            <ul class="uk-nav uk-nav-default mobile-nav-menu">
-                {% for href, id, caption in navigation_bar %}
-                    <li{% if id == page %} class="uk-active"{% endif %}>
-                        <a href="{{ href|e }}">{{ caption|e }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+<!-- Mobile navigation bar -->
+<nav class="navbar hidden-md-and-up">
+    <div class="navbar-content">
+        <button id="sidebar-toggle" class="btn btn-action" type="button">
+            <i data-feather="menu" alt="Menu" width="16" height="16"></i>
+        </button>
     </div>
-</div>
+
+    <div class="navbar-content ml-auto">                
+        <button id="dark-mode-toggle--mobile-size" class="btn btn-action" type="button" data-toggle="tooltip" data-title="Toggle dark mode" data-placement="left">
+            <i data-feather="moon" alt="Toggle dark mode" width="16" height="16"></i>
+        </button>
+    </div>
+</nav>
+
 {% endmacro %}
