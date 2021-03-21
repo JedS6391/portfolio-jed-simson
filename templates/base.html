@@ -77,13 +77,15 @@
 {% endassets %}
 
 <script nonce="{{ csp_nonce() }}" type="text/javascript">
-    initialiseTheme();
+    let app = new PortfolioApp();
+
+    app.initialiseTheme();
 
     var darkModeToggleSwitchFullSize = document.querySelector("#dark-mode-toggle--full-size");
 
     if (darkModeToggleSwitchFullSize) {    
         darkModeToggleSwitchFullSize.addEventListener('click', function() {
-            changeTheme();
+            app.changeTheme();
         });
     }
 
@@ -91,7 +93,7 @@
 
     if (darkModeToggleSwitchMobileSize) {          
         darkModeToggleSwitchMobileSize.addEventListener('click', function() {
-            changeTheme();
+            app.changeTheme();
         });
     }
 
@@ -99,11 +101,11 @@
 
     if (sidebarToggleSwitch) {
         sidebarToggleSwitch.addEventListener('click', function() {
-            toggleSidebar();
+            app.toggleSidebar();
         });
     }
 
-    feather.replace();
+    app.initialiseIcons();
 </script>
 
 <!-- Allow templates inheriting from the base to inject their own scripts. -->

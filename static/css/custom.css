@@ -1,3 +1,7 @@
+/* 
+    Defines any styling overrides for the portfolio application.
+*/
+
 html, body {
     font-family: 'Lato', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
     color: #666;

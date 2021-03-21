@@ -1,8 +1,9 @@
-function initialiseTheme(){if(isDarkThemeSelected()){halfmoon.toggleDarkMode();}}
-function changeTheme(){if(isDarkThemeSelected()){localStorage.removeItem("darkSwitch");}else{localStorage.setItem("darkSwitch","dark");}
+class PortfolioApp{get isDarkThemeSelected(){return(localStorage.getItem("darkSwitch")!==null&&localStorage.getItem("darkSwitch")==="dark");}
+initialiseIcons(){feather.replace();}
+initialiseTheme(){if(this.isDarkThemeSelected){halfmoon.toggleDarkMode();}}
+changeTheme(){if(this.isDarkThemeSelected){localStorage.removeItem("darkSwitch");}else{localStorage.setItem("darkSwitch","dark");}
 halfmoon.toggleDarkMode();}
-function isDarkThemeSelected(){return(localStorage.getItem("darkSwitch")!==null&&localStorage.getItem("darkSwitch")==="dark");}
-function toggleSidebar(){halfmoon.toggleSidebar();}
+toggleSidebar(){halfmoon.toggleSidebar();}}
 var hljs=function(){"use strict";function e(t){return t instanceof Map?t.clear=t.delete=t.set=()=>{throw Error("map is read-only")}:t instanceof Set&&(t.add=t.clear=t.delete=()=>{throw Error("set is read-only")}),Object.freeze(t),Object.getOwnPropertyNames(t).forEach((n=>{var s=t[n];"object"!=typeof s||Object.isFrozen(s)||e(s)})),t}var t=e,n=e;t.default=n;class s{constructor(e){void 0===e.data&&(e.data={}),this.data=e.data}
 ignoreMatch(){this.ignore=!0}}function r(e){return e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#x27;")}function a(e,...t){const n=Object.create(null);for(const t in e)n[t]=e[t];return t.forEach((e=>{for(const t in e)n[t]=e[t]})),n}const i=e=>!!e.kind;class o{constructor(e,t){this.buffer="",this.classPrefix=t.classPrefix,e.walk(this)}addText(e){this.buffer+=r(e)}openNode(e){if(!i(e))return;let t=e.kind;e.sublanguage||(t=`${this.classPrefix}${t}`),this.span(t)}closeNode(e){i(e)&&(this.buffer+="</span>")}value(){return this.buffer}span(e){this.buffer+=`<span class="${e}">`}}class l{constructor(){this.rootNode={children:[]},this.stack=[this.rootNode]}get top(){return this.stack[this.stack.length-1]}get root(){return this.rootNode}add(e){this.top.children.push(e)}openNode(e){const t={kind:e,children:[]};this.add(t),this.stack.push(t)}closeNode(){if(this.stack.length>1)return this.stack.pop()}closeAllNodes(){for(;this.closeNode(););}toJSON(){return JSON.stringify(this.rootNode,null,4)}
 walk(e){return this.constructor._walk(e,this.rootNode)}static _walk(e,t){return"string"==typeof t?e.addText(t):t.children&&(e.openNode(t),t.children.forEach((t=>this._walk(e,t))),e.closeNode(t)),e}static _collapse(e){"string"!=typeof e&&e.children&&(e.children.every((e=>"string"==typeof e))?e.children=[e.children.join("")]:e.children.forEach((e=>{l._collapse(e)})))}}class c extends l{constructor(e){super(),this.options=e}
