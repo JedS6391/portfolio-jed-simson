@@ -141,7 +141,7 @@ def configure_compression_and_asset_bundling(app: Flask) -> Flask:
 
     js = Bundle(
         'js/custom.js',
-        'js/highlight.pack.js',
+        'js/highlight.min.js',
         'js/halfmoon.min.js',    
         'js/feather.min.js',   
         'js/jquery.min.js',        

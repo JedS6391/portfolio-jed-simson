@@ -9,13 +9,13 @@
         <div class="clearfix">
             <div class="float-left">
                 <span class="text-muted">
-                    <i data-feather="clock" width="16" height="16" alt="Date"></i>
+                    <i data-feather="clock" width="12" height="12" alt="Date"></i>
         
-                    Written by {{ post['author'] }} on {{ post['date'] }}
+                    {{ post['author'] }} on {{ post['date'] }}
                 </p>
             </div>
 
-            <div class="btn-group btn-group-sm float-right" role="group">
+            <div class="btn-group float-right" role="group">
                 <a class="btn" href="{{ url_for('static', filename='assets/posts/' + post.filename) }}">
                     <i data-feather="download" width="16" height="16" alt="Download"></i>
                 </a>

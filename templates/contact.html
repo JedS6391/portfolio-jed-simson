@@ -29,65 +29,80 @@
                 <p>
                     Please feel free to contact me using any of the methods provided below &mdash; generally email is the best way to get in touch!
                 </p>
-                <address class="text-center font-weight-bold">                                    
-                    <i data-feather="mail" width="16" height="16" alt="Email"></i>
-                    <a href="mailto:jed.simson@gmail.com">jed.simson@gmail.com</a>    
-                    <br>                
-                    <i data-feather="phone" width="16" height="16" alt="Phone"></i>
-                    <a href="tel://0278459720">027 845 9720</a>
-                </address>
+
             {% endif %}
         {% endwith %}
 
-        <div class="card">
-            <!-- Contact form -->
-    
-            <form method="POST" action="/contact/" class="mw-full">
-                <div class="form-row row-eq-spacing-md">
-                    <div class="col-md">
-                        {% if 'name' in errors %}
-                            {{ form.name(class_="form-control is-invalid", placeholder="Name") }}
-                        {% else %}
-                            {{ form.name(class_="form-control", placeholder="Name") }}
-                        {% endif %}
-                    </div>
-        
-                    <div class="col-md">
-                        {% if 'email' in errors %}
-                            {{ form.email(class_="form-control is-invalid", placeholder="Email Address") }}
-                        {% else %}
-                            {{ form.email(class_="form-control", placeholder="Email Address") }}
-                        {% endif %}
-        
-                        <div class="form-text text-muted font-italic font-size-12">
-                            Your email address won't be saved.
-                        </div>                    
-                    </div>
-                </div>                            
-
-                <div class="form-group">
-                    {% if 'message' in errors %}
-                        {{ form.message(class_="form-control is-invalid", placeholder="Message") }}
-                    {% else %}
-                        {{ form.message(class_="form-control", placeholder="Message") }}
-                    {% endif %}
-                </div>
-    
-                <div class="form-group">
-                    {% if 'recaptcha' in errors %}
-                        <p class="text-danger">Please prove you are not a robot!</p>
-                    {% endif %}
-    
-                    {{ form.recaptcha }}                            
-                </div>
-    
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary btn-block" value="Submit">
-                </div>
+        <div class="container-fluid">
+            <div class="row row-eq-spacing">
+                <div class="col-md-8 pb-10">
+                    <div class="card">
+                        <!-- Contact form -->
+                        <form method="POST" action="/contact/" class="mw-full">
+                            <div class="form-row row-eq-spacing-md">
+                                <div class="col-md">
+                                    {% if 'name' in errors %}
+                                        {{ form.name(class_="form-control is-invalid", placeholder="Name") }}
+                                    {% else %}
+                                        {{ form.name(class_="form-control", placeholder="Name") }}
+                                    {% endif %}
+                                </div>
+                    
+                                <div class="col-md">
+                                    {% if 'email' in errors %}
+                                        {{ form.email(class_="form-control is-invalid", placeholder="Email Address") }}
+                                    {% else %}
+                                        {{ form.email(class_="form-control", placeholder="Email Address") }}
+                                    {% endif %}
+                    
+                                    <div class="form-text text-muted font-italic font-size-12">
+                                        Your email address won't be saved.
+                                    </div>                    
+                                </div>
+                            </div>                            
+            
+                            <div class="form-group">
+                                {% if 'message' in errors %}
+                                    {{ form.message(class_="form-control is-invalid", placeholder="Message") }}
+                                {% else %}
+                                    {{ form.message(class_="form-control", placeholder="Message") }}
+                                {% endif %}
+                            </div>
                 
-                {{ form.csrf_token }}
-            </form>
-        </div> 
+                            <div class="form-group text-center">
+                                <div class="d-inline-block">
+                                    {% if 'recaptcha' in errors %}
+                                        <p class="text-danger">Please prove you are not a robot!</p>
+                                    {% endif %}
+                    
+                                    {{ form.recaptcha }}  
+                                </div>                    
+                            </div>
+                
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary btn-block" value="Submit">
+                            </div>
+                            
+                            {{ form.csrf_token }}
+                        </form>
+                    </div> 
+                </div>
+
+                <div class="col-md-4 pb-10">
+                    <div class="card">
+                        <div class="font-weight-bold">           
+                            Jed Simson 
+                            <hr>                 
+                            <i data-feather="mail" width="16" height="16" alt="Email"></i>
+                            <a href="mailto:jed.simson@gmail.com">jed.simson@gmail.com</a>    
+                            <hr>                                            
+                            <i data-feather="phone" width="16" height="16" alt="Phone"></i>
+                            <a href="tel://0278459720">027 845 9720</a>                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
     </div>      
 {% endblock %}
 

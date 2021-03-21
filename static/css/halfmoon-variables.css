@@ -612,12 +612,12 @@ CSS variables (CSS custom properties)
 
     --lm-sidebar-bg-color: var(--white-bg-color);
     --lm-sidebar-bg-image: none;
-    --lm-sidebar-border-color: rgba(0, 0, 0, 0.2);
+    --lm-sidebar-border-color: var(--lm-horizontal-rule-color);
     --lm-sidebar-box-shadow: none;
 
     --dm-sidebar-bg-color: var(--dark-color);
     --dm-sidebar-bg-image: none;
-    --dm-sidebar-border-color: rgba(0, 0, 0, 0.2);
+    --dm-sidebar-border-color: var(--dm-horizontal-rule-color);
     --dm-sidebar-box-shadow: var(--lm-sidebar-box-shadow);
 
     --sidebar-overlay-bg-color: rgba(0, 0, 0, 0.75);
@@ -8519,8 +8519,6 @@ select.form-control[multiple] > option:disabled {
     height: 100%;
     overflow: auto;
     background-color: var(--lm-modal-overlay-bg-color);
-    -webkit-transition: all .4s cubic-bezier(.25, .8, .25, 1);
-    transition: all .4s cubic-bezier(.25, .8, .25, 1);
     z-index: 99;
     outline: none;
 }
@@ -8623,8 +8621,6 @@ select.form-control[multiple] > option:disabled {
     left: 1rem;
     z-index: 10;
     padding: 0;
-    -webkit-transition: all .4s cubic-bezier(.25, .8, .25, 1);
-    transition: all .4s cubic-bezier(.25, .8, .25, 1);
     font-size: var(--modal-close-font-size);
     width: var(--modal-close-width-height);
     height: var(--modal-close-width-height);
