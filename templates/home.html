@@ -15,8 +15,13 @@
     <div class="content content-home">
         <div class="row justify-content-center pb-10">
             <div>
-                <img src="{{ url_for('static', filename='assets/images/me-min.png') }}"
-                alt="me" width=200 height=200 title="Jed Simson"/>
+                <picture>
+                    <!-- Some browsers don't support WebP, so PNG will be used as a fallback. -->
+                    <source srcset="{{ url_for('static', filename='assets/images/me-min.webp') }}" type="image/webp">
+                    <source srcset="{{ url_for('static', filename='assets/images/me-min.png') }}" type="image/png"> 
+                    <img src="{{ url_for('static', filename='assets/images/me-min.webp') }}"
+                        alt="me" width=200 height=200 title="Jed Simson"/>
+                </picture>
             </div>
         </div>
 
