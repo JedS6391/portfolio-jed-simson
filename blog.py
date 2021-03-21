@@ -36,7 +36,7 @@ class Blog:
         self._cache: OrderedDict[str, Post] = OrderedDict()
         self.path: Optional[Text] = None
         self.parser: Optional[Markdown] = None
-        self.cache_age: float = 0.0
+        self.cache_age_nanoseconds: int = 0
         self.max_cache_age: int = -1
         self.loading_lock = Lock()
         self.loaded: bool = False
@@ -60,7 +60,7 @@ class Blog:
     def maybe_clear_cache(self):
         ''' Clears the cache once it has reached ``self.max_cache_age``. '''
 
-        if (time.time() - self.cache_age) > self.max_cache_age:
+        if (time.time_ns() - self.cache_age_nanoseconds) > self.max_cache_age:
             # Expire the cache and reload any posts
             self._cache = OrderedDict()
             self.loaded = False
@@ -145,7 +145,7 @@ class Blog:
             for route, post in blog_posts:
                 self._cache[route] = post
 
-            self.cache_age = time.time()
+            self.cache_age_nanoseconds = time.time_ns()
             self.loaded = True
 
     def create_post(self, filename: str) -> Post:
