@@ -80,7 +80,7 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
     app.logger.debug('Configuring markdown support...')
 
     # Enable Markdown for better/simpler blog posts
-    md = Markdown(app, extensions=['markdown.extensions.meta'])
+    md = Markdown(app, extensions=['markdown.extensions.fenced_code', 'markdown.extensions.meta'])
 
     app.logger.debug('Configuring blog manager...')
 
