@@ -1,5 +1,26 @@
 [
     {
+        "project_id": "978354f7-3450-4bda-aa60-a044e9a1c69c",
+        "name": "Reddit.NET",
+        "description": "A .NET client for reddit.com.",
+        "link": "https://github.com/JedS6391/Reddit.NET",
+        "link_description": "View on GitHub"
+    },  
+    {
+        "project_id": "bf5cf29d-5727-4d37-8bfc-7c983bfe23af",
+        "name": "LGP",
+        "description": "A robust LGP implementation built using Kotlin.",
+        "link": "https://github.com/JedS6391/LGP",
+        "link_description": "View on GitHub"
+    },
+    {
+        "project_id": "3c0a75c9-77ca-43a3-8556-fe3bde2e4401",
+        "name": "RecipeIngredientParser",
+        "description": "A parser for recipe ingredients.",
+        "link": "https://github.com/JedS6391/RecipeIngredientParser",
+        "link_description": "View on GitHub"
+    },  
+    {
         "project_id": "c7d394dc-1f16-4a3a-a8d4-fb3c1ff6ee79",
         "name": "RecipeManager.Web",
         "description": "A web interface for managing a collection of your recipes.",
@@ -11,20 +32,6 @@
         "name": "RecipeManager.Server",
         "description": "Backend for RecipeManager.Web.",
         "link": "https://github.com/JedS6391/RecipeManager.Server",
-        "link_description": "View on GitHub"
-    },
-    {
-        "project_id": "bf5cf29d-5727-4d37-8bfc-7c983bfe23af",
-        "name": "LGP",
-        "description": "A robust LGP implementation built using Kotlin.",
-        "link": "https://github.com/JedS6391/LGP",
-        "link_description": "View on GitHub"
-    },
-    {
-        "project_id": "ccab230c-715b-4221-9e24-c522fe169cb0",
-        "name": "KGP",
-        "description": "Tree-based genetic programming for Kotlin.",
-        "link": "https://github.com/JedS6391/KGP",
         "link_description": "View on GitHub"
     },
     {
