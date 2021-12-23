@@ -1,16 +1,16 @@
-from typing import Optional, Text, Tuple, List, Callable
 from collections import OrderedDict
 from markdown import Markdown
-import logging
 from threading import Lock
+from typing import Optional, Text, Tuple, List, Callable
 
-import os
 import codecs
-import time
 import datetime
+import logging
+import os
+import time
 import uuid
 
-from portfolio.models import Post
+from .models import Post
 
 class BlogNotInitialisedException(Exception):
     pass

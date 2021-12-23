@@ -1,11 +1,11 @@
-from typing import Optional, Text, List
 from threading import Lock
+from typing import Optional, Text, List
 
+import json
 import logging
 import os
-import json
 
-from portfolio.models import Project
+from .models import Project
 
 class ProjectFeedNotInitialisedException(Exception):
     pass

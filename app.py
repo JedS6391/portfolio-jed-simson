@@ -1,22 +1,24 @@
 from typing import Any, List, Callable
-from flask import Flask, send_from_directory
-from flaskext.markdown import Markdown
-from flask_compress import Compress
-from flask_assets import Environment, Bundle
-from flask_talisman import Talisman
 
-import os
 import logging
+import os
+
+from flask import Flask, send_from_directory
+from flask_assets import Environment, Bundle
+from flask_compress import Compress
+from flask_talisman import Talisman
+from flaskext.markdown import Markdown
 
 import sentry_sdk as sentry
 from sentry_sdk.integrations.flask import FlaskIntegration as SentryFlaskIntegration
 
-from portfolio.views import portfolio as portfolio_blueprint
-from blog import blog_manager
-from project_feed import project_feed_manager
-from mail import email_manager
-from util import format_date, format_value
 from config import Config
+from util import format_date, format_value
+
+from portfolio.views import portfolio as portfolio_blueprint
+from portfolio.blog import blog_manager
+from portfolio.project_feed import project_feed_manager
+from portfolio.mail import email_manager
 
 ONE_DAY = 60 * 60 * 24
 
