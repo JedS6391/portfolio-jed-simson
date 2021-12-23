@@ -1,27 +1,4 @@
-import string
-import re
-from unicodedata import normalize
 import datetime
-
-PUNCTUATION_RE = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
-
-def first_occurence_of(strings, substring) -> int:
-    for i, s in enumerate(strings):
-        if substring in s:
-              return i
-
-    return -1
-
-def slugify(text: str) -> str:
-    result = []
-
-    for word in PUNCTUATION_RE.split(text.lower()):
-        word = normalize('NFKD', word).encode('ascii', 'ignore')
-
-        if word:
-            result.append(word.decode('utf-8'))
-
-    return '-'.join(result)
 
 def format_date(value, format='%a, %d %b %Y'):
     return value.strftime(format)

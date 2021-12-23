@@ -1,6 +1,7 @@
-from typing import Optional, Text
-import sendgrid
+from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Email, Content, Mail, To
+from typing import Optional, Text
+
 import logging
 
 class Mailer:
@@ -23,7 +24,7 @@ class Mailer:
 
     def send_message(self, message: Mail):
         ''' Sends an email message via SendGrid. ''' 
-        sendgrid_client = sendgrid.SendGridAPIClient(self.api_key)
+        sendgrid_client = SendGridAPIClient(self.api_key)
 
         try:            
             logging.debug('Sending email...')

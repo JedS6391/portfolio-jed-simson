@@ -1,6 +1,21 @@
-from typing import Text, Dict, List, Any
-from util import slugify
 from datetime import datetime 
+from typing import Text, Dict, List, Any
+from unicodedata import normalize
+
+import re
+
+PUNCTUATION_RE = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+
+def slugify(text: str) -> str:
+    result = []
+
+    for word in PUNCTUATION_RE.split(text.lower()):
+        word = normalize('NFKD', word).encode('ascii', 'ignore')
+
+        if word:
+            result.append(word.decode('utf-8'))
+
+    return '-'.join(result)
 
 PostMetadata = Dict[str, Any]
 

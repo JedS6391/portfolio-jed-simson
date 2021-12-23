@@ -1,5 +1,3 @@
-import os
-
 from flask import (
     Blueprint, 
     render_template, 
@@ -10,11 +8,11 @@ from flask import (
     current_app as app
 )
 
+from .blog import blog_manager
 from .forms import ContactForm
-from .helpers import Pagination
-from blog import blog_manager
-from project_feed import project_feed_manager
-from mail import email_manager
+from .mail import email_manager
+from .pagination import Pagination
+from .project_feed import project_feed_manager
 
 portfolio = Blueprint('portfolio', __name__)
 
