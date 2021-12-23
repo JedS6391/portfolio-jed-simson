@@ -1,5 +1,12 @@
 [
     {
+        "project_id": "2f5a9468-427e-4907-92d5-acb93532dd18",
+        "name": "NzCovidPass",
+        "description": "Provides the ability to ability to verify New Zealand COVID Pass payloads in .NET. ",
+        "link": "https://github.com/JedS6391/NzCovidPass",
+        "link_description": "View on GitHub"
+    }, 
+    {
         "project_id": "978354f7-3450-4bda-aa60-a044e9a1c69c",
         "name": "Reddit.NET",
         "description": "A .NET client for reddit.com.",
