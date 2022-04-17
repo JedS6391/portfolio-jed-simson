@@ -1,19 +1,19 @@
 {% macro pagination_(pagination) %}
 <ul class="pagination text-center">
     <li class="page-item {% if not pagination.has_prev %} disabled disabled-cursor {% endif %}">
-        <a class="page-link" {% if not pagination.has_prev %} href="#" {% else %} href="/blog/page/{{ pagination.page - 1 }}/" {% endif %}>
+        <a class="page-link" {% if not pagination.has_prev %} href="#" {% else %} href="{{ url_for('portfolio.blog', page=pagination.page - 1) }}" {% endif %}>
             <i data-feather="chevron-left" width="16" height="16" alt="Previous"></i>
         </a>
     </li>
 
     {% for page in pagination.generate() %}
         <li class="page-item {% if page == pagination.page %} active {% endif %}">
-            <a class="page-link" href="/blog/page/{{ page }}/">{{ page }}</a>
+            <a class="page-link" href=" {{ url_for('portfolio.blog', page=page) }}">{{ page }}</a>
         </li>
     {% endfor %}
 
     <li class="page-item {% if not pagination.has_next %} disabled disabled-cursor {% endif %}">
-        <a class="page-link" {% if not pagination.has_next %} href="#" {% else %} href="/blog/page/{{ pagination.page + 1 }}/" {% endif %}>
+        <a class="page-link" {% if not pagination.has_next %} href="#" {% else %} href="{{ url_for('portfolio.blog', page=pagination.page + 1) }}" {% endif %}>
             <i data-feather="chevron-right" width="16" height="16" alt="Next"></i>
         </a>
     </li>

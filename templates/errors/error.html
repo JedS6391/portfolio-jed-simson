@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% set active_page = "error" %}
+
+{% block nav %}
+    {% from "nav.html" import nav %}
+    {{ nav(active_page) }}
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        {% block message %}{% endblock %}
+
+        <div class="text-center">
+            <a class="btn btn-primary" href="{{ url_for('portfolio.home') }}">Home</a>
+            <a class="btn" href="{{ url_for('portfolio.contact') }}">Contact</a>
+        </div>
+    </div>
+{% endblock %}
+
