@@ -53,7 +53,7 @@ def blog(page=1):
     #   1. '/blog/': we render page 1 of the posts. 
     #   2. '/blog/page/<int:page>/': we render the posts for the specific page.
     
-    posts_per_page = app.config['POSTS_PER_PAGE']
+    posts_per_page = int(app.config['POSTS_PER_PAGE'])
     skip = (page - 1) * posts_per_page
 
     limit = posts_per_page

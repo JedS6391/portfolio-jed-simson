@@ -1,27 +1,12 @@
-{% extends "base.html" %}
-{% set active_page = "error" %}
+{% extends "errors/error.html" %}
 
 {% block title %}
     <title>500: Server Error</title>
 {% endblock %}
 
-{% block nav %}
-    {% from "nav.html" import nav %}
-    {{ nav(active_page) }}
-{% endblock %}
+{% block message %}
+    <h1 class="content-title">Error</h1>
 
-{% block content %}
-    <div class="content">
-        <h1>Oh no!</h1>
-
-        <p>Something unexpected went wrong. Please feel free to send me a message using the contact page.</p>
-        
-        <br>
-
-        <div class="text-center">
-            <a class="btn btn-primary" href="/">Take me somewhere safe!</a>
-            <a class="btn" href="/contact/">Contact</a>
-        </div>
-    </div>
+    <p>Something unexpected went wrong. These errors are monitored but please feel free to send me a message using the contact page.</p>
 {% endblock %}
 

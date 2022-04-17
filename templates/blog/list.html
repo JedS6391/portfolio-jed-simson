@@ -24,9 +24,7 @@
 {% block content %}
     <div id="top-anchor"></div>
     <div class="content">
-        <!-- Header + pagination -->
-        <h1>Blog</h1>
-        
+        <!-- Pagination -->
         <div>
             {% from "blog/pagination.html" import pagination_ %}
             {{ pagination_(pagination) }}
