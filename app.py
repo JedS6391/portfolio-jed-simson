@@ -1,5 +1,7 @@
 from typing import Any, List, Callable
 
+from datetime import datetime, timezone
+
 import logging
 import os
 
@@ -169,6 +171,15 @@ def configure_monitoring(app: Flask) -> Flask:
     sentry.init(
         dsn=app.config['SENTRY_DSN'],
         integrations=[SentryFlaskIntegration()]
+    )
+
+    # Set up routes used for health checks
+    def ping():
+        return 'Pong @ {}'.format(datetime.now(timezone.utc))
+
+    app.add_url_rule(
+        rule='/ping',
+        view_func=ping
     )
 
     return app
