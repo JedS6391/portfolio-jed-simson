@@ -28,7 +28,7 @@ The deployed application can be viewed [here](https://www.jedsimson.co.nz/).
 
 - [gunicorn](https://gunicorn.org/)
 - [Docker](https://www.docker.com/)
-- [Heroku](https://www.heroku.com/)
+- [Render](https://www.render.com/)
 
 ## Development
 
