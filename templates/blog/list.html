@@ -55,14 +55,9 @@
 
 {% block scripts %}
     <script nonce="{{ csp_nonce() }}" type="text/javascript">
-        $(document).ready(function() {
-            // Don't allow clicking the disabled pagination links
-            $('.disabled-cursor').click(function() {
-                return false;
-            });
-
+        (function() {
             // Initialise code highlighting library
             hljs.highlightAll();
-        });
+        })();
     </script>
 {% endblock %}

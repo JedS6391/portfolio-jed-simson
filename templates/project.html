@@ -2,6 +2,8 @@
 <div class="card">
     <h3 class="card-title">{{ project.name }}</h3>
     <p>{{ project.description }}</p>
-    <a class="btn" href="{{ project.link }}" target="_blank">{{ project.link_description }}</a>
+    <div class="text-right">
+        <a class="btn" href="{{ project.link }}" target="_blank">{{ project.link_description }}</a>
+    </div>
 </div>
 {% endmacro %}

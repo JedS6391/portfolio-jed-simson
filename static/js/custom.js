@@ -1,15 +1,23 @@
+const Themes = {
+    Dark: "dark",
+    Light: "light"
+};
+
 /**
  * Provides the functionality of the portfolio application.
  */
 class PortfolioApp {
+
     /**
-     * Get a value indicating whether the dark theme is currently selected.
+     * Gets the name of the current theme.
      */
-    get isDarkThemeSelected() {
-        return (
-            localStorage.getItem("darkSwitch") !== null &&
-            localStorage.getItem("darkSwitch") === "dark"
-        );
+    get currentTheme() {
+        var currentTheme = localStorage.getItem("theme");
+
+        // Default to dark theme.
+        return currentTheme !== null ?
+            currentTheme :
+            Themes.Dark;
     }
 
     /**
@@ -23,7 +31,7 @@ class PortfolioApp {
      * Initialises the application theme.
      */
     initialiseTheme() {
-        if (this.isDarkThemeSelected) {
+        if (this.currentTheme == Themes.Dark) {
             halfmoon.toggleDarkMode();
         }
     }
@@ -33,10 +41,10 @@ class PortfolioApp {
      */
     changeTheme() {
         // Only two modes are currently supported: light mode or dark mode.
-        if (this.isDarkThemeSelected) {
-            localStorage.removeItem("darkSwitch");
+        if (this.currentTheme == Themes.Dark) {
+            localStorage.setItem("theme", Themes.Light);
         } else {
-            localStorage.setItem("darkSwitch", "dark");
+            localStorage.setItem("theme", Themes.Dark);
         }
     
         halfmoon.toggleDarkMode();
