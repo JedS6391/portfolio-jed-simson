@@ -154,8 +154,7 @@ def configure_compression_and_asset_bundling(app: Flask) -> Flask:
         # Code highlighting: https://highlightjs.org/
         'js/highlight.min.js',   
         # Feather icons: https://feathericons.com/
-        'js/feather.min.js',   
-        'js/jquery.min.js',                
+        'js/feather.min.js',
         filters='jsmin',
         output='js/app.js'
     )
