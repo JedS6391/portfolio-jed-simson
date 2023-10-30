@@ -13,10 +13,11 @@ from flask_talisman import Talisman
 import sentry_sdk as sentry
 from sentry_sdk.integrations.flask import FlaskIntegration as SentryFlaskIntegration
 
+import markdown as md
+
 from config import Config
 from util import format_date, format_value
 
-from portfolio.markdown import instance as md
 from portfolio.views import portfolio as portfolio_blueprint
 from portfolio.blog import blog_manager
 from portfolio.project_feed import project_feed_manager
@@ -83,8 +84,7 @@ def create_app(config=None) -> Flask:
 def configure_markdown_and_blog(app: Flask) -> Flask:
     app.logger.debug('Configuring markdown support...')
 
-    # Enable Markdown for better/simpler blog posts
-    app.jinja_env.add_extension('portfolio.markdown.Markdown')
+    parser = md.Markdown(extensions=['markdown.extensions.fenced_code', 'markdown.extensions.meta'])
 
     app.logger.debug('Configuring blog manager...')
 
@@ -96,7 +96,7 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
 
     blog_manager.initialise(
         path=app.config['POSTS_PATH'],
-        parser=md,
+        parser=parser,
         max_cache_age=ONE_DAY
     )
 

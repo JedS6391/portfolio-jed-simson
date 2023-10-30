@@ -168,15 +168,14 @@ class Blog:
         with codecs.open(self.path + filename, 'r', encoding='utf-8') as f:
             text = f.read()
 
-        # Use the markdown parser to parse convert the raw text and collect metadata.
-        if self.parser:
-            self.parser.convert(text)
-            meta.update({k: v[0] for (k, v) in self.parser.Meta.items()})
+        # Use the markdown parser to parse convert the raw text to HTML and collect metadata.
+        html = self.parser.convert(text)
+        meta.update({k: v[0] for (k, v) in self.parser.Meta.items()})
 
         # Split tags into list
         tag_string = meta['tags']
         meta['tags'] = tag_string.lower().split(', ')
 
-        return Post(post_id, text, meta)
+        return Post(post_id, text, html, meta)
 
 blog_manager = Blog()

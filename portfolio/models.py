@@ -25,9 +25,10 @@ class Post:
         A post is essentially a wrapper around its text content and a bunch of metadata.
     '''
 
-    def __init__(self, post_id: str, text: Text, meta: PostMetadata):
+    def __init__(self, post_id: str, text: Text, html: Text, meta: PostMetadata):
         self.id = post_id
         self.text = text
+        self.html = html
         self.meta = meta
         self.year = self.metadata_date.strftime('%Y')
         self.month = self.metadata_date.strftime('%m')
