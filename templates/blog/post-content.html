@@ -31,7 +31,7 @@
 
     <!-- Content -->
     <section class="content border-bottom">
-        {{ post.text|markdown }}
+        {{ post.text|markdown|safe }}
     </section>
 
     <!-- Tags -->
