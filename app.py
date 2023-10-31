@@ -9,10 +9,11 @@ from flask import Flask, send_from_directory
 from flask_assets import Environment, Bundle
 from flask_compress import Compress
 from flask_talisman import Talisman
-from flaskext.markdown import Markdown
 
 import sentry_sdk as sentry
 from sentry_sdk.integrations.flask import FlaskIntegration as SentryFlaskIntegration
+
+import markdown as md
 
 from config import Config
 from util import format_date, format_value
@@ -83,8 +84,7 @@ def create_app(config=None) -> Flask:
 def configure_markdown_and_blog(app: Flask) -> Flask:
     app.logger.debug('Configuring markdown support...')
 
-    # Enable Markdown for better/simpler blog posts
-    md = Markdown(app, extensions=['markdown.extensions.fenced_code', 'markdown.extensions.meta'])
+    parser = md.Markdown(extensions=['markdown.extensions.fenced_code', 'markdown.extensions.meta'])
 
     app.logger.debug('Configuring blog manager...')
 
@@ -96,14 +96,13 @@ def configure_markdown_and_blog(app: Flask) -> Flask:
 
     blog_manager.initialise(
         path=app.config['POSTS_PATH'],
-        parser=md._instance,    
+        parser=parser,
         max_cache_age=ONE_DAY
     )
 
     # Custom Jinja filters for the blog
     app.jinja_env.filters['format_date'] = format_date
     app.jinja_env.filters['format_value'] = format_value
-    app.jinja_env.globals['markdown_instance'] = md._instance
 
     return app
 

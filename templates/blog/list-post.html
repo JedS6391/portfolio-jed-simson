@@ -27,7 +27,7 @@
         </a>        
 
         <div class="pb-20">
-            {{ post.text|markdown|truncate(600, end='...') }}
+            {{ post.html | safe | truncate(600, end='...') }}
             
             <div class="text-right">
                 <a class="btn btn-sm" href="{{ url_for('portfolio.blog_post', year=post.year, month=post.month, day=post.day, slug=post.slug) }}">
