@@ -38,13 +38,6 @@ def home():
     ''' Renders the home page. '''
     return render_template('home.html')
 
-@portfolio.route('/about/')
-def about():
-    ''' Renders the about page. '''
-    project_feed = project_feed_manager.get_feed()
-
-    return render_template('about.html', project_feed=project_feed)
-
 @portfolio.route('/blog/')
 @portfolio.route('/blog/page/<int:page>/')
 def blog(page=1):
@@ -100,31 +93,3 @@ def blog_by_year(year):
     return render_template('blog/list-tags.html',
                            posts=posts_for_year,
                            tag=year)
-
-@portfolio.route('/contact/', methods=['GET', 'POST'])
-def contact():
-    form = ContactForm()
-
-    if form.validate_on_submit():
-        name = str(form.name.data)
-        email = str(form.email.data)
-        message = str(form.message.data)
-
-        # The email content is rendered as HTML.
-        html = render_template('email/message.html',
-                               name=name,
-                               email=email,
-                               message=message)
-
-        subject = 'New message from {} [{}] | Portfolio'.format(name, email)
-
-        email_manager.send_email(app.config['CONTACT_EMAIL'], subject, html)
-
-        flash('Your message has made its way to my inbox. I will try to respond promptly!')
-        
-        return redirect(url_for('portfolio.contact'))
-
-    # Something invalid was provided. Let the user try again with the error information.
-    return render_template('contact.html',
-                           form=form,
-                           errors=form.errors.keys())
